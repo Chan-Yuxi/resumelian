@@ -1,0 +1,137 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="template">
+      <h1>Title</h1>
+      <p>::: left</p>
+      <p>XXX</p>
+      <p>:::</p>
+      <p>CCC</p>
+      <p>::: right</p>
+      <p>DDD</p>
+      <p>BBB</p>
+    </div>
+    <div id="preview"></div>
+    <script>
+      const LEFT_START = "<p>::: left</p>";
+      const RIGHT_START = "<p>::: right</p>";
+      const END = "<p>:::</p>";
+
+      function isLRContainerStartFlag(child) {
+        return child.outerHTML === LEFT_START;
+      }
+
+      function resolveLRContainer(children, index) {
+        const domian = {
+          ls: index,
+          le: -1,
+          rs: -1,
+          re: -1,
+        };
+
+        for (let i = index + 1; i < children.length; i++) {
+          const child = children[i];
+          if (child.outerHTML === END) {
+            if (domian.le === -1) {
+              domian.le = i;
+            } else {
+              if (domian.re === -1 && domian.rs !== -1) {
+                domian.re = i;
+                break;
+              }
+            }
+          }
+          if (child.outerHTML === RIGHT_START) {
+            if (domian.rs === -1) {
+              domian.rs = i;
+            }
+          }
+        }
+
+        return domian.re === -1 ? false : domian;
+      }
+
+      function renderTo(id, htmlString) {
+        const element = document.getElementById(id);
+        element.innerHTML = "";
+        element.appendChild(mapHtmlString(htmlString));
+      }
+
+      function mapHtmlString(htmlString) {
+        const temp = document.createElement("div");
+        temp.innerHTML = htmlString;
+        const children = temp.children;
+
+        let cursor = 0;
+        let child;
+
+        const mapped = document.createDocumentFragment();
+        while (cursor < children.length) {
+          child = children[cursor];
+
+          if (isLRContainerStartFlag(child)) {
+            const domain = resolveLRContainer(children, cursor);
+            if (domain) {
+              const lrc = createLRContainer();
+              const l = createLeftDiv();
+              const r = createRightDiv();
+
+              lrc.appendChild(l);
+
+              const { ls, le, rs, re } = domain;
+              for (let i = ls + 1; i <= re; i++) {
+                if (i > ls && i < le) {
+                  l.appendChild(children[i].cloneNode(true));
+                }
+                if (i > le && i < rs) {
+                  lrc.appendChild(children[i].cloneNode(true));
+                }
+                if (i > rs && i < re) {
+                  r.appendChild(children[i].cloneNode(true));
+                }
+              }
+
+              lrc.appendChild(r);
+              mapped.appendChild(lrc);
+              cursor = re;
+            } else {
+              mapped.appendChild(child.cloneNode(true));
+            }
+          } else {
+            mapped.appendChild(child.cloneNode(true));
+          }
+          cursor++;
+        }
+        return mapped;
+      }
+
+      function createLRContainer() {
+        const lr_container_div = document.createElement("div");
+        lr_container_div.classList.add("lr_container");
+        return lr_container_div;
+      }
+
+      function createLeftDiv() {
+        const l = document.createElement("div");
+        l.classList.add("left");
+        return l;
+      }
+
+      function createRightDiv() {
+        const r = document.createElement("div");
+        r.classList.add("right");
+        return r;
+      }
+
+      console.log(document.getElementById("template").innerHTML);
+
+      const template = document.getElementById("template");
+      //   const preview = document.getElementById("preview");
+      renderTo("preview", template.innerHTML);
+    </script>
+  </body>
+</html>
