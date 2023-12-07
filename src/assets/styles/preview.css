@@ -1,3 +1,59 @@
-#preview {
+/* Base */
+
+.page-wrapper {
+  padding: 0.5rem 0;
   background-color: white;
+  box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.page-wrapper + .page-wrapper {
+  margin-top: 1rem;
+}
+
+.lrc {
+  display: flex;
+  align-items: center;
+}
+
+.lrc .l {
+  flex: auto;
+  text-align: left;
+}
+
+.lrc .r {
+  flex: auto;
+  text-align: right;
+}
+
+/* Custom */
+
+#preview h1 {
+  color: white;
+  padding: 1rem 0.5rem;
+  background-color: skyblue;
+}
+
+#preview h4 {
+  position: relative;
+  color: white;
+  display: inline-block;
+  background-color: skyblue;
+  padding: 0.5rem;
+  padding-left: 1rem;
+}
+
+#preview h4::after {
+  content: "";
+  position: absolute;
+  left: 100%;
+  top: 0;
+  bottom: 0;
+  width: 20px;
+  background-color: rgb(119, 191, 233);
+  border-top-right-radius: 50%;
+  border-bottom-right-radius: 50%;
+}
+
+#preview p {
+  padding: 0 0.75rem;
 }

@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { Row, Col } from "antd";
 
 import { Vditor, createVditor } from "@/utils/vditor";
 import { renderTo } from "@/utils/render";
+
+// import jsPDF from "jspdf";
+// import html2canvas from "html2canvas";
 
 const ResumeModification = () => {
   const [vditor, setVditor] = useState<Vditor>();
@@ -13,9 +15,7 @@ const ResumeModification = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => {
-      setValue(vditor?.getHTML() as string);
-    }, 500);
+    const timer = setInterval(() => setValue(vditor?.getHTML() as string), 250);
     return () => clearInterval(timer);
   }, [vditor]);
 
@@ -23,20 +23,20 @@ const ResumeModification = () => {
     renderTo("preview", value);
   }, [value]);
 
+  function handleExport() {
+    // ...
+  }
+
   return (
-    <div className="m-5">
-      <Row gutter={12}>
-        <Col span={12}>
-          <div id="vditor-element"></div>
-        </Col>
-        <Col span={12}>
-          <div className="border border-solid border-slate-200 bg-slate-400 rounded p-3">
-            <div>
-              <div id="preview"></div>
-            </div>
-          </div>
-        </Col>
-      </Row>
+    <div className="h-full flex">
+      <div className="h-full" style={{ flexBasis: "535px" }}>
+        <div id="vditor-element"></div>
+      </div>
+      <div className="flex grow justify-center bg-slate-500">
+        <div className="px-5 m-5 overflow-scroll">
+          <div id="preview" style={{ width: "794px" }}></div>
+        </div>
+      </div>
     </div>
   );
 };

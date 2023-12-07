@@ -39,7 +39,7 @@ function createVditor(element: string, callback: Callback) {
 
     toolbar: toolbarList,
     resize: {
-      enable: true,
+      enable: false,
     },
 
     focus: () => {

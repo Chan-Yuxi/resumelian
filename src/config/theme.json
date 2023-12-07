@@ -1,0 +1,7 @@
+{
+  "components": {
+    "Layout": {
+      "headerPadding": "0 35px"
+    }
+  }
+}

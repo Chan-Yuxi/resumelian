@@ -17,6 +17,9 @@ dependencies:
   axios:
     specifier: ^1.6.2
     version: registry.npmmirror.com/axios@1.6.2
+  file-saver:
+    specifier: ^2.0.5
+    version: 2.0.5
   html2canvas:
     specifier: ^1.4.1
     version: 1.4.1
@@ -52,6 +55,9 @@ dependencies:
     version: 3.9.6
 
 devDependencies:
+  '@types/file-saver':
+    specifier: ^2.0.7
+    version: 2.0.7
   '@types/node':
     specifier: ^20.10.3
     version: registry.npmmirror.com/@types/node@20.10.3
@@ -302,6 +308,10 @@ packages:
     dev: true
     optional: true
 
+  /@types/file-saver@2.0.7:
+    resolution: {integrity: sha512-dNKVfHd/jk0SkR/exKGj2ggkB45MAkzvWCaqLUUgkyjITkGNzH8H+yUwr+BLJUBjZOe9w8X3wgmXhZDRg1ED6A==, tarball: https://registry.npmmirror.com/@types/file-saver/-/file-saver-2.0.7.tgz}
+    dev: true
+
   /@types/raf@3.4.3:
     resolution: {integrity: sha512-c4YAvMedbPZ5tEyxzQdMoOhhJ4RD3rngZIdwC2/qDN3d7JpEhB6fiBRKVY1lg5B7Wk+uPBjn5f39j1/2MY1oOw==, tarball: https://registry.npmmirror.com/@types/raf/-/raf-3.4.3.tgz}
     requiresBuild: true
@@ -365,6 +375,10 @@ packages:
 
   /fflate@0.4.8:
     resolution: {integrity: sha512-FJqqoDBR00Mdj9ppamLa/Y7vxm+PRmNWA67N846RvsoYVMKB4q3y/de5PA7gUmRMYK/8CMz2GDZQmCRN1wBcWA==, tarball: https://registry.npmmirror.com/fflate/-/fflate-0.4.8.tgz}
+    dev: false
+
+  /file-saver@2.0.5:
+    resolution: {integrity: sha512-P9bmyZ3h/PRG+Nzga+rbdI4OEpNDzAVyy74uVO9ATgzLK6VtAsYybF/+TOCvrc0MO793d6+42lLyZTw7/ArVzA==, tarball: https://registry.npmmirror.com/file-saver/-/file-saver-2.0.5.tgz}
     dev: false
 
   /fsevents@2.3.3:

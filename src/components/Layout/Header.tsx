@@ -1,37 +1,33 @@
-import { Menu } from "antd";
+import type { MenuProps } from "antd";
 
-const items = [
-  {
-    label: "首页",
-    key: "home",
-  },
-  {
-    label: "模板中心",
-    key: "template-center",
-  },
-  {
-    label: "面试辅导",
-    key: "interview",
-  },
-  {
-    label: "职业咨询",
-    key: "job",
-  },
-  {
-    label: "会员购买",
-    key: "vip",
-  },
-  {
-    label: "我的简历",
-    key: "resume",
-  },
-];
+import { Menu, Layout } from "antd";
+import { useNavigate } from "react-router-dom";
+
+import items from "@/config/menu.json";
+
+const { Header: LHeader } = Layout;
 
 const Header = () => {
+  const navigate = useNavigate();
+  const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
+    navigate(`/${key}`, {
+      replace: true,
+    });
+  };
+
   return (
-    <header>
-      <Menu items={items} mode="horizontal"></Menu>
-    </header>
+    <LHeader className="flex items-center">
+      <Menu
+        defaultSelectedKeys={["home"]}
+        items={items}
+        theme="dark"
+        mode="horizontal"
+        onClick={handleMenuClick}
+      />
+      <div className="ms-auto">
+        <a href="#">注册/登录</a>
+      </div>
+    </LHeader>
   );
 };
 
