@@ -17,6 +17,11 @@ export function getById(id: string) {
   return document.getElementById(id);
 }
 
+/**
+ * 将 HTML 字符串变成 DOM 树，并获取其集合
+ * @param html
+ * @returns
+ */
 export function deriveChildren(html: string) {
   const temp = document.createElement("div");
   temp.innerHTML = html;

@@ -2,9 +2,9 @@ import { useEffect, useState } from "react";
 
 import { Vditor, createVditor } from "@/utils/vditor";
 import { renderTo } from "@/utils/render";
+import { export2PDF } from "@/utils/page-export";
 
-// import jsPDF from "jspdf";
-// import html2canvas from "html2canvas";
+import { Button } from "antd";
 
 const ResumeModification = () => {
   const [vditor, setVditor] = useState<Vditor>();
@@ -24,7 +24,7 @@ const ResumeModification = () => {
   }, [value]);
 
   function handleExport() {
-    // ...
+    export2PDF(".page", "resume.pdf").catch((error) => console.log(error));
   }
 
   return (
@@ -32,9 +32,18 @@ const ResumeModification = () => {
       <div className="h-full" style={{ flexBasis: "535px" }}>
         <div id="vditor-element"></div>
       </div>
-      <div className="flex grow justify-center bg-slate-500">
-        <div className="px-5 m-5 overflow-scroll">
-          <div id="preview" style={{ width: "794px" }}></div>
+      <div className="grow">
+        <div className="bg-slate-100 h-[36px] px-4">
+          <div className="h-full flex items-center">
+            <Button type="primary" size="small" onClick={handleExport}>
+              导出PDF
+            </Button>
+          </div>
+        </div>
+        <div className="h-full flex justify-center bg-slate-400">
+          <div className="p-5 m-5 overflow-scroll">
+            <div id="preview" style={{ width: "794px" }}></div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,9 +1,12 @@
 /* Base */
 
 .page-wrapper {
-  padding: 0.5rem 0;
   background-color: white;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.page {
+  padding: 0.5rem 0;
 }
 
 .page-wrapper + .page-wrapper {

@@ -7,15 +7,28 @@ const LEFT_START = "<p>::: left</p>";
 const RIGHT_START = "<p>::: right</p>";
 const END = "<p>:::</p>";
 
+/**
+ *
+ * @param id
+ * @param htmlString
+ */
 export function renderTo(id: string, htmlString: string) {
   const preview = getById(id);
 
   if (htmlString && preview) {
     preview.innerHTML = "";
+    // 新建解析器
     const resolver = new Resolver(deriveChildren(htmlString));
+    // 注册 LRC 解析方法
     resolver.register(LRCParser);
+    // ...
+    // ...
+    // resolver.register(OtherParser);
+    // ...
 
+    // 获取 preview 宽度作为 page 宽度
     const pageW = preview.clientWidth;
+    // 计算 page 的高度，使 page 的宽高比等于 A4 纸的宽高比
     const pageH = Math.floor(pageW * Math.sqrt(2));
 
     const newPage = () => {
@@ -31,7 +44,8 @@ export function renderTo(id: string, htmlString: string) {
     let node: Element | null;
 
     while ((node = resolver.next()) !== null) {
-      if (page.offsetHeight > pageH - 20 * 2) {
+      // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
+      if (page.offsetHeight > pageH) {
         const adjust = page.lastChild!;
         page = newPage();
         page.appendChild(adjust);
@@ -76,10 +90,36 @@ function resolveLRContainer(children: HTMLCollection, index: number) {
   }
 }
 
+/**
+ * 将
+ * <p>::: left</p>
+ * <p>Text1</p>
+ * <p>:::</p>
+ * <p>Text2</p>
+ * <p>::: right</p>
+ * <p>Text3</p>
+ * <p>:::</p>
+ * 转
+ * <div class="lrc">
+ *    <div class="l">
+ *      <p>Text1</p>
+ *    </div>
+ *    <p>Text2</p>
+ *    <div class="l">
+ *      <p>Text3</p>
+ *    </div>
+ * </div>
+ *
+ * @param queue
+ * @param child
+ * @param index
+ * @returns
+ */
 const LRCParser: Parser = (queue, child, index) => {
   let result = null;
   let span = 0;
   if (child.outerHTML === LEFT_START) {
+    // 先遍历，确定存在有效的转化区域
     const domain = resolveLRContainer(queue, index);
 
     if (domain) {

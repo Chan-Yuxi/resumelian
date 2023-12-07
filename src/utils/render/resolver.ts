@@ -15,6 +15,10 @@ export class Resolver {
     this.parserQueue = [((_, child) => [child, 1]) as Parser];
   }
 
+  /**
+   * 取得下一次将解析出来的元素
+   * @returns
+   */
   next(): Element | null {
     if (this.index >= this.queue.length) {
       return null;
@@ -30,6 +34,10 @@ export class Resolver {
     return null;
   }
 
+  /**
+   * 注册解析方法
+   * @param parser
+   */
   register(parser: Parser) {
     this.parserQueue.unshift(parser);
   }
