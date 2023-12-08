@@ -4,13 +4,15 @@ import App from "@/App.tsx";
 import "@/index.css";
 import "@/assets/styles/index.css";
 
+import { BrowserRouter } from "react-router-dom";
+
 import theme from "@/config/theme.json";
 import { ConfigProvider } from "antd";
 
 import store from "@/store";
 import { Provider } from "react-redux";
 
-import { BrowserRouter } from "react-router-dom";
+import "@/i18n";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>

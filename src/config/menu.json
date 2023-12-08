@@ -20,11 +20,11 @@
     "key": "/purchase"
   },
   {
-    "label": "我的简历",
-    "key": "/resume"
-  },
-  {
     "label": "简历制作",
     "key": "/resume-modification"
+  },
+  {
+    "label": "我的简历",
+    "key": "/resume"
   }
 ]

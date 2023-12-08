@@ -14,8 +14,8 @@ import { connect } from "react-redux";
 const refreshDelay = 250;
 const defaultColor = {
   pryColor: "#3b82f6",
-  subColor: "#075985",
-  thrColor: "#d97706",
+  subColor: "#78a2e8",
+  thrColor: "#0487f8",
 };
 
 type P = {
