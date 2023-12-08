@@ -20,7 +20,7 @@ export async function export2PDF(
     let i = 1;
     // 遍历页面，将每一张页面转化成 Canvas 图片并添加到 PDF 文件中
     for (const page of pages) {
-      const canvas = await html2canvas(page as HTMLElement);
+      const canvas = await html2canvas(page as HTMLElement, { scale: 4 });
       const img = canvas.toDataURL("image/png");
 
       pdf.addImage(
