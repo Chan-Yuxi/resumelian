@@ -1,13 +1,17 @@
+import type { Nullable } from "@/@type/toolkit";
+
 import { useEffect, useState } from "react";
 
 import { Vditor, createVditor } from "@/utils/vditor";
-import { renderTo } from "@/utils/render";
+import { render } from "@/utils/render";
 import { export2PDF } from "@/utils/page-export";
 
 import { Button } from "antd";
 
 const ResumeModification = () => {
-  const [vditor, setVditor] = useState<Vditor>();
+  const refreshRate = 250;
+
+  const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
   const [value, setValue] = useState("");
 
   useEffect(() => {
@@ -15,12 +19,15 @@ const ResumeModification = () => {
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(() => setValue(vditor?.getHTML() as string), 250);
+    const timer = setInterval(
+      () => setValue(vditor?.getHTML() as string),
+      refreshRate
+    );
     return () => clearInterval(timer);
   }, [vditor]);
 
   useEffect(() => {
-    renderTo("preview", value);
+    render("preview", value);
   }, [value]);
 
   function handleExport() {

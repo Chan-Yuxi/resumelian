@@ -12,7 +12,7 @@ const END = "<p>:::</p>";
  * @param id
  * @param htmlString
  */
-export function renderTo(id: string, htmlString: string) {
+export function render(id: string, htmlString: string) {
   const preview = getById(id);
 
   if (htmlString && preview) {
