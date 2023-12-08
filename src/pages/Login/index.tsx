@@ -1,18 +1,22 @@
+import type { FormProps } from "antd";
+
 import { useEffect, useState } from "react";
 
 import { Card, Row, Col, Form, Input, Button, Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
-import { getAccess } from "@/api/login";
+import { getAccess, login } from "@/api/login";
 
 const Login = () => {
   const [access, setAccess] = useState("");
+  const [ticket, setTicket] = useState("");
   const [accessLoading, setAccessLoading] = useState(true);
 
   useEffect(() => {
     getAccess().then((data) => {
       if (data) {
         setAccess(data);
+        setTicket(data.split("?ticket=")[1]);
         setAccessLoading(false);
       }
     });
@@ -24,6 +28,20 @@ const Login = () => {
     ) : (
       <img className="w-full h-full" src={access} alt="access not found" />
     );
+  };
+
+  const handleFinish: FormProps["onFinish"] = ({ code }) => {
+    if (code && ticket) {
+      login(ticket, code as string).then((data) => {
+        if (data) {
+          if (data.success) {
+            console.log(data);
+          } else {
+            console.log(data);
+          }
+        }
+      });
+    }
   };
 
   return (
@@ -54,12 +72,12 @@ const Login = () => {
           </Col>
           <Col span={12}>
             <div className="h-full flex flex-col justify-center">
-              <Form>
-                <Form.Item>
+              <Form onFinish={handleFinish}>
+                <Form.Item name="code">
                   <Input placeholder="请输入验证码"></Input>
                 </Form.Item>
                 <Form.Item>
-                  <Button type="primary" block>
+                  <Button type="primary" htmlType="submit" block>
                     登录/注册
                   </Button>
                 </Form.Item>

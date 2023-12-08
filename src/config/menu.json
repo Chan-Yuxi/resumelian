@@ -9,15 +9,15 @@
   },
   {
     "label": "面试辅导",
-    "key": "interview"
+    "key": "interview-coach"
   },
   {
     "label": "职业咨询",
-    "key": "job"
+    "key": "career-counselor"
   },
   {
     "label": "会员购买",
-    "key": "vip"
+    "key": "purchase"
   },
   {
     "label": "我的简历",
