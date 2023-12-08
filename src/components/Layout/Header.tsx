@@ -1,45 +1,42 @@
 import type { MenuProps } from "antd";
 
 import { Menu, Layout, Button } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 
 import items from "@/config/menu.json";
 
-const { Header: LHeader } = Layout;
-
 const Header = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
-  const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
-    navigate(`/${key}`, {
+  const doNavigete: MenuProps["onClick"] = ({ key }) => {
+    navigate(key, {
       replace: true,
     });
   };
 
-  const toLogin = () => {
-    navigate("/login");
-  };
-
-  const Logo = <div className="text-white text-xl font-bold">Resumelian</div>;
+  const Logo = (
+    <div className="text-white text-xl font-bold me-8">Resumelian</div>
+  );
 
   return (
-    <LHeader className="flex items-center">
+    <Layout.Header className="flex items-center">
       {Logo}
-      <div className="ms-auto me-8">
+      <div className="ms-auto mx-8">
         <Menu
-          defaultSelectedKeys={["home"]}
           items={items}
-          theme="dark"
+          selectedKeys={[location.pathname]}
           mode="horizontal"
-          onClick={handleMenuClick}
+          theme="dark"
+          onClick={doNavigete}
         />
       </div>
       <div>
-        <Button className="rounded-none" onClick={toLogin} type="primary" ghost>
-          登录/注册
+        <Button type="primary" ghost>
+          <Link to="/login">登录/注册</Link>
         </Button>
       </div>
-    </LHeader>
+    </Layout.Header>
   );
 };
 
