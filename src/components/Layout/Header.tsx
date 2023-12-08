@@ -25,7 +25,7 @@ const Header = () => {
   return (
     <LHeader className="flex items-center">
       {Logo}
-      <div className="ms-auto me-5">
+      <div className="ms-auto me-8">
         <Menu
           defaultSelectedKeys={["home"]}
           items={items}

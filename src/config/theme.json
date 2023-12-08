@@ -2,8 +2,9 @@
   "components": {
     "Layout": {
       "headerPadding": "0 35px"
-    },
-    "Button": {
     }
+  },
+  "token": {
+    "borderRadius": 0
   }
 }
