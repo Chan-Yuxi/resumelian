@@ -1,18 +1,39 @@
 import type { Nullable } from "@/@type/toolkit";
 
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { message } from "antd";
 
 import { Vditor, createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
 import { export2PDF } from "@/utils/page-export";
 
-import { Button } from "antd";
+import Toolkit from "./Toolkit";
+import { RootState } from "@/store";
+import { connect } from "react-redux";
 
-const ResumeModification = () => {
-  const refreshRate = 250;
+const refreshDelay = 250;
+const defaultColor = {
+  pryColor: "#3b82f6",
+  subColor: "#075985",
+  thrColor: "#d97706",
+};
+
+type P = {
+  username: string;
+};
+
+const ResumeModification: React.FC<P> = ({ username }) => {
+  /**
+   *
+   */
+  const [pryColor, setPryColor] = useState(defaultColor.pryColor);
+  const [subColor, setSubColor] = useState(defaultColor.subColor);
+  const [thrColor, setThrColor] = useState(defaultColor.thrColor);
 
   const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
   const [value, setValue] = useState("");
+  const [style, setStyle] = useState({});
+  const [enableAvator, setEnableAvator] = useState(false);
 
   useEffect(() => {
     createVditor("vditor-element", (vditor) => setVditor(vditor));
@@ -21,7 +42,7 @@ const ResumeModification = () => {
   useEffect(() => {
     const timer = setInterval(
       () => setValue(vditor?.getHTML() as string),
-      refreshRate
+      refreshDelay
     );
     return () => clearInterval(timer);
   }, [vditor]);
@@ -30,31 +51,55 @@ const ResumeModification = () => {
     render("preview", value);
   }, [value]);
 
+  useEffect(() => {
+    setStyle({
+      "--pry-color": `${pryColor}`,
+      "--sub-color": `${subColor}`,
+      "--thr-color": `${thrColor}`,
+    });
+  }, [pryColor, subColor, thrColor]);
+
+  const [messageApi, contextHolder] = message.useMessage();
   function handleExport() {
-    export2PDF(".page", "resume.pdf").catch((error) => console.log(error));
+    export2PDF(".page", `${username}-resume.pdf`).catch((error) =>
+      messageApi.error(error as string)
+    );
   }
 
   return (
-    <div className="h-full flex">
-      <div className="h-full" style={{ flexBasis: "535px" }}>
-        <div id="vditor-element"></div>
-      </div>
-      <div className="grow">
-        <div className="bg-slate-100 h-[36px] px-4">
-          <div className="h-full flex items-center">
-            <Button type="primary" size="small" onClick={handleExport}>
-              导出PDF
-            </Button>
+    <>
+      {contextHolder}
+      <div className="flex h-full">
+        <div className="h-full" style={{ flexBasis: "535px" }}>
+          <div id="vditor-element"></div>
+        </div>
+        <div className="grow">
+          <Toolkit
+            pryColor={pryColor}
+            subColor={subColor}
+            thrColor={thrColor}
+            onPryColorChange={setPryColor}
+            onSubColorChange={setSubColor}
+            onThrColorChange={setThrColor}
+            enableAvator={enableAvator}
+            onEnableAvatarChange={setEnableAvator}
+            onExport={handleExport}
+          />
+          <div className="h-full flex justify-center bg-slate-400">
+            <div className="px-5 m-5 overflow-scroll">
+              <div id="preview" style={{ width: "794px", ...style }}></div>
+            </div>
           </div>
         </div>
-        <div className="h-full flex justify-center bg-slate-400">
-          <div className="p-5 m-5 overflow-scroll">
-            <div id="preview" style={{ width: "794px" }}></div>
-          </div>
-        </div>
       </div>
-    </div>
+    </>
   );
 };
 
-export default ResumeModification;
+const mapStateToProp = (state: RootState) => {
+  return {
+    username: state.user.username,
+  };
+};
+
+export default connect(mapStateToProp)(ResumeModification);

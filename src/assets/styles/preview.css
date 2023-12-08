@@ -1,12 +1,27 @@
 /* Base */
-
 .page-wrapper {
   background-color: white;
   box-shadow: 6px 6px 10px rgba(0, 0, 0, 0.15);
 }
 
+hr {
+  background-color: #eeeeee;
+  height: 2px;
+  border: none;
+}
+
+code {
+  border-radius: 0.25rem;
+  padding: 0.25rem;
+  background-color: #f8f8fa;
+}
+
+code + code {
+  margin-left: 0.5rem;
+}
+
 .page {
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .page-wrapper + .page-wrapper {
@@ -29,34 +44,27 @@
 }
 
 /* Custom */
-
 #preview h1 {
   color: white;
-  padding: 1rem 0.5rem;
-  background-color: skyblue;
+  padding: 1rem;
+  background-color: var(--pry-color);
+}
+
+#preview h3 {
+  color: white;
+  width: 20%;
+  background-color: var(--sub-color);
+  padding: 0.5rem 2rem;
+  border-top-right-radius: 1.5rem;
+  border-bottom-right-radius: 1.5rem;
 }
 
 #preview h4 {
-  position: relative;
-  color: white;
-  display: inline-block;
-  background-color: skyblue;
-  padding: 0.5rem;
-  padding-left: 1rem;
-}
-
-#preview h4::after {
-  content: "";
-  position: absolute;
-  left: 100%;
-  top: 0;
-  bottom: 0;
-  width: 20px;
-  background-color: rgb(119, 191, 233);
-  border-top-right-radius: 50%;
-  border-bottom-right-radius: 50%;
+  padding: 0 1rem;
+  color: var(--thr-color);
 }
 
 #preview p {
-  padding: 0 0.75rem;
+  padding: 0 1rem;
+  color: #666;
 }

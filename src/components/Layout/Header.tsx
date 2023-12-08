@@ -9,7 +9,7 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const doNavigete: MenuProps["onClick"] = ({ key }) => {
+  const doNavigate: MenuProps["onClick"] = ({ key }) => {
     navigate(key, {
       replace: true,
     });
@@ -28,7 +28,7 @@ const Header = () => {
           selectedKeys={[location.pathname]}
           mode="horizontal"
           theme="dark"
-          onClick={doNavigete}
+          onClick={doNavigate}
         />
       </div>
       <div>
