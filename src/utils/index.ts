@@ -27,3 +27,13 @@ export function deriveChildren(html: string) {
   temp.innerHTML = html;
   return temp.children;
 }
+
+export function generateCustomStyle(colors: string[]) {
+  return `
+    #preview {
+        ${colors
+          .map((color, i) => "--color-" + (i + 1).toString() + ": " + color)
+          .join("; \n\t")};
+    }
+  `;
+}

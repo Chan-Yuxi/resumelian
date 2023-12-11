@@ -47,13 +47,13 @@ code + code {
 #preview h1 {
   color: white;
   padding: 1rem;
-  background-color: var(--pry-color);
+  background-color: var(--color-1);
 }
 
 #preview h3 {
   color: white;
   width: 20%;
-  background-color: var(--sub-color);
+  background-color: var(--color-2);
   padding: 0.5rem 2rem;
   border-top-right-radius: 1.5rem;
   border-bottom-right-radius: 1.5rem;
@@ -61,7 +61,7 @@ code + code {
 
 #preview h4 {
   padding: 0 1rem;
-  color: var(--thr-color);
+  color: var(--color-3);
 }
 
 #preview p {

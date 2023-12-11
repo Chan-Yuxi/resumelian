@@ -1,3 +1,4 @@
+import { type } from "os";
 import Vditor from "vditor";
 import "vditor/dist/index.css";
 
@@ -55,4 +56,5 @@ function createVditor(element: string, callback: Callback) {
   });
 }
 
-export { Vditor, createVditor };
+export type { Vditor };
+export { createVditor };

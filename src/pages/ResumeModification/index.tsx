@@ -1,39 +1,36 @@
+import type { Vditor } from "@/utils/vditor";
 import type { Nullable } from "@/@type/toolkit";
+import type { RootState } from "@/store";
 
 import React, { useEffect, useState } from "react";
-import { message } from "antd";
-
-import { Vditor, createVditor } from "@/utils/vditor";
-import { render } from "@/utils/render";
-import { export2PDF } from "@/utils/page-export";
-
-import Toolkit from "./Toolkit";
-import { RootState } from "@/store";
 import { connect } from "react-redux";
 
-const refreshDelay = 250;
-const defaultColor = {
-  pryColor: "#3b82f6",
-  subColor: "#78a2e8",
-  thrColor: "#0487f8",
-};
+import { message } from "antd";
+
+import { createVditor } from "@/utils/vditor";
+import { render } from "@/utils/render";
+import { generateCustomStyle } from "@/utils";
+import { export2PDF as toExport } from "@/utils/page-export";
+
+import Toolkit from "./Toolkit";
+
+import DefaultStyleConfig from "@/config/preview-styles-default.json";
 
 type P = {
   username: string;
 };
 
 const ResumeModification: React.FC<P> = ({ username }) => {
-  /**
-   *
-   */
-  const [pryColor, setPryColor] = useState(defaultColor.pryColor);
-  const [subColor, setSubColor] = useState(defaultColor.subColor);
-  const [thrColor, setThrColor] = useState(defaultColor.thrColor);
+  const refreshDelay = 250;
+  const { colors: defaultColors } = DefaultStyleConfig;
+
+  const [colors, setColors] = useState(defaultColors);
+  const [avator, setAvator] = useState(false);
+  const [family, setFamily] = useState("");
 
   const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
   const [value, setValue] = useState("");
-  const [style, setStyle] = useState({});
-  const [enableAvator, setEnableAvator] = useState(false);
+  const [style, setStyle] = useState("");
 
   useEffect(() => {
     createVditor("vditor-element", (vditor) => setVditor(vditor));
@@ -52,16 +49,12 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [value]);
 
   useEffect(() => {
-    setStyle({
-      "--pry-color": `${pryColor}`,
-      "--sub-color": `${subColor}`,
-      "--thr-color": `${thrColor}`,
-    });
-  }, [pryColor, subColor, thrColor]);
+    setStyle(generateCustomStyle(colors));
+  }, [colors, family]);
 
   const [messageApi, contextHolder] = message.useMessage();
-  function handleExport() {
-    export2PDF(".page", `${username}-resume.pdf`).catch((error) =>
+  function doExport() {
+    toExport(".page", `${username}-resume.pdf`).catch((error) =>
       messageApi.error(error as string)
     );
   }
@@ -75,19 +68,16 @@ const ResumeModification: React.FC<P> = ({ username }) => {
         </div>
         <div className="grow">
           <Toolkit
-            pryColor={pryColor}
-            subColor={subColor}
-            thrColor={thrColor}
-            onPryColorChange={setPryColor}
-            onSubColorChange={setSubColor}
-            onThrColorChange={setThrColor}
-            enableAvator={enableAvator}
-            onEnableAvatarChange={setEnableAvator}
-            onExport={handleExport}
+            enableAvator={avator}
+            onEnableAvatarChange={setAvator}
+            colors={colors}
+            onColorsChange={setColors}
+            onExport={doExport}
           />
           <div className="h-full flex justify-center bg-slate-400">
             <div className="px-5 m-5 overflow-scroll">
-              <div id="preview" style={{ width: "794px", ...style }}></div>
+              <style>{style}</style>
+              <div id="preview" style={{ width: "794px" }}></div>
             </div>
           </div>
         </div>
