@@ -1,4 +1,4 @@
-import type { Vditor } from "@/utils/vditor";
+import type { VditorInstance } from "@/utils/vditor";
 import type { Nullable } from "@/@type/toolkit";
 import type { RootState } from "@/store";
 
@@ -12,38 +12,41 @@ import { render } from "@/utils/render";
 import { generateCustomStyle } from "@/utils";
 import { export2PDF as toExport } from "@/utils/page-export";
 
-import Toolkit from "./Toolkit";
+import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
 
-import DefaultStyleConfig from "@/config/preview-styles-default.json";
+import DefaultStyleConfig from "@/config/preview-theme-default.json";
 
 type P = {
   username: string;
 };
 
 const ResumeModification: React.FC<P> = ({ username }) => {
+  const [messageApi, contextHolder] = message.useMessage();
+
   const refreshDelay = 250;
-  const { colors: defaultColors, family: defaultFamily } = DefaultStyleConfig;
+  const { colors: defaultColors } = DefaultStyleConfig;
 
   const [colors, setColors] = useState(defaultColors);
   const [avator, setAvator] = useState(false);
   const [family, setFamily] = useState("");
-  const [getter, setGutter] = useState("1rem 0");
+  const [getter, setGutter] = useState("1rem");
 
   const [value, setValue] = useState("");
   const [style, setStyle] = useState("");
-  const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
+
+  const [vditor, setVditor] = useState<Nullable<VditorInstance>>(null);
 
   useEffect(() => {
     createVditor("vditor-element", (vditor) => setVditor(vditor));
   }, []);
 
   useEffect(() => {
-    const timer = setInterval(
+    const worker = setInterval(
       () => setValue(vditor?.getHTML() as string),
       refreshDelay
     );
-    return () => clearInterval(timer);
+    return () => clearInterval(worker);
   }, [vditor]);
 
   useEffect(() => {
@@ -54,7 +57,6 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     setStyle(generateCustomStyle(colors, family));
   }, [colors, family]);
 
-  const [messageApi, contextHolder] = message.useMessage();
   function doExport() {
     toExport(".page", `${username}-resume.pdf`).catch((error) =>
       messageApi.error(error as string)
@@ -62,14 +64,15 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }
 
   return (
-    <>
+    <React.Fragment>
       {contextHolder}
       <div className="flex h-full">
         <div className="h-full" style={{ flexBasis: "535px" }}>
           <div id="vditor-element"></div>
         </div>
+
         <div className="grow">
-          <Toolkit
+          <ToolkitBar
             enableAvator={avator}
             onEnableAvatarChange={setAvator}
             colors={colors}
@@ -87,7 +90,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           </div>
         </div>
       </div>
-    </>
+    </React.Fragment>
   );
 };
 

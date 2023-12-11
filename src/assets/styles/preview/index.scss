@@ -1,0 +1,63 @@
+@import "./variable.scss";
+@import "./mixin.scss";
+
+#preview {
+  .page-wrapper {
+    background-color: $page_background_color;
+    box-shadow: $page_shadow;
+    .page {
+      @include space-p($page_padding);
+    }
+  }
+
+  .lrc {
+    display: flex;
+    justify-content: space-between;
+    .l {
+      text-align: left;
+    }
+    .r {
+      text-align: right;
+    }
+  }
+
+  @for $i from 1 through 6 {
+    h#{$i} {
+      @include space-m($h_padding);
+      @include space-p($h_padding, "horizontal");
+      font-weight: bold;
+      font-size: nth($h_size, $i);
+    }
+  }
+
+  hr {
+    background-color: $divider_color;
+    height: $divider_height;
+    border: none;
+  }
+
+  strong {
+    font-weight: bold;
+  }
+
+  em {
+    font-style: italic;
+  }
+
+  code {
+    border-radius: $label_border_radius;
+    padding: $label_padding;
+    background-color: $label_background_color;
+  }
+
+  p {
+    @include space-m($text_margin);
+    @include space-p($text_padding, "horizontal");
+    color: $text_color;
+    line-height: $text_line_height;
+  }
+
+  * {
+    font-family: inherit;
+  }
+}

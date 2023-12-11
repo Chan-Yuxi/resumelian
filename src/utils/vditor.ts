@@ -1,8 +1,8 @@
-import { type } from "os";
 import Vditor from "vditor";
 import "vditor/dist/index.css";
 
 type Callback = (vditor: Vditor) => void;
+type VditorInstance = Vditor;
 
 const toolbarList = [
   "emoji",
@@ -56,5 +56,5 @@ function createVditor(element: string, callback: Callback) {
   });
 }
 
-export type { Vditor };
+export type { VditorInstance };
 export { createVditor };

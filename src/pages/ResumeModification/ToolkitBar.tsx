@@ -23,7 +23,7 @@ const families = [
   { value: ``, label: "Default" },
 ];
 
-const Toolkit: React.FC<P> = (props) => {
+const ToolkitBar: React.FC<P> = (props) => {
   const { t } = useTranslation();
 
   const {
@@ -99,4 +99,4 @@ const Toolkit: React.FC<P> = (props) => {
   );
 };
 
-export default Toolkit;
+export default ToolkitBar;

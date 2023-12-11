@@ -3,7 +3,7 @@ import type { MenuProps } from "antd";
 import { Menu, Layout, Button } from "antd";
 import { useLocation, useNavigate, Link } from "react-router-dom";
 
-import items from "@/config/menu.json";
+import items from "@/config/menu-items.json";
 
 const Header = () => {
   const navigate = useNavigate();

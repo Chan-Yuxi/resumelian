@@ -28,16 +28,18 @@ export function deriveChildren(html: string) {
   return temp.children;
 }
 
-export function generateCustomStyle(colors: string[], family: string) {
+export function generateCustomStyle(
+  colors: string[],
+  family: string,
+  gutter = "1rem"
+) {
   return `
     #preview {
+        font-family: ${family};
+        --gutter: ${gutter};
         ${colors
           .map((color, i) => "--color-" + (i + 1).toString() + ": " + color)
           .join("; \n\t")};
-        font-family: ${family};
-    }
-    #preview > * {
-      font-family: inherit;
     }
   `;
 }

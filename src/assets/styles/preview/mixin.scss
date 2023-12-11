@@ -1,0 +1,16 @@
+@mixin space-p($size, $dir: "vertical") { @include space($size, "padding", $dir); }
+@mixin space-m($size, $dir: "vertical") { @include space($size,  "margin", $dir); }
+
+@mixin space($size, $type, $dir) {
+  @if $dir == "horizontal" {
+    #{$type}: {
+      left: $size;
+      right: $size;
+    }
+  } @else {
+    #{$type}: {
+      top: $size;
+      bottom: $size;
+    }
+  }
+}
