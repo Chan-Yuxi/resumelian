@@ -13,6 +13,7 @@ import { generateCustomStyle } from "@/utils";
 import { export2PDF as toExport } from "@/utils/page-export";
 
 import Toolkit from "./Toolkit";
+import StyleInjection from "./StyleInjection";
 
 import DefaultStyleConfig from "@/config/preview-styles-default.json";
 
@@ -22,15 +23,16 @@ type P = {
 
 const ResumeModification: React.FC<P> = ({ username }) => {
   const refreshDelay = 250;
-  const { colors: defaultColors } = DefaultStyleConfig;
+  const { colors: defaultColors, family: defaultFamily } = DefaultStyleConfig;
 
   const [colors, setColors] = useState(defaultColors);
   const [avator, setAvator] = useState(false);
   const [family, setFamily] = useState("");
+  const [getter, setGutter] = useState("1rem 0");
 
-  const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
   const [value, setValue] = useState("");
   const [style, setStyle] = useState("");
+  const [vditor, setVditor] = useState<Nullable<Vditor>>(null);
 
   useEffect(() => {
     createVditor("vditor-element", (vditor) => setVditor(vditor));
@@ -49,7 +51,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [value]);
 
   useEffect(() => {
-    setStyle(generateCustomStyle(colors));
+    setStyle(generateCustomStyle(colors, family));
   }, [colors, family]);
 
   const [messageApi, contextHolder] = message.useMessage();
@@ -72,11 +74,14 @@ const ResumeModification: React.FC<P> = ({ username }) => {
             onEnableAvatarChange={setAvator}
             colors={colors}
             onColorsChange={setColors}
+            family={family}
+            onFamilyChange={setFamily}
             onExport={doExport}
           />
+
           <div className="h-full flex justify-center bg-slate-400">
             <div className="px-5 m-5 overflow-scroll">
-              <style>{style}</style>
+              <StyleInjection style={style} />
               <div id="preview" style={{ width: "794px" }}></div>
             </div>
           </div>

@@ -28,12 +28,16 @@ export function deriveChildren(html: string) {
   return temp.children;
 }
 
-export function generateCustomStyle(colors: string[]) {
+export function generateCustomStyle(colors: string[], family: string) {
   return `
     #preview {
         ${colors
           .map((color, i) => "--color-" + (i + 1).toString() + ": " + color)
           .join("; \n\t")};
+        font-family: ${family};
+    }
+    #preview > * {
+      font-family: inherit;
     }
   `;
 }

@@ -1,4 +1,5 @@
 {
   "name": "ocean",
-  "colors": ["#3b82f6", "#78a2e8", "#0487f8"]
+  "colors": ["#3b82f6", "#78a2e8", "#0487f8", "#00ff00"],
+  "family": "inherit"
 }

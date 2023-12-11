@@ -1,15 +1,11 @@
 import React from "react";
 
 type P = {
-  styles: string;
+  style: string;
 };
 
-const StyleInjection: React.FC<P> = ({ styles }) => {
-  return (
-    <div id="style-injection">
-      <style>{styles}</style>
-    </div>
-  );
-};
+const StyleInjection: React.FC<P> = ({ style }) => (
+  <style id="style-injection">{style}</style>
+);
 
 export default StyleInjection;
