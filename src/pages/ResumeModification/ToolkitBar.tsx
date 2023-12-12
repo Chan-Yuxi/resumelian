@@ -8,7 +8,7 @@ import Label from "@/components/Label";
 
 type OCC = ColorPickerProps["onChange"];
 type P = {
-  enableAvator: boolean;
+  enableAvatar: boolean;
   colors: string[];
   family: string;
   onEnableAvatarChange: (enable: boolean) => void;
@@ -27,7 +27,7 @@ const ToolkitBar: React.FC<P> = (props) => {
   const { t } = useTranslation();
 
   const {
-    enableAvator,
+    enableAvatar,
     colors,
     family,
     onEnableAvatarChange,
@@ -48,7 +48,7 @@ const ToolkitBar: React.FC<P> = (props) => {
     <div className="flex items-center bg-slate-100 px-[35px] h-[36px] border-0 border-b border-solid border-slate-300 shadow">
       <Space size={32}>
         <Label text={t("rm.generate_avatar")}>
-          <Switch value={enableAvator} onChange={onEnableAvatarChange} />
+          <Switch value={enableAvatar} onChange={onEnableAvatarChange} />
         </Label>
         <Label text={t("rm.theme")}>
           <Space size={6}>

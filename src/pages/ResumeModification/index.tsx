@@ -12,6 +12,7 @@ import { render } from "@/utils/render";
 import { generateCustomStyle } from "@/utils";
 import { export2PDF as toExport } from "@/utils/page-export";
 
+// import Avatar from "./Avatar";
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
 
@@ -28,7 +29,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const { colors: defaultColors, style: themeStyle } = DefaultStyleConfig;
 
   const [colors, setColors] = useState(defaultColors);
-  const [avator, setAvator] = useState(false);
+  const [avatar, setAvatar] = useState(false);
   const [family, setFamily] = useState("");
   // const [getter, setGutter] = useState("1rem");
 
@@ -54,7 +55,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [value]);
 
   useEffect(() => {
-    setStyle(generateCustomStyle(colors, family).concat(themeStyle as string));
+    setStyle(generateCustomStyle(colors, family).concat(themeStyle));
   }, [colors, family, themeStyle]);
 
   function doExport() {
@@ -73,8 +74,8 @@ const ResumeModification: React.FC<P> = ({ username }) => {
 
         <div className="grow">
           <ToolkitBar
-            enableAvator={avator}
-            onEnableAvatarChange={setAvator}
+            enableAvatar={avatar}
+            onEnableAvatarChange={setAvatar}
             colors={colors}
             onColorsChange={setColors}
             family={family}
@@ -83,17 +84,8 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           />
 
           <div className="h-full flex justify-center bg-slate-400">
-            <div className="px-5 m-5 relative overflow-scroll">
+            <div className="px-5 m-5 overflow-scroll">
               <StyleInjection style={style} />
-              {/* <div
-                draggable
-                className="absolute"
-                style={{
-                  width: "100px",
-                  height: "100px",
-                  backgroundColor: "red",
-                }}
-              ></div> */}
               <div id="preview" style={{ width: "794px" }}></div>
             </div>
           </div>

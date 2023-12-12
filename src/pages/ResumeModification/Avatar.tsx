@@ -11,45 +11,45 @@ type P = {
 const Avatar: FunctionComponent<P> = ({ picture }) => {
   const avatar: MutableRefObject<Nullable<HTMLImageElement>> = useRef(null);
 
-  const draggable = (event: Event) => {
+  function draggable(event: Event) {
     const { offsetX, offsetY } = event as MouseEvent;
 
-    const target = event.target! as HTMLElement;
-    const parent = target.offsetParent! as HTMLElement;
+    const target = event.target as HTMLElement;
+    const parent = target.offsetParent as HTMLElement;
 
-    function handleMouseMove(event: MouseEvent) {
-      const target = event.target as HTMLElement;
-      const pointX = event.clientX - offsetX;
-      const pointY = event.clientY - offsetY;
+    const { offsetWidth, offsetHeight } = target;
+    const { offsetWidth: parentOffsetWidth, offsetHeight: parentOffsetHeight } =
+      parent;
 
-      if (
-        pointX >= parent.offsetLeft &&
-        pointX <= parent.offsetLeft + parent.offsetWidth
-      ) {
-        target.style.left = `${pointX}px`;
-      }
-      if (pointY > 0) {
-        target.style.top = `${pointY}px`;
-      }
-    }
+    const xe = parentOffsetWidth - offsetWidth;
+    const ye = parentOffsetHeight - offsetHeight;
 
-    function done() {
-      target.removeEventListener("mousemove", handleMouseMove);
-      target.removeEventListener("mouseup", done);
-    }
-    target.addEventListener("mousemove", handleMouseMove);
-  };
+    target.onmousemove = function (event) {
+      const { clientX, clientY } = event;
+
+      let x = clientX - offsetX;
+      let y = clientY - offsetY;
+
+      if (x < 0) x = 0;
+      if (y < 0) y = 0;
+      if (x > xe) x = xe;
+      if (y > ye) y = ye;
+
+      target.style.left = `${x}px`;
+      target.style.top = `${y}px`;
+    };
+
+    target.onmouseup = function () {
+      target.onmousemove = null;
+      target.onmouseup = null;
+    };
+  }
 
   useEventListener(avatar.current as HTMLElement, "mousedown", draggable);
 
   return (
     <div className="absolute">
-      <img
-        src={picture}
-        ref={avatar}
-        className="bg-red"
-        style={{ width: "100px", height: "100px" }}
-      ></img>
+      <img src={picture} ref={avatar} className=""></img>
     </div>
   );
 };

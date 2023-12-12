@@ -57,7 +57,7 @@ export function render(id: string, htmlString: string) {
 }
 
 function resolveLRContainer(children: HTMLCollection, index: number) {
-  const domian = {
+  const domain = {
     ls: index,
     le: -1,
     rs: -1,
@@ -67,26 +67,26 @@ function resolveLRContainer(children: HTMLCollection, index: number) {
   for (let i = index + 1; i < children.length; i++) {
     const child = children[i];
     if (child.outerHTML === END) {
-      if (domian.le === -1) {
-        domian.le = i;
+      if (domain.le === -1) {
+        domain.le = i;
       } else {
-        if (domian.re === -1 && domian.rs !== -1) {
-          domian.re = i;
+        if (domain.re === -1 && domain.rs !== -1) {
+          domain.re = i;
           break;
         }
       }
     }
     if (child.outerHTML === RIGHT_START) {
-      if (domian.rs === -1) {
-        domian.rs = i;
+      if (domain.rs === -1) {
+        domain.rs = i;
       }
     }
   }
 
-  if (domian.re === -1) {
+  if (domain.re === -1) {
     return null;
   } else {
-    return domian;
+    return domain;
   }
 }
 
