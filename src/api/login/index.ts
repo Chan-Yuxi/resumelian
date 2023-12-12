@@ -2,6 +2,8 @@ import http from "@/utils/http";
 
 type LoginResponse = {
   success: boolean;
+  userName: string;
+  token: string;
   data: number;
   msg: string;
 };

@@ -1,13 +1,27 @@
 import type { FormProps } from "antd";
 
-import { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
+import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
-import { Card, Row, Col, Form, Input, Button, Spin } from "antd";
+import { Card, Row, Col, Form, Input, Button, Spin, message } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
 
 import { getAccess, login } from "@/api/login";
+import { setUsername, setToken } from "@/store/features/user";
 
-const Login = () => {
+type P = {
+  setUsername: (username: string) => void;
+  setToken: (token: string) => void;
+};
+
+const Login: React.FC<P> = ({ setUsername, setToken }) => {
+  const navigate = useNavigate();
+
+  const { t } = useTranslation();
+  const [messageApi, contextHolder] = message.useMessage();
+
   const [access, setAccess] = useState("");
   const [ticket, setTicket] = useState("");
   const [accessLoading, setAccessLoading] = useState(true);
@@ -26,7 +40,7 @@ const Login = () => {
     return accessLoading ? (
       <Spin indicator={<LoadingOutlined style={{ fontSize: 36 }} />} />
     ) : (
-      <img className="w-full h-full" src={access} alt="access not found" />
+      <img className="w-full h-full" src={access} alt={t("lg.img_alt")} />
     );
   };
 
@@ -34,10 +48,14 @@ const Login = () => {
     if (code && ticket) {
       login(ticket, code as string).then((data) => {
         if (data) {
-          if (data.success) {
-            console.log(data);
+          if (data.success && data.data === 1) {
+            setUsername(data.userName);
+            setToken(data.token);
+            navigate("/home", { replace: true });
+
+            messageApi.success(data.msg);
           } else {
-            console.log(data);
+            messageApi.warning(data.msg);
           }
         }
       });
@@ -45,49 +63,48 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="flex justify-center items-center bg-gradient-to-r from-sky-500 to-indigo-500"
-      style={{ height: "calc(100vh - 64px)" }}
-    >
-      <Card className="rounded-none shadow w-1/3">
-        <Row gutter={24}>
-          <Col
-            span={12}
-            className="border-0 border-r border-dashed border-slate-300"
-          >
-            <h3 className="m-0 mb-2">
-              扫码关注公众号，发送关键字，获取专属验证码
-            </h3>
-            <div className="flex justify-center">
-              <div
-                className="flex justify-center items-center"
-                style={{ width: "200px", height: "200px" }}
-              >
-                <AccessPicture />
-              </div>
-            </div>
-            <h5 className="m-0 mt-2 text-slate-400">
-              请扫描上方二维码，更多精彩等你来...
-            </h5>
-          </Col>
-          <Col span={12}>
-            <div className="h-full flex flex-col justify-center">
-              <Form onFinish={handleFinish}>
-                <Form.Item name="code">
-                  <Input placeholder="请输入验证码"></Input>
-                </Form.Item>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit" block>
-                    登录/注册
-                  </Button>
-                </Form.Item>
-              </Form>
-            </div>
-          </Col>
-        </Row>
-      </Card>
-    </div>
+    <Fragment>
+      {contextHolder}
+      <main className="flex justify-center items-center h-full bg-gradient-to-r from-sky-500 to-indigo-500">
+        <Card className="shadow w-1/3">
+          <Row gutter={48}>
+            <Col
+              className="border-0 border-r border-dashed border-slate-400"
+              span={12}
+            >
+              <h3 className="font-bold mb-2">{t("lg.top_text")}</h3>
+              <section className="flex justify-center">
+                <div className="flex justify-center items-center w-[200px] h-[200px]">
+                  <AccessPicture />
+                </div>
+              </section>
+              <h5 className="mt-2 text-slate-400">{t("lg.tip")}</h5>
+            </Col>
+
+            <Col span={12}>
+              <section className="flex flex-col justify-center h-full">
+                <Form onFinish={handleFinish}>
+                  <Form.Item name="code">
+                    <Input placeholder={t("lg.placeholder")} />
+                  </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" htmlType="submit" block>
+                      {t("lg.login/register")}
+                    </Button>
+                  </Form.Item>
+                </Form>
+              </section>
+            </Col>
+          </Row>
+        </Card>
+      </main>
+    </Fragment>
   );
 };
 
-export default Login;
+const mapDispatchToProp = {
+  setUsername,
+  setToken,
+};
+
+export default connect(null, mapDispatchToProp)(Login);

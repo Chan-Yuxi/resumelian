@@ -10,8 +10,9 @@ import { BrowserRouter } from "react-router-dom";
 import theme from "@/config/antd-theme.json";
 import { ConfigProvider } from "antd";
 
-import store from "@/store";
+import store, { persistor } from "@/store";
 import { Provider } from "react-redux";
+import { PersistGate } from "redux-persist/integration/react";
 
 import "@/i18n";
 
@@ -19,7 +20,9 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
   <BrowserRouter>
     <ConfigProvider theme={theme}>
       <Provider store={store}>
-        <App />
+        <PersistGate persistor={persistor}>
+          <App />
+        </PersistGate>
       </Provider>
     </ConfigProvider>
   </BrowserRouter>
