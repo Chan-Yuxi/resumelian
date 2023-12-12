@@ -5,7 +5,9 @@ type P = {
 };
 
 const StyleInjection: React.FC<P> = ({ style }) => (
-  <style id="style-injection">{style}</style>
+  <style id="style-injection" lang="scss">
+    {style}
+  </style>
 );
 
 export default StyleInjection;

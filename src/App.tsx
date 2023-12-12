@@ -11,7 +11,7 @@ const App = () => {
     <Layout>
       <Header />
       <Content>
-        <div style={{ height: "calc(100vh - 64px)" }}>
+        <div style={{ height: "calc(100vh - 64px)", minHeight: "900px" }}>
           <Router />
         </div>
       </Content>

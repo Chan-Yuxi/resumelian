@@ -25,12 +25,12 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const [messageApi, contextHolder] = message.useMessage();
 
   const refreshDelay = 250;
-  const { colors: defaultColors } = DefaultStyleConfig;
+  const { colors: defaultColors, style: themeStyle } = DefaultStyleConfig;
 
   const [colors, setColors] = useState(defaultColors);
   const [avator, setAvator] = useState(false);
   const [family, setFamily] = useState("");
-  const [getter, setGutter] = useState("1rem");
+  // const [getter, setGutter] = useState("1rem");
 
   const [value, setValue] = useState("");
   const [style, setStyle] = useState("");
@@ -54,8 +54,8 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [value]);
 
   useEffect(() => {
-    setStyle(generateCustomStyle(colors, family));
-  }, [colors, family]);
+    setStyle(generateCustomStyle(colors, family).concat(themeStyle as string));
+  }, [colors, family, themeStyle]);
 
   function doExport() {
     toExport(".page", `${username}-resume.pdf`).catch((error) =>
@@ -83,8 +83,17 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           />
 
           <div className="h-full flex justify-center bg-slate-400">
-            <div className="px-5 m-5 overflow-scroll">
+            <div className="px-5 m-5 relative overflow-scroll">
               <StyleInjection style={style} />
+              {/* <div
+                draggable
+                className="absolute"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  backgroundColor: "red",
+                }}
+              ></div> */}
               <div id="preview" style={{ width: "794px" }}></div>
             </div>
           </div>
