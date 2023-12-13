@@ -9,6 +9,8 @@
   "rm.theme": "主题色",
   "rm.font": "字体",
   "rm.help": "帮助",
+  "rm.save_success": "保存成功",
+  "rm.save": "保存",
   "rm.export_success": "简历导出成功",
   "rm.export_PDF": "导出PDF"
 }

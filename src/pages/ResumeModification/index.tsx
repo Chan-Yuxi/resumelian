@@ -19,7 +19,9 @@ import { Skeleton, message } from "antd";
 import { createWorker, generateCustomStyle } from "@/utils";
 import { createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
-import { export2PDF as toExport } from "@/utils/page-export";
+import { exportPage2PDF as toExport } from "@/utils/page-export";
+
+import { saveResume } from "@/api/resume";
 
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
@@ -85,7 +87,10 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [colors, family]);
 
   const requestResume = useCallback(
-    async () => /*(resumeId ? await getResume(resumeId) : "") */ (await Promise.resolve(resumeId)),
+    async () =>
+      /*(resumeId ? await getResume(resumeId) : "") */ await Promise.resolve(
+        resumeId
+      ),
     [resumeId]
   );
 
@@ -93,6 +98,14 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     async () => await Promise.resolve(themeId),
     [themeId]
   );
+
+  const doSave = () => {
+    saveResume(value, username).then((response) => {
+      if (response) {
+        message.success(t("rm.save_success"));
+      }
+    });
+  };
 
   const doExport = () => {
     toExport(".page", `${username}-resume.pdf`)
@@ -132,6 +145,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
             onColorsChange={setColors}
             family={family}
             onFamilyChange={setFamily}
+            onSave={doSave}
             onExport={doExport}
           />
           <div

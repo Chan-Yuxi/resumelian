@@ -2,7 +2,8 @@ import Request from "./request";
 
 function createAxios(/* options: Record<any, any> */) {
   return new Request({
-    baseURL: "http://v2wiq9.natappfree.cc/",
+    // baseURL: "http://mjwp9h.natappfree.cc/",
+    baseURL: "/api",
     timeout: 10 * 1000,
     headers: {
       "Content-Type": "application/json; charset=utf-8",

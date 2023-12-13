@@ -10,6 +10,7 @@ import { LoadingOutlined } from "@ant-design/icons";
 
 import { getAccess, login } from "@/api/login";
 import { setUsername, setToken } from "@/store/features/user";
+import { setItem } from "@/utils/storage";
 
 type P = {
   setUsername: (username: string) => void;
@@ -51,6 +52,8 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
           if (data.success && data.data === 1) {
             setUsername(data.userName);
             setToken(data.token);
+            setItem("token", data.token);
+            
             navigate("/home", { replace: true });
 
             messageApi.success(data.msg);

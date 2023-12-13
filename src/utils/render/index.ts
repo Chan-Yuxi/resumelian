@@ -46,7 +46,6 @@ export function render(preview: HTMLElement, htmlString: string) {
     let node: Element | null;
 
     while ((node = resolver.next()) !== null) {
-      console.log("next");
       // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
       if (page.offsetHeight > pageH) {
         const adjust = page.lastChild!;

@@ -14,6 +14,7 @@ type P = {
   onEnableAvatarChange: (enable: boolean) => void;
   onColorsChange: (colors: string[]) => void;
   onFamilyChange: (family: string) => void;
+  onSave: () => void;
   onExport: () => void;
 };
 
@@ -33,6 +34,7 @@ const ToolkitBar: React.FC<P> = (props) => {
     onEnableAvatarChange,
     onColorsChange,
     onFamilyChange,
+    onSave,
     onExport,
   } = props;
 
@@ -84,6 +86,16 @@ const ToolkitBar: React.FC<P> = (props) => {
           ghost
         >
           {t("rm.help")}
+        </Button>
+        <Button
+          size="small"
+          className="shadow-lg me-2"
+          style={{ width: "102px" }}
+          type="primary"
+          ghost
+          onClick={onSave}
+        >
+          {t("rm.save")}
         </Button>
         <Button
           size="small"
