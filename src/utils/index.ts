@@ -43,3 +43,22 @@ export function generateCustomStyle(
     }
   `;
 }
+
+
+/**
+ * This will replace the setInterval function to make the update frequency of the screen smoother.
+ *
+ * @param task a task to run at each frame
+ * @returns cancelFunction
+ */
+export function createWorker(task: () => void) {
+  let cancel = false;
+  function run() {
+    task();
+    if (!cancel) requestAnimationFrame(run);
+  }
+  requestAnimationFrame(run);
+  return () => {
+    cancel = true;
+  };
+}

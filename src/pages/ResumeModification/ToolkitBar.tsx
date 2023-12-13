@@ -45,7 +45,7 @@ const ToolkitBar: React.FC<P> = (props) => {
     };
 
   return (
-    <div className="flex items-center bg-slate-100 px-[35px] h-[36px] border-0 border-b border-solid border-slate-300 shadow">
+    <div className="flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
       <Space size={32}>
         <Label text={t("rm.generate_avatar")}>
           <Switch value={enableAvatar} onChange={onEnableAvatarChange} />
@@ -79,7 +79,7 @@ const ToolkitBar: React.FC<P> = (props) => {
         <Button
           size="small"
           className="shadow-lg me-2"
-          style={{ width: "93px" }}
+          style={{ width: "102px" }}
           type="primary"
           ghost
         >
@@ -88,7 +88,7 @@ const ToolkitBar: React.FC<P> = (props) => {
         <Button
           size="small"
           className="shadow-lg"
-          style={{ width: "93px" }}
+          style={{ width: "102px" }}
           type="primary"
           onClick={onExport}
         >

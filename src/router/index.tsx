@@ -1,5 +1,6 @@
 import { useRoutes, Navigate } from "react-router-dom";
 
+import NotFound from "@/pages/404NotFound";
 import CareerCounselor from "@/pages/CareerCounselor";
 import Home from "@/pages/Home";
 import InterviewCoach from "@/pages/InterviewCoach";
@@ -39,12 +40,20 @@ const routes = [
     element: <Resume />,
   },
   {
-    path: "resume-modification",
+    path: "/resume-modification/:themeId?/:resumeId?",
     element: <ResumeModification />,
   },
   {
     path: "/template-center",
     element: <TemplateCenter />,
+  },
+  {
+    path: "/404",
+    element: <NotFound />,
+  },
+  {
+    path: "*",
+    element: <Navigate to="/404" replace />,
   },
 ];
 

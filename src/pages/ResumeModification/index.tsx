@@ -1,23 +1,49 @@
-import type { VditorInstance } from "@/utils/vditor";
 import type { Nullable } from "@/@type/toolkit";
+import type { VditorInstance, Callback } from "@/utils/vditor";
 import type { RootState } from "@/store";
 
-import React, { useEffect, useState } from "react";
+import React, {
+  useState,
+  useRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  Fragment,
+} from "react";
+import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
-import { message } from "antd";
+import { Skeleton, message } from "antd";
 
+import { createWorker, generateCustomStyle } from "@/utils";
 import { createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
-import { generateCustomStyle } from "@/utils";
 import { export2PDF as toExport } from "@/utils/page-export";
 
-// import Avatar from "./Avatar";
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
 
 import DefaultStyleConfig from "@/config/preview-theme-default.json";
 
+const Wrapper: React.FC<React.PropsWithChildren<{ loading: boolean }>> = (
+  props
+) => (
+  <Skeleton
+    className="h-full p-8 bg-white shadow"
+    active
+    loading={props.loading}
+    title={{ width: 300 }}
+    paragraph={{
+      rows: 8,
+      width: [500, 100, 700, 300, 300, 200, 500, 500],
+    }}
+  >
+    {props.children}
+  </Skeleton>
+);
+
+type D = HTMLDivElement;
 type P = {
   username: string;
 };
@@ -25,54 +51,80 @@ type P = {
 const ResumeModification: React.FC<P> = ({ username }) => {
   const [messageApi, contextHolder] = message.useMessage();
 
-  const refreshDelay = 250;
-  const { colors: defaultColors, style: themeStyle } = DefaultStyleConfig;
-
-  const [colors, setColors] = useState(defaultColors);
-  const [avatar, setAvatar] = useState(false);
-  const [family, setFamily] = useState("");
-  // const [getter, setGutter] = useState("1rem");
-
   const [value, setValue] = useState("");
+  // const [theme, setTheme] = useState("");
   const [style, setStyle] = useState("");
 
-  const [vditor, setVditor] = useState<Nullable<VditorInstance>>(null);
+  const [editor, setEditor] = useState<Nullable<VditorInstance>>(null);
+  const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
-    createVditor("vditor-element", (vditor) => setVditor(vditor));
-  }, []);
+  const vditorContainer = useRef<D>(null);
+  const preview = useRef<D>(null);
 
-  useEffect(() => {
-    const worker = setInterval(
-      () => setValue(vditor?.getHTML() as string),
-      refreshDelay
-    );
-    return () => clearInterval(worker);
-  }, [vditor]);
-
-  useEffect(() => {
-    render("preview", value);
+  useLayoutEffect(() => {
+    preview.current && render(preview.current, value);
   }, [value]);
 
-  useEffect(() => {
-    setStyle(generateCustomStyle(colors, family).concat(themeStyle));
-  }, [colors, family, themeStyle]);
+  const { t } = useTranslation();
+  const { resumeId, themeId } = useParams();
 
-  function doExport() {
-    toExport(".page", `${username}-resume.pdf`).catch((error) =>
-      messageApi.error(error as string)
+  useEffect(() => {
+    vditorContainer.current &&
+      createVditor(vditorContainer.current, ((vditor) =>
+        setEditor(vditor)) as Callback);
+  }, []);
+
+  const [colors, setColors] = useState(DefaultStyleConfig.colors);
+  const [avatar, setAvatar] = useState(false);
+  const [family, setFamily] = useState("");
+
+  useEffect(() => {
+    setStyle(
+      generateCustomStyle(colors, family).concat(DefaultStyleConfig.style)
     );
-  }
+  }, [colors, family]);
+
+  const requestResume = useCallback(
+    async () => /*(resumeId ? await getResume(resumeId) : "") */ (await Promise.resolve(resumeId)),
+    [resumeId]
+  );
+
+  const requestTheme = useCallback(
+    async () => await Promise.resolve(themeId),
+    [themeId]
+  );
+
+  const doExport = () => {
+    toExport(".page", `${username}-resume.pdf`)
+      .then(() => messageApi.success(t("rm.export_success")))
+      .catch((error: string) => messageApi.error(error));
+  };
+
+  useEffect(() => {
+    if (!editor) return;
+    const canceller = createWorker(() => setValue(editor.getHTML()));
+
+    setLoading(true);
+    editor.disabled();
+    Promise.all([requestResume(), requestTheme()])
+      .then((data) => data[0] && editor.setValue(data[0]))
+      .finally(() => {
+        setLoading(false);
+        editor.enable();
+      });
+
+    return canceller;
+  }, [editor, requestResume, requestTheme]);
 
   return (
-    <React.Fragment>
+    <Fragment>
       {contextHolder}
-      <div className="flex h-full">
-        <div className="h-full" style={{ flexBasis: "535px" }}>
-          <div id="vditor-element"></div>
-        </div>
+      <main className="h-full flex items-stretch">
+        <aside className="basis-[535px]">
+          <div className="rounded-none" ref={vditorContainer}></div>
+        </aside>
 
-        <div className="grow">
+        <aside className="grow">
           <ToolkitBar
             enableAvatar={avatar}
             onEnableAvatarChange={setAvatar}
@@ -82,23 +134,28 @@ const ResumeModification: React.FC<P> = ({ username }) => {
             onFamilyChange={setFamily}
             onExport={doExport}
           />
-
-          <div className="h-full flex justify-center bg-slate-400">
-            <div className="px-5 m-5 overflow-scroll">
+          <div
+            className="flex justify-center overflow-scroll bg-gray-200"
+            style={{ height: "calc(100% - 37px)" }}
+          >
+            <article className="mt-5 w-[825px]">
               <StyleInjection style={style} />
-              <div id="preview" style={{ width: "794px" }}></div>
-            </div>
+
+              <Wrapper loading={loading}>
+                <div id="preview" ref={preview}></div>
+              </Wrapper>
+            </article>
           </div>
-        </div>
-      </div>
-    </React.Fragment>
+        </aside>
+      </main>
+    </Fragment>
   );
 };
 
-const mapStateToProp = (state: RootState) => {
+const mapStateToProps = (state: RootState) => {
   return {
     username: state.user.username,
   };
 };
 
-export default connect(mapStateToProp)(ResumeModification);
+export default connect(mapStateToProps)(ResumeModification);

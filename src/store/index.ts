@@ -1,11 +1,9 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
-
 import { persistStore, persistReducer } from "redux-persist";
-// eslint-disable-next-line
-// @ts-ignore
 import storage from "redux-persist/lib/storage";
 
 import userReducer from "./features/user";
+import editorReducer from "./features/editor";
 
 const persistConfig = {
   key: "redux",
@@ -16,12 +14,13 @@ const persistedReducer = persistReducer(
   persistConfig,
   combineReducers({
     user: userReducer,
+    editor: editorReducer,
   })
 );
 
 const store = configureStore({
   reducer: persistedReducer,
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false, }),
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false }),
 });
 
 export default store;

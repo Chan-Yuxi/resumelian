@@ -1,6 +1,6 @@
 import type { Parser } from "./resolver";
 
-import { createElement, deriveChildren, getById } from "@/utils";
+import { createElement, deriveChildren } from "@/utils";
 import { Resolver } from "./resolver";
 
 const LEFT_START = "<p>::: left</p>";
@@ -8,14 +8,13 @@ const RIGHT_START = "<p>::: right</p>";
 const END = "<p>:::</p>";
 
 /**
+ * render HTML strings to the screen
  *
- * @param id
- * @param htmlString
+ * @param preview container
+ * @param htmlString html string
  */
-export function render(id: string, htmlString: string) {
-  const preview = getById(id);
-
-  if (htmlString && preview) {
+export function render(preview: HTMLElement, htmlString: string) {
+  if (preview) {
     preview.innerHTML = "";
     // 新建解析器
     const resolver = new Resolver(deriveChildren(htmlString));
@@ -32,7 +31,10 @@ export function render(id: string, htmlString: string) {
     const pageH = Math.floor(pageW * Math.sqrt(2));
 
     const newPage = () => {
-      const pageWrapper = createElement("div", ["page-wrapper"], {width: `${pageW}px`, height: `${pageH}px`});
+      const pageWrapper = createElement("div", ["page-wrapper"], {
+        width: `${pageW}px`,
+        height: `${pageH}px`,
+      });
       const page = createElement("div", ["page"]);
 
       pageWrapper.appendChild(page);
@@ -44,6 +46,7 @@ export function render(id: string, htmlString: string) {
     let node: Element | null;
 
     while ((node = resolver.next()) !== null) {
+      console.log("next");
       // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
       if (page.offsetHeight > pageH) {
         const adjust = page.lastChild!;

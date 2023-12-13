@@ -4,3 +4,4 @@
   "family": "inherit",
   "style": "#preview h1 { background-color: var(--color-1); color: white; padding: 1rem; } #preview h3 { background-color: var(--color-2); color: white; width: 17.5%; border-top-right-radius: 1.5rem; border-bottom-right-radius: 1.5rem; padding: .5rem 1rem; } #preview h6 { color: var(--color-3) }"
 }
+
