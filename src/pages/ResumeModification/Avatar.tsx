@@ -1,56 +1,37 @@
-import type { MutableRefObject, FunctionComponent } from "react";
-import type { Nullable } from "@/@type/toolkit";
-
 import { useRef } from "react";
 import { useEventListener } from "@/hooks";
 
-type P = {
-  picture: string;
-};
+const Avatar = () => {
+  const avatar = useRef<HTMLDivElement>(null);
 
-const Avatar: FunctionComponent<P> = ({ picture }) => {
-  const avatar: MutableRefObject<Nullable<HTMLImageElement>> = useRef(null);
+  let startX = 0;
+  let startY = 0;
+  useEventListener(avatar.current, "mousedown", (event) => {
+    const target = avatar.current!;
+    const e = event as MouseEvent;
+    e.preventDefault();
 
-  function draggable(event: Event) {
-    const { offsetX, offsetY } = event as MouseEvent;
+    startX = e.clientX - target.offsetLeft;
+    startY = e.clientY - target.offsetLeft;
+  });
 
-    const target = event.target as HTMLElement;
-    const parent = target.offsetParent as HTMLElement;
+  useEventListener(avatar.current, "mousemove", (event) => {
+    const target = avatar.current!;
+    const e = event as MouseEvent;
+    e.preventDefault();
 
-    const { offsetWidth, offsetHeight } = target;
-    const { offsetWidth: parentOffsetWidth, offsetHeight: parentOffsetHeight } =
-      parent;
+    const newX = e.clientX - startX;
+    const newY = e.clientX - startY;
 
-    const xe = parentOffsetWidth - offsetWidth;
-    const ye = parentOffsetHeight - offsetHeight;
-
-    target.onmousemove = function (event) {
-      const { clientX, clientY } = event;
-
-      let x = clientX - offsetX;
-      let y = clientY - offsetY;
-
-      if (x < 0) x = 0;
-      if (y < 0) y = 0;
-      if (x > xe) x = xe;
-      if (y > ye) y = ye;
-
-      target.style.left = `${x}px`;
-      target.style.top = `${y}px`;
-    };
-
-    target.onmouseup = function () {
-      target.onmousemove = null;
-      target.onmouseup = null;
-    };
-  }
-
-  useEventListener(avatar.current as HTMLElement, "mousedown", draggable);
+    target.style.top = `${newX}px`;
+    target.style.left = `${newY}px`;
+  });
 
   return (
-    <div className="absolute">
-      <img src={picture} ref={avatar} className=""></img>
-    </div>
+    <div
+      ref={avatar}
+      className="absolute w-[120px] h-[150px] bg-slate-500 shadow"
+    ></div>
   );
 };
 

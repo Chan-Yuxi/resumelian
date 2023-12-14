@@ -3,6 +3,7 @@ import type { ColorPickerProps } from "antd";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { Space, Switch, Button, Select, ColorPicker } from "antd";
+import { CheckCircleOutlined, FilePptOutlined } from "@ant-design/icons";
 
 import Label from "@/components/Label";
 
@@ -21,7 +22,7 @@ type P = {
 const families = [
   { value: `'Times New Roman', Times, serif`, label: "Times New Roman" },
   { value: `Arial, Helvetica, sans-serif`, label: "Arial" },
-  { value: ``, label: "Default" },
+  { value: `Arial`, label: "Default" },
 ];
 
 const ToolkitBar: React.FC<P> = (props) => {
@@ -78,7 +79,7 @@ const ToolkitBar: React.FC<P> = (props) => {
       </Space>
 
       <div className="ms-auto">
-        <Button
+        {/* <Button
           size="small"
           className="shadow-lg me-2"
           style={{ width: "102px" }}
@@ -86,10 +87,11 @@ const ToolkitBar: React.FC<P> = (props) => {
           ghost
         >
           {t("rm.help")}
-        </Button>
+        </Button> */}
         <Button
           size="small"
           className="shadow-lg me-2"
+          icon={<CheckCircleOutlined />}
           style={{ width: "102px" }}
           type="primary"
           ghost
@@ -100,6 +102,7 @@ const ToolkitBar: React.FC<P> = (props) => {
         <Button
           size="small"
           className="shadow-lg"
+          icon={<FilePptOutlined />}
           style={{ width: "102px" }}
           type="primary"
           onClick={onExport}

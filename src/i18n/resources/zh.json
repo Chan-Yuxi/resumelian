@@ -12,5 +12,9 @@
   "rm.save_success": "保存成功",
   "rm.save": "保存",
   "rm.export_success": "简历导出成功",
-  "rm.export_PDF": "导出PDF"
+  "rm.export_PDF": "导出",
+  "rm.default_family": "默认字体",
+
+  "404.title": "对不起，您访问的页面不存在，请检查地址栏是否输入正确",
+  "404.back_home": "返回首页"
 }

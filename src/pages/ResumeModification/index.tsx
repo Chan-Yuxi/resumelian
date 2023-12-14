@@ -13,18 +13,17 @@ import React, {
 import { useParams } from "react-router-dom";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
-
 import { Skeleton, message } from "antd";
 
 import { createWorker, generateCustomStyle } from "@/utils";
 import { createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
 import { exportPage2PDF as toExport } from "@/utils/page-export";
-
 import { saveResume } from "@/api/resume";
 
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
+import Avatar from "./Avatar";
 
 import DefaultStyleConfig from "@/config/preview-theme-default.json";
 
@@ -78,7 +77,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
 
   const [colors, setColors] = useState(DefaultStyleConfig.colors);
   const [avatar, setAvatar] = useState(false);
-  const [family, setFamily] = useState("");
+  const [family, setFamily] = useState("Arial");
 
   useEffect(() => {
     setStyle(
@@ -152,8 +151,9 @@ const ResumeModification: React.FC<P> = ({ username }) => {
             className="flex justify-center overflow-scroll bg-gray-200"
             style={{ height: "calc(100% - 37px)" }}
           >
-            <article className="mt-5 w-[825px]">
+            <article className="mt-5 relative w-[825px]">
               <StyleInjection style={style} />
+              <Avatar />
 
               <Wrapper loading={loading}>
                 <div id="preview" ref={preview}></div>

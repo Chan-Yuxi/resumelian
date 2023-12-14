@@ -1,15 +1,19 @@
 import { useEffect } from "react";
 
-export function useEventListener(
-  element: HTMLElement,
-  type: string,
-  handler: (event: Event) => void
-) {
+/**
+ * 
+ * @param dom 
+ * @param type 
+ * @param handler 
+ */
+export const useEventListener = (dom: HTMLElement | undefined | null, type: string, handler: (event: unknown) => void) => {
   useEffect(() => {
-    if (element) {
-      element.addEventListener(type, handler);
-      return () => element.removeEventListener(type, handler);
+    if (dom) {
+      dom.addEventListener(type, handler);
+      return () => {
+        dom.removeEventListener(type, handler);
+      }
     }
-    // eslint-disable-next-line
-  }, []);
-}
+  // eslint-disable-next-line
+  }, [dom]);
+};
