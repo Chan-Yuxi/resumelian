@@ -1,4 +1,4 @@
-import type { UserState } from "@/@type/entry";
+import type { UserState } from "@/@type";
 import type { PayloadAction as P } from "@reduxjs/toolkit";
 
 import { createSlice } from "@reduxjs/toolkit";

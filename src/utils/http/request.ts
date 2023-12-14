@@ -1,39 +1,42 @@
-import type { Method, AxiosInstance, AxiosRequestConfig } from "axios";
+import type {
+  CreateAxiosDefaults,
+  AxiosInstance,
+  AxiosRequestConfig,
+} from "axios";
+import type { Result } from "@/@type";
+import type { Nullable } from "@/@type/toolkit";
+
 import axios from "axios";
+import nprogress from "nprogress";
 
-import { requestBefore, responseSuccess, responseFailure } from "./optimized";
-
-export interface RequestConfig {
-  // 请求方法
-  method: Method;
-  // 请求网址
-  url: string;
-  // 请求数据
-  data?: unknown;
-  // 请求参数
-  params?: unknown;
-  // 基本地址
-  baseURL?: string;
-}
+import {
+  Code,
+  requestBefore,
+  responseSuccess,
+  responseFailure,
+} from "./optimized";
 
 export default class Request {
   private instance: AxiosInstance;
 
-  constructor(config: AxiosRequestConfig) {
+  constructor(config: CreateAxiosDefaults) {
     this.instance = axios.create(config);
     this.instance.interceptors.request.use(requestBefore);
   }
 
-  request<T>(config: RequestConfig): Promise<T | undefined> {
+  request<T>(config: AxiosRequestConfig): Promise<Nullable<T>> {
+    nprogress.start();
+
     return new Promise((resolve, reject) => {
       this.instance
-        .request<T>(config)
+        .request<Result<T>>(config)
         .then((response) => {
           if (responseSuccess) {
-            const result = responseSuccess(response);
-            result === "error" ? resolve(undefined) : resolve(result);
+            const result = responseSuccess<T>(response);
+            result === Code.OtherInvalid ? resolve(null) : resolve(result);
             return;
           }
+
           reject("missing response processor");
         })
         .catch((e) => {
@@ -42,6 +45,9 @@ export default class Request {
             return;
           }
           reject(e);
+        })
+        .finally(() => {
+          nprogress.done();
         });
     });
   }

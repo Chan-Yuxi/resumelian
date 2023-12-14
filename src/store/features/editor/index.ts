@@ -1,13 +1,10 @@
 import type { PayloadAction as P } from "@reduxjs/toolkit";
+import type { EditorState } from "@/@type";
 
 import { createSlice } from "@reduxjs/toolkit";
 
-type EditorState = {
-  value: string;
-};
-
 const initialState: EditorState = {
-  value: "你好你好",
+  value: "",
 };
 
 const editorSlice = createSlice({
