@@ -19,7 +19,7 @@ import { createWorker, generateCustomStyle } from "@/utils";
 import { createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
 import { exportPage2PDF as toExport } from "@/utils/page-export";
-import { saveResume } from "@/api/resume";
+import { createResume } from "@/api/resume";
 
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
@@ -99,7 +99,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   );
 
   const doSave = () => {
-    saveResume(value, username).then((response) => {
+    createResume(value, username).then((response) => {
       if (response) {
         message.success(t("rm.save_success"));
       }

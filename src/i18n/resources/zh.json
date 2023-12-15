@@ -2,6 +2,7 @@
   "lg.top_text": "扫码关注公众号，发送关键字，获取专属验证码",
   "lg.tip": "请扫描上方二维码，更多精彩等你来...",
   "lg.img_alt": "获取公众号二维码失败，请稍后再试...",
+  "lg.login_success": "登录成功",
   "lg.placeholder": "请输入验证码",
   "lg.login/register": "登录 / 注册",
 

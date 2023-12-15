@@ -1,6 +1,6 @@
 import http from "@/utils/http";
 
-export const saveResume = (value: string, userId: string) => {
+export const createResume = (value: string, userId: string) => {
   return http.request({
     url: `/home/addresume?userId=${userId}`,
     method: "post",
@@ -11,4 +11,12 @@ export const saveResume = (value: string, userId: string) => {
       resumeTheme: "xx",
     },
   });
+};
+
+export const getResume = () => {
+  // TODO
+};
+
+export const saveResume = () => {
+  // TODO
 };

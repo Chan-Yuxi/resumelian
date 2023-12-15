@@ -12,3 +12,8 @@ export interface Result<T> {
   data: T;
   message: string;
 }
+
+export interface LoginResponse {
+  userId: string;
+  token: string;
+}

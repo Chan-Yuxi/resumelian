@@ -1,5 +1,6 @@
 import { useRoutes, Navigate } from "react-router-dom";
 
+import Upload from "@/pages/_Upload";
 import NotFound from "@/pages/404NotFound";
 import CareerCounselor from "@/pages/CareerCounselor";
 import Home from "@/pages/Home";
@@ -48,6 +49,10 @@ const routes = [
     element: <TemplateCenter />,
   },
   {
+    path: "/_upload",
+    element: <Upload />,
+  },
+  {
     path: "/404",
     element: <NotFound />,
   },
@@ -56,6 +61,7 @@ const routes = [
     element: <Navigate to="/404" replace />,
   },
 ];
+1;
 
 const Router = () => {
   return useRoutes(routes);

@@ -49,17 +49,13 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
     if (code && ticket) {
       login(ticket, code as string).then((data) => {
         if (data) {
-          if (data.success && data.data === 1) {
-            setUsername(data.userName);
-            setToken(data.token);
-            setItem("token", data.token);
-            
-            navigate("/home", { replace: true });
-
-            messageApi.success(data.msg);
-          } else {
-            messageApi.warning(data.msg);
-          }
+          const { userId, token } = data;
+          setUsername(userId);
+          setToken(token);
+          setItem("token", data.token);
+          
+          navigate("/home", { replace: true });
+          messageApi.success(t("lg.login_success"));
         }
       });
     }
