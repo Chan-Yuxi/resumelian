@@ -153,7 +153,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           >
             <article className="mt-5 relative w-[825px]">
               <StyleInjection style={style} />
-              <Avatar />
+              <Avatar enable={avatar} />
 
               <Wrapper loading={loading}>
                 <div id="preview" ref={preview}></div>

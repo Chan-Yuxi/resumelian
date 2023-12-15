@@ -51,7 +51,7 @@ const ToolkitBar: React.FC<P> = (props) => {
     <div className="flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
       <Space size={32}>
         <Label text={t("rm.generate_avatar")}>
-          <Switch value={enableAvatar} onChange={onEnableAvatarChange} />
+          <Switch size="small" value={enableAvatar} onChange={onEnableAvatarChange} />
         </Label>
         <Label text={t("rm.theme")}>
           <Space size={6}>
