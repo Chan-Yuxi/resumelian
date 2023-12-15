@@ -13,7 +13,7 @@ export async function exportPage2PDF(
   if (pages) {
     let i = 1;
     for (const page of pages) {
-      const canvas = await html2canvas(page as HTMLElement, { scale: 4 });
+      const canvas = await html2canvas(page as HTMLElement, { scale: 3 });
       const img = canvas.toDataURL("image/png");
 
       pdf.addImage(

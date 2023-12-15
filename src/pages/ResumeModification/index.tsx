@@ -107,7 +107,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   };
 
   const doExport = () => {
-    toExport(".page", `${username}-resume.pdf`)
+    toExport(`${username}-resume.pdf`)
       .then(() => messageApi.success(t("rm.export_success")))
       .catch((error: string) => messageApi.error(error));
   };

@@ -60,6 +60,7 @@ const Avatar: React.FC<P> = ({ enable }) => {
       style={{ display: enable ? "block" : "none" }}
       src={defaultAvatar}
       ref={avatar}
+      id="resume-avatar"
       className="absolute w-[115px] border border-2 border-solid border-white bg-slate-500 shadow"
     ></img>
   );

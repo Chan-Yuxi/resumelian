@@ -15,6 +15,7 @@ const END = "<p>:::</p>";
  */
 export function render(preview: HTMLElement, htmlString: string) {
   if (preview) {
+    const resumeAvatar = document.getElementById("resume-avatar");
     preview.innerHTML = "";
     // 新建解析器
     const resolver = new Resolver(deriveChildren(htmlString));
@@ -44,6 +45,9 @@ export function render(preview: HTMLElement, htmlString: string) {
 
     let page = newPage();
     let node: Element | null;
+
+    // 移动头像到该节点
+    resumeAvatar && page.appendChild(resumeAvatar);
 
     while ((node = resolver.next()) !== null) {
       // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
