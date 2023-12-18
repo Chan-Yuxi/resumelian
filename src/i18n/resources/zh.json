@@ -10,6 +10,8 @@
   "rm.theme": "主题色",
   "rm.font": "字体",
   "rm.help": "帮助",
+  "rm.empty_content": "您的简历内容为空，无法保存",
+  "rm.fail_to_save_resume": "保存失败",
   "rm.save_success": "保存成功",
   "rm.save": "保存",
   "rm.export_success": "简历导出成功",

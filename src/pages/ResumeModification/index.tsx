@@ -19,7 +19,7 @@ import { createWorker, generateCustomStyle } from "@/utils";
 import { createVditor } from "@/utils/vditor";
 import { render } from "@/utils/render";
 import { exportPage2PDF as toExport } from "@/utils/page-export";
-import { createResume } from "@/api/resume";
+import { createResume, getResume, modifyResume } from "@/api/resume";
 
 import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
@@ -57,7 +57,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const [style, setStyle] = useState("");
 
   const [editor, setEditor] = useState<Nullable<VditorInstance>>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   const vditorContainer = useRef<D>(null);
   const preview = useRef<D>(null);
@@ -85,25 +85,50 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     );
   }, [colors, family]);
 
-  const requestResume = useCallback(
-    async () =>
-      /*(resumeId ? await getResume(resumeId) : "") */ await Promise.resolve(
-        resumeId
-      ),
-    [resumeId]
-  );
+  const requestResume = useCallback(async () => {
+    if (resumeId) {
+      editor?.setValue("");
+      const resume = await getResume(username, resumeId);
+
+      return resume ? resume.resumeText : "";
+    } else {
+      return "";
+    }
+  }, [editor, resumeId, username]);
 
   const requestTheme = useCallback(
     async () => await Promise.resolve(themeId),
     [themeId]
   );
 
+  const [bindResumeId, setBindResumeId] = useState(resumeId);
   const doSave = () => {
-    createResume(value, username).then((response) => {
-      if (response) {
-        message.success(t("rm.save_success"));
-      }
-    });
+    const markdown = editor?.getValue();
+
+    if (!markdown || markdown === "\n") {
+      message.warning(t("rm.empty_content"));
+      return;
+    }
+
+    if (bindResumeId === undefined) {
+      createResume(username, markdown, "temp:theme-id").then(
+        (createdResume) => {
+          if (!createdResume) {
+            message.error(t("rm.fail_to_save_resume"));
+          } else {
+            // Show Model to setup a name
+            message.success(t("rm.save_success"));
+            setBindResumeId(createdResume.id);
+          }
+        }
+      );
+    } else {
+      modifyResume(username, markdown, bindResumeId).then((response) => {
+        response
+          ? message.success(t("rm.save_success"))
+          : message.error(t("rm.fail_to_save_resume"));
+      });
+    }
   };
 
   const doExport = () => {
@@ -116,10 +141,11 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     if (!editor) return;
     const canceller = createWorker(() => setValue(editor.getHTML()));
 
-    setLoading(true);
     editor.disabled();
     Promise.all([requestResume(), requestTheme()])
-      .then((data) => data[0] && editor.setValue(data[0]))
+      .then((data) => {
+        data[0] && editor.setValue(data[0]);
+      })
       .finally(() => {
         setLoading(false);
         editor.enable();

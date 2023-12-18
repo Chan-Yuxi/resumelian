@@ -17,3 +17,13 @@ export interface LoginResponse {
   userId: string;
   token: string;
 }
+
+export interface ResumeResponse {
+  id: string;
+  userId: string;
+  resumeName: string;
+  resumeText: string;
+  createTime: string;
+  modifyTime: string;
+  resumeTheme: string;
+}
