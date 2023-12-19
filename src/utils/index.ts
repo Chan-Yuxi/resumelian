@@ -44,7 +44,6 @@ export function generateCustomStyle(
   `;
 }
 
-
 /**
  * This will replace the setInterval function to make the update frequency of the screen smoother.
  *
@@ -61,4 +60,8 @@ export function createWorker(task: () => void) {
   return () => {
     cancel = true;
   };
+}
+
+export function isEmpty(str: string | undefined | null): str is undefined {
+  return str === null || str === undefined || str === "" || str === "\n";
 }

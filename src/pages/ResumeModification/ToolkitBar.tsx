@@ -16,6 +16,7 @@ type P = {
   onColorsChange: (colors: string[]) => void;
   onFamilyChange: (family: string) => void;
   onSave: () => void;
+  saveLoading: boolean;
   onExport: () => void;
 };
 
@@ -36,6 +37,7 @@ const ToolkitBar: React.FC<P> = (props) => {
     onColorsChange,
     onFamilyChange,
     onSave,
+    saveLoading,
     onExport,
   } = props;
 
@@ -51,7 +53,11 @@ const ToolkitBar: React.FC<P> = (props) => {
     <div className="flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
       <Space size={32}>
         <Label text={t("rm.generate_avatar")}>
-          <Switch size="small" value={enableAvatar} onChange={onEnableAvatarChange} />
+          <Switch
+            size="small"
+            value={enableAvatar}
+            onChange={onEnableAvatarChange}
+          />
         </Label>
         <Label text={t("rm.theme")}>
           <Space size={6}>
@@ -96,6 +102,7 @@ const ToolkitBar: React.FC<P> = (props) => {
           type="primary"
           ghost
           onClick={onSave}
+          loading={saveLoading}
         >
           {t("rm.save")}
         </Button>

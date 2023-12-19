@@ -52,7 +52,8 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
           const { userId, token } = data;
           setUsername(userId);
           setToken(token);
-          setItem("token", data.token);
+          setItem("token", token);
+          setItem("username", userId);
           
           navigate("/home", { replace: true });
           messageApi.success(t("lg.login_success"));
