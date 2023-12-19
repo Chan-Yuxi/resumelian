@@ -10,6 +10,7 @@ import { nanoid } from "@reduxjs/toolkit";
 export const createResume = (value: string, theme: string) => {
   const id = nanoid();
   const username = getItem("username");
+
   if (!username) {
     return Promise.resolve(null);
   }

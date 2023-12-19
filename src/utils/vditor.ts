@@ -1544,6 +1544,7 @@ export function createVditor(
 ) {
   const vditor = new Vditor(element, {
     minHeight: 800,
+    width: "535px",
     height: "100%",
     tab: "\t",
     value: "",
