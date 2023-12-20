@@ -5,7 +5,6 @@ import React from "react";
 import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
-
 import { Menu, Layout, Button } from "antd";
 
 import items from "@/config/menu-items.json";
@@ -36,7 +35,7 @@ const Header: React.FC<P> = ({ username, token }) => {
   );
 
   return (
-    <Layout.Header className="flex items-center">
+    <Layout.Header className="flex items-center overflow-scroll">
       {Logo}
       <Menu
         className="ms-auto mx-8"

@@ -10,7 +10,7 @@ const App = () => {
       <Layout>
         <Header />
         <Layout.Content>
-          <div style={{ height: "calc(100vh - 64px)", minHeight: "900px" }}>
+          <div style={{ minHeight: "calc(100vh - 64px)" }}>
             <Router />
           </div>
         </Layout.Content>

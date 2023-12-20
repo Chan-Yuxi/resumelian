@@ -6,6 +6,11 @@
   "lg.placeholder": "请输入验证码",
   "lg.login/register": "登录 / 注册",
 
+  "pc.yuan/month":"元/月",
+  "pc.purchase_upgrade":"购买升级",
+  "pc.membership_privileges":"会员特权",
+  "pc.more_discounts":"更多优惠...",
+
   "rm.generate_avatar": "生成头像",
   "rm.theme": "主题色",
   "rm.font": "字体",

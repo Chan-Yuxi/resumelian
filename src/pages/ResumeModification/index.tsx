@@ -140,7 +140,6 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       return;
     }
     const canceller = createWorker(() => setValue(editor.getHTML()));
-    setPreviewLoading(true);
     editor.disabled();
 
     Promise.all([requestResume(), requestTheme()])
@@ -157,7 +156,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [editor, requestResume, requestTheme]);
 
   return (
-    <main className="flex items-stretch h-full">
+    <main className="flex items-stretch">
       <aside className="basis-[535px]">
         <div className="rounded-none" ref={context} />
       </aside>
@@ -175,10 +174,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           onExport={doExport}
         />
 
-        <div
-          className="flex justify-center overflow-scroll bg-gray-200"
-          style={{ height: "calc(100% - 37px)" }}
-        >
+        <div className="flex justify-center bg-gray-200">
           <article className="mt-5 relative w-[825px]">
             <StyleInjection style={style} />
             <Avatar enable={avatar} />
