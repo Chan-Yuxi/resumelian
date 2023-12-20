@@ -2,13 +2,11 @@ import type { ResumeResponse } from "@/@type";
 
 import http from "@/utils/http";
 import { getItem } from "@/utils/storage";
-import { nanoid } from "@reduxjs/toolkit";
 
 /**
  * 创建简历的接口
  */
-export const createResume = (value: string, theme: string) => {
-  const id = nanoid();
+export const createResume = (value: string, name: string, theme: string) => {
   const username = getItem("username");
 
   if (!username) {
@@ -21,7 +19,7 @@ export const createResume = (value: string, theme: string) => {
     data: {
       userId: username,
       resumeText: value,
-      resumeName: `template-${id}`,
+      resumeName: name,
       resumeTheme: theme,
     },
   });

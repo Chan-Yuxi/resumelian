@@ -25,6 +25,7 @@ import ToolkitBar from "./ToolkitBar";
 import StyleInjection from "./StyleInjection";
 import Avatar from "./Avatar";
 import PreviewSkeleton from "./PreviewSkeleton";
+import AskName from "./AskName";
 
 import DefaultStyleConfig from "@/config/preview-theme-default.json";
 
@@ -65,11 +66,12 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const [family, setFamily] = useState("Arial");
 
   useEffect(() => {
-    setStyle(
-      generateCustomStyle(colors, family).concat(DefaultStyleConfig.style)
-    );
+    setStyle(generateCustomStyle(colors, family));
   }, [colors, family]);
 
+  /** SAVE_RESUME **/
+
+  const [open, setOpen] = useState(false);
   const [bindRid, setBindRid] = useState(rid);
   const [saveLoading, setSaveLoading] = useState(false);
 
@@ -82,27 +84,34 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     }
 
     if (bindRid === undefined) {
-      createResume(markdown, "temp:theme-id")
-        .then((createdResume) => {
-          if (!createdResume) {
-            error(t("rm.save_failure"));
-          } else {
-            // Show Model to setup a name
-            success(t("rm.save_success"));
-            setBindRid(createdResume.id);
-          }
-        })
-        .finally(() => setSaveLoading(false));
+      setOpen(true);
     } else {
+      setSaveLoading(true);
       modifyResume(markdown, bindRid)
-        .then((response) => {
-          response
-            ? success(t("rm.save_success"))
-            : error(t("rm.save_failure"));
-        })
+        .then((response) =>
+          response ? success(t("rm.save_success")) : error(t("rm.save_failure"))
+        )
         .finally(() => setSaveLoading(false));
     }
   };
+
+  const handleAskNameDone = (name: string) => {
+    const markdown = editor?.getValue();
+    setOpen(false);
+    setSaveLoading(true);
+
+    createResume(markdown!, name, "1")
+      .then((resume) => {
+        if (!resume) error(t("rm.save_failure"));
+        else {
+          setBindRid(resume.id);
+          success(t("rm.save_success"));
+        }
+      })
+      .finally(() => setSaveLoading(false));
+  };
+
+  /** EXPORT_RESUME **/
 
   const doExport = () => {
     exportPage2PDF(`${username}-resume.pdf`)
@@ -173,12 +182,15 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           <article className="mt-5 relative w-[825px]">
             <StyleInjection style={style} />
             <Avatar enable={avatar} />
+
             <PreviewSkeleton loading={previewLoading}>
               <div ref={preview} id="preview" className="preview" />
             </PreviewSkeleton>
           </article>
         </div>
       </aside>
+
+      <AskName open={open} setOpen={setOpen} onOk={handleAskNameDone} />
     </main>
   );
 };
