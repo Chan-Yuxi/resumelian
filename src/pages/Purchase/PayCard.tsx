@@ -18,7 +18,7 @@ const PayCard: React.FC<P> = ({ name, price, descriptions }) => {
       <div className="flex flex-col gap-3 items-center">
         <span className="text-white text-2xl tracking-widest">{name}</span>
         <div className="text-white tracking-widest">
-          <span>¥</span>
+          <span>¥&nbsp;</span>
           <span className="text-5xl font-bold drop-shadow text-yellow-300">
             {price}
           </span>

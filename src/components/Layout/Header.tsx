@@ -31,7 +31,17 @@ const Header: React.FC<P> = ({ username, token }) => {
   };
 
   const Logo = (
-    <div className="text-white text-xl font-bold me-8">Resumelian</div>
+    <div className="flex items-center">
+      <img
+        className="me-4"
+        style={{ width: "40px", height: "40px" }}
+        src="/logo.png"
+        alt="logo"
+      />
+      <span className="hidden sm:block text-white text-xl font-bold me-8">
+        Resumelian
+      </span>
+    </div>
   );
 
   return (
