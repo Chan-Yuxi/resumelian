@@ -21,6 +21,7 @@ const UserProfile: React.FC<P> = ({ token }) => {
         <div>User Information</div>
       ) : (
         <Button
+          className="rounded-none"
           type="primary"
           ghost
           onClick={() => navigate("/login", { replace: true })}

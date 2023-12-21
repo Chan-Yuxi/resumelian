@@ -156,12 +156,15 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [editor, requestResume, requestTheme]);
 
   return (
-    <main className="flex items-stretch">
+    <main
+      className="flex items-stretch"
+      style={{ minHeight: "calc(100vh - 64px)" }}
+    >
       <aside className="basis-[535px]">
         <div className="rounded-none" ref={context} />
       </aside>
 
-      <aside className="grow">
+      <aside className="grow flex flex-col">
         <ToolkitBar
           enableAvatar={avatar}
           onEnableAvatarChange={setAvatar}
@@ -174,7 +177,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           onExport={doExport}
         />
 
-        <div className="flex justify-center bg-gray-200">
+        <div className="grow flex justify-center bg-gray-200">
           <article className="mt-5 relative w-[825px]">
             <StyleInjection style={style} />
             <Avatar enable={avatar} />
