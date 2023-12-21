@@ -14,8 +14,8 @@ const JobTemplateCard: React.FC<P> = ({ picture, text }) => {
     >
       <figcaption className="absolute w-full bottom-0 p-4 text-center">
         <Button
-          type="primary"
           className="rounded-full border-0 text-white px-12"
+          type="primary"
         >
           {text}
         </Button>

@@ -1,22 +1,12 @@
 import type { MenuProps } from "antd";
-import type { RootState } from "@/store";
 
-import React from "react";
-import { connect } from "react-redux";
-import { useTranslation } from "react-i18next";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Menu, Layout, Button } from "antd";
+import { Menu, Layout } from "antd";
 
+import UserProfile from "./UserProfile";
 import items from "@/config/menu-items.json";
 
-type P = {
-  username: string;
-  token: string;
-};
-
-const Header: React.FC<P> = ({ username, token }) => {
-  const { t } = useTranslation();
-
+const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -26,51 +16,26 @@ const Header: React.FC<P> = ({ username, token }) => {
     });
   };
 
-  const toLoginPage = () => {
-    navigate("/login");
-  };
-
-  const Logo = (
-    <div className="flex items-center">
-      <img
-        className="me-4"
-        style={{ width: "40px", height: "40px" }}
-        src="/logo.png"
-        alt="logo"
-      />
-      <span className="hidden sm:block text-white text-xl font-bold me-8">
-        Resumelian
-      </span>
-    </div>
-  );
-
   return (
-    <Layout.Header className="flex items-center overflow-scroll">
-      {Logo}
-      <Menu
-        className="ms-auto mx-8"
-        theme="dark"
-        mode="horizontal"
-        items={items}
-        selectedKeys={[location.pathname]}
-        onClick={doNavigate}
-      />
-      {token ? (
-        <span className="text-white">{username}</span>
-      ) : (
-        <Button type="primary" onClick={toLoginPage} ghost>
-          {t("lg.login/register")}
-        </Button>
-      )}
+    <Layout.Header className="flex items-center px-6 md:px-9">
+      <div className="flex items-center me-auto">
+        <span className="text-white text-xl font-bold">Resumelian</span>
+      </div>
+
+      <div className="w-[46px] md:w-[588px]">
+        <Menu
+          theme="dark"
+          mode="horizontal"
+          items={items}
+          selectedKeys={[location.pathname]}
+          onClick={doNavigate}
+        />
+      </div>
+      <div className="md:me-0 md:ms-6">
+        <UserProfile />
+      </div>
     </Layout.Header>
   );
 };
 
-const mapStateToProps = (state: RootState) => {
-  return {
-    username: state.user.username,
-    token: state.user.token,
-  };
-};
-
-export default connect(mapStateToProps)(Header);
+export default Header;

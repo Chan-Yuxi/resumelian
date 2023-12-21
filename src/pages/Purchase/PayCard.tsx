@@ -14,7 +14,7 @@ const PayCard: React.FC<P> = ({ name, price, descriptions }) => {
   const { t } = useTranslation();
 
   return (
-    <Card className="mx-4 sm:m-0 w-full sm:w-[300px] rounded-lg shadow border-0 bg-gradient-to-br from-sky-500 to-indigo-500">
+    <Card className="mx-6 sm:m-0 w-full sm:w-[300px] rounded-lg shadow border-0 bg-gradient-to-br from-sky-500 to-indigo-500">
       <div className="flex flex-col gap-3 items-center">
         <span className="text-white text-2xl tracking-widest">{name}</span>
         <div className="text-white tracking-widest">

@@ -2,9 +2,9 @@ import { Layout, Divider } from "antd";
 
 const Footer = () => {
   return (
-    <Layout.Footer className="bg-slate-800 px-8 py-16 sm:px-60 sm:py-28 text-white">
+    <Layout.Footer className="bg-slate-800 px-8 py-16 md:px-60 md:py-28 text-white">
       <div>
-        <div className="sm:flex sm:justify-evenly">
+        <div className="md:flex md:justify-evenly">
           <div className="flex">
             <img
               className="me-4"
@@ -18,7 +18,7 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-xl font-bold my-8 sm:mt-0 sm:mb-4">公司</h3>
+            <h3 className="text-xl font-bold my-8 md:mt-0 md:mb-4">公司</h3>
             <div className="flex flex-col gap-2">
               <a className="text-white" href="#">
                 关于我们
@@ -36,7 +36,7 @@ const Footer = () => {
           </div>
 
           <div className="mb-8">
-            <h3 className="text-xl font-bold my-8 sm:mt-0 sm:mb-4">产品</h3>
+            <h3 className="text-xl font-bold my-8 md:mt-0 md:mb-4">产品</h3>
             <div className="flex flex-col gap-2">
               <a className="text-white" href="#">
                 简历制作
@@ -72,7 +72,7 @@ const Footer = () => {
           </div>
         </div>
         <Divider className="bg-slate-200/50" />
-        <div className="text-left sm:text-center my-8">
+        <div className="text-left md:text-center my-8">
           <span className="text-stone-300/40">
             证经学社网&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;高霖海拓科技有限公司版权所有粤&nbsp;ICP&nbsp;备&nbsp;12505136&nbsp;号-24
           </span>

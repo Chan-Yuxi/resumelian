@@ -1,7 +1,7 @@
 {
   "components": {
     "Layout": {
-      "headerPadding": "0 35px"
+      "headerPadding": "0"
     }
   },
   "token": {
