@@ -1547,7 +1547,6 @@ export function createVditor(
     width: "535px",
     height: "100%",
     tab: "\t",
-    value: "",
     theme: "classic",
     mode: "ir",
     placeholder: "在此编辑您的简历...",

@@ -1,0 +1,53 @@
+{
+  "tips": ["/home_a.png", "/home_c.png", "/home_p.png", "/home_d.png"],
+  "jobs": [
+    {
+      "picture": "/home_picture/fresh_graduates.png",
+      "text": "应届生"
+    },
+    {
+      "picture": "/home_picture/web_front.png",
+      "text": "Web前端"
+    },
+    {
+      "picture": "/home_picture/product_planning.png",
+      "text": "产品策划"
+    },
+    {
+      "picture": "/home_picture/account_manager.png",
+      "text": "客户经理"
+    },
+    {
+      "picture": "/home_picture/operate.png",
+      "text": "运营"
+    },
+    {
+      "picture": "/home_picture/sale.png",
+      "text": "销售"
+    },
+    {
+      "picture": "/home_picture/developer_testing.png",
+      "text": "开发测试"
+    },
+    {
+      "picture": "/home_picture/finance.png",
+      "text": "财务"
+    },
+    {
+      "picture": "/home_picture/teacher.png",
+      "text": "教师"
+    },
+    {
+      "picture": "/home_picture/doctor.png",
+      "text": "医生"
+    },
+    {
+      "picture": "/home_picture/nurse.png",
+      "text": "护士"
+    },
+    {
+      "picture": "/home_picture/human_resources.png",
+      "text": "人力资源"
+    }
+  ]
+}

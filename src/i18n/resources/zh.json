@@ -6,10 +6,17 @@
   "lg.placeholder": "请输入验证码",
   "lg.login/register": "登录 / 注册",
 
-  "pc.yuan/month":"元/月",
-  "pc.purchase_upgrade":"购买升级",
-  "pc.membership_privileges":"会员特权",
-  "pc.more_discounts":"更多优惠...",
+  "home.title": "在线 Markdown 简历制作工具",
+  "home.description": "以最简单的方式来写好简历，只需专注内容本身而无需关注排版",
+  "home.subtitle": "简历模板推荐",
+  "home.sub_description": "一份内容，多种主题选择，各类样式排版尽收眼底",
+  "home.more_template": "更多模板",
+  "home.service_advantages": "服务优势",
+
+  "pc.yuan/month": "元/月",
+  "pc.purchase_upgrade": "购买升级",
+  "pc.membership_privileges": "会员特权",
+  "pc.more_discounts": "更多优惠...",
 
   "rm.generate_avatar": "生成头像",
   "rm.theme": "主题色",

@@ -58,22 +58,22 @@ const Footer = () => {
 
           <div className="flex flex-col gap-2">
             <div>
-              <span className="text-slate-400">电子联系邮箱：</span>
+              <span className="text-zinc-300">电子联系邮箱：</span>
               <span>123456@qq.com</span>
             </div>
             <div>
-              <span className="text-slate-400">商务广告合作：</span>
+              <span className="text-zinc-300">商务广告合作：</span>
               <span>123456@qq.com</span>
             </div>
             <div>
-              <span className="text-slate-400">客服在线时间：</span>
+              <span className="text-zinc-300">客服在线时间：</span>
               <span>08:30-12:00 13:30-17:30</span>
             </div>
           </div>
         </div>
         <Divider className="bg-slate-200/50" />
         <div className="text-left sm:text-center my-8">
-          <span className="text-stone-300">
+          <span className="text-stone-300/40">
             证经学社网&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;高霖海拓科技有限公司版权所有粤&nbsp;ICP&nbsp;备&nbsp;12505136&nbsp;号-24
           </span>
         </div>

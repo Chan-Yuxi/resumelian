@@ -13,7 +13,7 @@ const Purchase = () => {
     <main>
       <div
         className="py-8 sm:py-0 mb-6 sm:mb-60"
-        style={{ backgroundImage: "url(/purchase_index_background.png)" }}
+        style={{ backgroundImage: "url(/index_background.png)" }}
       >
         <div className="text-center">
           <section className="inline-flex flex-wrap gap-4 sm:gap-12 justify-center sm:p-12 sm:bg-zinc-50 shadow-lg rounded-lg sm:translate-y-1/4">
