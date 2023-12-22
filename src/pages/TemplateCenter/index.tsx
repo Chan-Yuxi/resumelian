@@ -1,8 +1,14 @@
+import TemplateCard from "@/components/TemplateCard";
+
 const TemplateCenter = () => {
   return (
-    <div>
-      <h1>模板中心</h1>
-    </div>
+    <main>
+      <div className="m-32">
+        <TemplateCard
+          theme={{ id: "1", name: "xxx", content: "xxx", pic: "xx" }}
+        ></TemplateCard>
+      </div>
+    </main>
   );
 };
 

@@ -7,6 +7,13 @@ export interface EditorState {
   value: string;
 }
 
+export interface Theme {
+  id: string;
+  name: string;
+  content: string;
+  pic: string;
+}
+
 export interface Result<T> {
   code: number;
   data: T;

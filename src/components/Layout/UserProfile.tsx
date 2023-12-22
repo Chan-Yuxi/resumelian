@@ -18,7 +18,7 @@ const UserProfile: React.FC<P> = ({ token }) => {
   return (
     <div>
       {token ? (
-        <div>User Information</div>
+        <div className="text-white">Already Login...</div>
       ) : (
         <Button
           className="rounded-none"

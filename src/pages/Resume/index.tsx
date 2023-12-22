@@ -1,9 +1,5 @@
 const Resume = () => {
-  return (
-    <div>
-      <h1>我的简历</h1>
-    </div>
-  );
+  return <main style={{ minHeight: "calc(100vh) - 64px" }}></main>;
 };
 
 export default Resume;

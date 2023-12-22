@@ -6,5 +6,10 @@
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true
   },
-  "include": ["vite.config.ts"]
+  "include": [
+    ".eslintrc.cjs",
+    "vite.config.ts",
+    "tailwind.config.js",
+    "postcss.config.js"
+  ]
 }
