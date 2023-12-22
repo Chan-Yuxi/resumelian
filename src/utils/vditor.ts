@@ -1546,6 +1546,7 @@ export function createVditor(
     minHeight: 800,
     width: "535px",
     height: "100%",
+    value: "",
     tab: "\t",
     theme: "classic",
     mode: "ir",
@@ -1562,8 +1563,7 @@ export function createVditor(
       enable: false,
     },
     cache: {
-      enable: true,
-      id: "vditor_cache",
+      enable: false,
     },
     after: () => {
       callback?.(vditor);

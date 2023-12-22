@@ -1,4 +1,4 @@
-import type { ResumeResponse } from "@/@type";
+import type { ResumeResponse } from "@/@type/definition";
 
 import http from "@/utils/http";
 import { getItem } from "@/utils/storage";

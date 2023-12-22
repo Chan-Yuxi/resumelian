@@ -1,38 +1,43 @@
-import { Theme } from "@/@type";
+import type { Template } from "@/@type/definition";
+
 import React from "react";
-import { Button } from "antd";
-import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { Button } from "antd";
 
 type P = {
-  theme: Theme;
+  template: Template;
 };
 
-const TemplateCard: React.FC<P> = ({ theme }) => {
+const TemplateCard: React.FC<P> = ({ template }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { id, name, pic } = theme;
-
-  const goResumeModification = () => {
-    navigate(`/resume-modification/${id}`);
-  };
+  const { id, name, pic: picture } = template;
+  const goResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
-    <div className="w-[200px] aspect-a4 inline-flex flex-col p-2 shadow">
-      <div className="grow bg-red-300">
-        <div className="h-full flex justify-center items-center [--show-btn:none] hover:[--show-btn:block]">
+    <div className="inline-flex flex-col p-2 bg-white shadow">
+      <figure
+        className="w-[188px] aspect-a4 bg-cover shadow-inner"
+        style={{
+          backgroundImage: `url(https://jianlizhizuo.cn/home/getrusumethemepic2?id=${picture})`,
+        }}
+      >
+        <figcaption className="h-full flex justify-center items-center">
           <Button
+            className="rounded-none"
             type="primary"
             ghost
-            className="rounded-none [display:--show-btn]"
+            onClick={goResumeModification}
           >
-            使用模板
+            {t("tc.use_this_template")}
           </Button>
-        </div>
-      </div>
-      <div className="mt-2 ">
-        <h5>XX Template</h5>
+        </figcaption>
+      </figure>
+
+      <div className="mt-2">
+        <h5>{name}</h5>
       </div>
     </div>
   );

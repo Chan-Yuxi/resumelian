@@ -27,24 +27,46 @@ import Avatar from "./Avatar";
 import PreviewSkeleton from "./PreviewSkeleton";
 import AskName from "./AskName";
 
-import DefaultStyleConfig from "@/config/preview-theme-default.json";
+import { getTemplate } from "@/api/template";
+import { Template, Theme } from "@/@type/definition";
 
+type T = Theme;
 type D = HTMLDivElement;
 type E = Nullable<VditorInstance>;
 type P = {
   username: string;
 };
 
+/**
+ *
+ *
+ * getDeriveTheme(customTheme, theme) => {colors, style, family, getter, enableAvatar, avatarPosition}: derivedTheme;
+ *
+ * initialThemeMapToState(derivedTheme) => void;
+ *
+ * save(value, derivedTheme) => void
+ *
+ *
+ */
+
+/**
+ * 如果没有模板 ID，从 LocalStorage 中取得
+ * 如果有模板 ID 没有简历 ID，从模板 template-resume 中取值
+ * 如果有简历 ID，从服务器取值
+ *
+ *
+ */
+
 const ResumeModification: React.FC<P> = ({ username }) => {
-  const { t } = useTranslation();
   const {
     message: { success, error, warning },
   } = App.useApp();
+  const { t } = useTranslation();
 
   const { resumeId: rid, themeId: tid } = useParams();
 
   const [value, setValue] = useState("");
-  const [theme, setTheme] = useState("");
+  const [theme, setTheme] = useState<Theme>();
   const [style, setStyle] = useState("");
 
   const [editor, setEditor] = useState<E>(null);
@@ -53,6 +75,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const context = useRef<D>(null);
   const preview = useRef<D>(null);
 
+  // 初始化编辑器
   useEffect(() => {
     context.current && createVditor(context.current, (v) => setEditor(v));
   }, []);
@@ -61,13 +84,22 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     preview.current && render(preview.current, value);
   }, [value]);
 
-  const [colors, setColors] = useState(DefaultStyleConfig.colors);
-  const [avatar, setAvatar] = useState(false);
+  const [colors, setColors] = useState<string[]>([]);
+  const [avatar, setAvatar] = useState<boolean>(false);
   const [family, setFamily] = useState("Arial");
 
+  /**
+   * 重要，间隔 // useReducer
+   */
+
   useEffect(() => {
-    setStyle(generateCustomStyle(colors, family));
-  }, [colors, family]);
+    console.log(theme);
+    let style = generateCustomStyle(colors, family);
+    if (theme) {
+      style = style.concat(theme.style);
+    }
+    setStyle(style);
+  }, [colors, family, theme]);
 
   /** SAVE_RESUME **/
 
@@ -119,6 +151,33 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       .catch((e: string) => error(e));
   };
 
+  /**
+   *
+   * 从路由获取 {resumeId，themeId} = useParam()
+   *
+   * 挂载完了
+   * 现在有 Vditor 对象
+   *
+   *
+   * 没有主题
+   *     从 localStorage 中取得主题和文本
+   *
+   * 请求模板
+   *     setDisable
+   *     setPreviewLoading
+   *
+   *     得到模板了，现在有了 { colors, family ... }
+   *     如果
+   *
+   *
+   *
+   *
+   *
+   *
+   *
+   */
+
+  // 从服务器（如果存在 Rid）或者从 Redux 或者 localStorage 中取 ?
   const requestResume = useCallback(async () => {
     if (rid) {
       editor?.setValue("");
@@ -126,34 +185,100 @@ const ResumeModification: React.FC<P> = ({ username }) => {
 
       return resume ? resume.resumeText : "";
     } else {
+      // redux or localStorage
       return "";
     }
   }, [editor, rid]);
 
-  const requestTheme = useCallback(
-    async () => await Promise.resolve(tid),
-    [tid]
-  );
-
-  useEffect(() => {
-    if (!editor) {
-      return;
+  const requestTheme = useCallback(async () => {
+    if (tid) {
+      const template = await getTemplate(tid);
+      if (template) {
+        // console.log(template);
+        resolveTemplate(template);
+      }
     }
-    const canceller = createWorker(() => setValue(editor.getHTML()));
-    editor.disabled();
+  }, [tid]);
 
-    Promise.all([requestResume(), requestTheme()])
-      .then((data) => {
-        console.log(data);
-        data[0] && editor.setValue(data[0]);
-      })
-      .finally(() => {
+  function resolveTemplate(template: Template) {
+    const { content } = template;
+    const theme = JSON.parse(content) as Theme;
+  }
+
+  function getDeriveTheme(customTheme: Theme, theme: Theme): Theme {
+    return theme;
+  }
+
+  /**
+   * In general, there are three types of triggering actions for users before they come to the resume editing page
+   * Click on the template on the resume template page to jump to it
+   * Click on my resume page to redirect to my resume
+   * Return from other pages
+   * In the first scenario, the template loading theme should be obtained by requesting the server to load it
+   * In the second scenario, the resume content and custom themes should be obtained and applied in the first scenario
+   * In the third scenario, the last saved content should be loaded
+   */
+  const requestThemeAndValue = useCallback(
+    async (
+      editor: NonNullable<E>
+    ): Promise<{
+      theme: T;
+      value: string;
+    }> => {
+      let theme: T;
+      let value: string;
+
+      theme = {} as T;
+      value = "get from localStorage";
+
+      if (tid) {
+        editor.disabled();
+        const template = await getTemplate(tid);
+        if (template) {
+          // you should try catch here to avoid parse error
+          theme = JSON.parse(template.content) as T;
+          value = template["default"];
+
+          if (rid) {
+            const resume = await getResume(rid);
+            if (resume) {
+              const { resumeText, customTheme } = resume;
+              theme = getDeriveTheme(JSON.parse(customTheme) as Theme, theme);
+              value = resumeText;
+            }
+          }
+        }
         setPreviewLoading(false);
         editor.enable();
-      });
+      } else {
+        setPreviewLoading(false);
+      }
+      return {
+        theme,
+        value,
+      };
+    },
+    [tid, rid]
+  );
 
-    return canceller;
-  }, [editor, requestResume, requestTheme]);
+  function setupTheme(theme: Theme) {
+    if (theme) {
+      setColors(theme.colors || []);
+      // TODO
+      setTheme(theme);
+    }
+  }
+
+  useEffect(() => {
+    if (!editor) return;
+
+    requestThemeAndValue(editor).then(({ theme, value }) => {
+      setupTheme(theme);
+      editor.setValue(value);
+    });
+
+    return createWorker(() => setValue(editor.getHTML()));
+  }, [editor, requestThemeAndValue]);
 
   return (
     <main

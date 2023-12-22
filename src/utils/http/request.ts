@@ -3,7 +3,7 @@ import type {
   AxiosInstance,
   AxiosRequestConfig,
 } from "axios";
-import type { Result } from "@/@type";
+import type { Result } from "@/@type/definition";
 import type { Nullable } from "@/@type/toolkit";
 
 import axios from "axios";

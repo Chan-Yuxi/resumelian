@@ -1,5 +1,5 @@
 import type { InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import type { Result } from "@/@type";
+import type { Result } from "@/@type/definition";
 
 import { getItem } from "@/utils/storage";
 

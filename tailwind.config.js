@@ -5,12 +5,12 @@ export default {
   theme: {
     extend: {
       aspectRatio: {
-        a4: "210 / 297",
+        a4: "210 / 297", // almost in proportion to A4 paper
       },
     },
   },
   plugins: [],
-  // Resolve conflicts with Antd
+  // resolve conflicts with Antd
   corePlugins: {
     preflight: false,
   },
