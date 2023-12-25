@@ -1,4 +1,4 @@
-import type { Template } from "@/@type/definition";
+import type { Template } from "@/type/definition";
 
 import React from "react";
 import { useNavigate } from "react-router-dom";

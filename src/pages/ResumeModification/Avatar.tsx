@@ -1,13 +1,17 @@
-import React, { useRef } from "react";
-import { useEventListener } from "@/hooks";
+import type { Dispatch } from "react";
 
-import defaultAvatar from "@/assets/image/default_avatar.jpg";
+import { useRef } from "react";
+import { useEventListener } from "@/hooks";
+import { updateAvatarPosition } from "./reducer";
 
 type P = {
+  url: string;
   enable: boolean;
+  position: { x: number; y: number };
+  dispatch: Dispatch<{ type: string; payload: unknown }>;
 };
 
-const Avatar: React.FC<P> = ({ enable }) => {
+const Avatar: React.FC<P> = ({ url, enable, position, dispatch }) => {
   const avatar = useRef<HTMLImageElement>(null);
 
   let startMoving = false;
@@ -16,53 +20,56 @@ const Avatar: React.FC<P> = ({ enable }) => {
   let startY = 0;
   let limitX = 0;
   let limitY = 0;
+
   useEventListener(avatar.current, "mousedown", (event) => {
     const target = avatar.current!;
     const e = event as MouseEvent;
     e.preventDefault();
 
     startX = e.clientX - target.offsetLeft;
-    startY = e.clientY - target.offsetTop;
-    limitX = target.offsetParent!.clientWidth - target.offsetWidth;
+    startY = e.clientY -  target.offsetTop;
+    
+    limitX = target.offsetParent!.clientWidth  -  target.offsetWidth;
     limitY = target.offsetParent!.clientHeight - target.offsetHeight;
     startMoving = true;
   });
 
   useEventListener(avatar.current, "mousemove", (event) => {
     if (startMoving) {
-      const target = avatar.current!;
       const e = event as MouseEvent;
       e.preventDefault();
 
-      let newX = e.clientX - startX;
-      let newY = e.clientY - startY;
+      let x = e.clientX - startX;
+      let y = e.clientY - startY;
 
-      if (newX < 0) newX = 0;
-      if (newY < 0) newY = 0;
-      if (newX > limitX) newX = limitX;
-      if (newY > limitY) newY = limitY;
+      if (x < 0) x = 0;
+      if (y < 0) y = 0;
+      if (x > limitX) x = limitX;
+      if (y > limitY) y = limitY;
 
-      target.style.left = `${newX}px`;
-      target.style.top = `${newY}px`;
+      dispatch(updateAvatarPosition({ x, y }));
     }
   });
 
-  useEventListener(avatar.current, "mouseup", () => {
+  function moveDone() {
     startMoving = false;
-  });
+  }
 
-  useEventListener(avatar.current, "mouseout", () => {
-    startMoving = false;
-  });
+  useEventListener(avatar.current,  "mouseup", moveDone);
+  useEventListener(avatar.current, "mouseout", moveDone);
 
   return (
     <img
-      style={{ display: enable ? "block" : "none" }}
-      src={defaultAvatar}
-      ref={avatar}
       id="resume-avatar"
-      className="absolute w-[115px] border border-2 border-solid border-white bg-slate-500 shadow"
-    ></img>
+      style={{
+        display: enable ? "block" : "none",
+        left: `${position.x}px`,
+        top : `${position.y}px`,
+      }}
+      className={`absolute w-[115px] border border-2 border-solid border-white bg-slate-500 shadow`}
+      src={url}
+      ref={avatar}
+    />
   );
 };
 

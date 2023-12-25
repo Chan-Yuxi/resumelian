@@ -26,7 +26,8 @@ export interface Template {
  *
  */
 export interface Theme {
-  style: string;
+  style: string; //
+
   name: string;
   colors: string[];
   enableAvatar: boolean;
@@ -46,13 +47,22 @@ export interface LoginResponse {
   token: string;
 }
 
-export interface ResumeResponse {
+/**
+ *
+ * 保存的时候需要把主题一起保存了！！！！
+ * customTheme
+ *
+ *
+ *
+ */
+
+export interface Resume {
   id: string;
-  userId: string;
+  userId?: string;
   resumeName: string;
   resumeText: string;
-  createTime: string;
-  modifyTime: string;
+  createTime?: string;
+  modifyTime?: string;
   resumeTheme: string;
   customTheme: string;
 }

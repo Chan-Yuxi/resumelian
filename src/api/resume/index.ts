@@ -1,39 +1,40 @@
-import type { ResumeResponse } from "@/@type/definition";
+import type { Resume } from "@/type/definition";
 
 import http from "@/utils/http";
 import { getItem } from "@/utils/storage";
 
 /**
- * 创建简历的接口
+ * 创建简历
+ *
+ * @param resume
+ * @returns
  */
-export const createResume = (value: string, name: string, theme: string) => {
+export const createResume = (resume: Resume) => {
   const username = getItem("username");
-
   if (!username) {
     return Promise.resolve(null);
   }
-
-  return http.request<ResumeResponse>({
+  return http.request<Resume>({
     url: `/home/addresume?userId=${username}`,
     method: "post",
     data: {
+      ...resume,
       userId: username,
-      resumeText: value,
-      resumeName: name,
-      resumeTheme: theme,
     },
   });
 };
 
 /**
  * 获取所有简历的接口
+ *
+ * @returns
  */
 export const getResumeAll = () => {
   const username = getItem("username");
   if (!username) {
     return Promise.resolve(null);
   }
-  return http.request<Array<ResumeResponse>>({
+  return http.request<Array<Resume>>({
     url: `/home/getresume?userId=${username}`,
     method: "get",
   });
@@ -47,7 +48,7 @@ export const getResume = (resumeId: string) => {
   if (!username) {
     return Promise.resolve(null);
   }
-  return http.request<ResumeResponse>({
+  return http.request<Resume>({
     url: `/home/getresumeone?userId=${username}&id=${resumeId}`,
     method: "get",
   });
@@ -55,20 +56,21 @@ export const getResume = (resumeId: string) => {
 
 /**
  * 保存简历的接口
+ *
+ * @param resume
+ * @returns
  */
-export const modifyResume = (value: string, id: string) => {
+export const modifyResume = (resume: Resume) => {
   const username = getItem("username");
   if (!username) {
     return Promise.resolve(null);
   }
-  return http.request<ResumeResponse>({
-    url: `/home/updateresume?userId=${username}&id=${id}`,
+  return http.request<Resume>({
+    url: `/home/updateresume?userId=${username}&id=${resume.id}`,
     method: "put",
     data: {
-      id: id,
+      ...resume,
       userId: username,
-      resumeText: value,
-      resumeName: `template-${id}`,
     },
   });
 };

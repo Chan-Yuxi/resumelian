@@ -1,13 +1,24 @@
+import type { Theme } from "@/type/definition";
 import React from "react";
 
-type P = {
-  style: string;
-};
+function generateStyleContent(theme: Theme) {
+  let content = "";
 
-const StyleInjection: React.FC<P> = ({ style }) => (
-  <style id="style-injection" lang="scss">
-    {style}
-  </style>
-);
+  const { colors, family, gutter, style } = theme;
+
+  content += `font-family: ${family};`;
+  content += `--gutter: ${gutter};`;
+  colors.forEach((color, i) => (content += `--color-${i + 1}: ${color};`));
+
+  return `#preview {${content}} ${style}`;
+}
+
+const StyleInjection: React.FC<{ theme: Theme }> = ({ theme }) => {
+  return (
+    <style lang="scss" data-v-description={`theme name: ${theme.name}`}>
+      {generateStyleContent(theme)}
+    </style>
+  );
+};
 
 export default StyleInjection;

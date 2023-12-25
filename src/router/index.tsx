@@ -41,7 +41,7 @@ const routes = [
     element: <Resume />,
   },
   {
-    path: "/resume-modification/:themeId?/:resumeId?",
+    path: "/resume-modification/:templateId?/:resumeId?",
     element: <ResumeModification />,
   },
   {

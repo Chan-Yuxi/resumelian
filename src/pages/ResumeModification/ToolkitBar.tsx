@@ -1,23 +1,20 @@
 import type { ColorPickerProps } from "antd";
 
-import React from "react";
+import React, { Dispatch } from "react";
 import { useTranslation } from "react-i18next";
 import { Space, Switch, Button, Select, ColorPicker } from "antd";
 import { CheckCircleOutlined, FilePptOutlined } from "@ant-design/icons";
 
 import Label from "@/components/Label";
+import { Theme } from "@/type/definition";
+import { toggleAvatar, updateColors, updateFamily } from "./reducer";
 
 type OCC = ColorPickerProps["onChange"];
 type P = {
-  enableAvatar: boolean;
-  colors: string[];
-  family: string;
-  onEnableAvatarChange: (enable: boolean) => void;
-  onColorsChange: (colors: string[]) => void;
-  onFamilyChange: (family: string) => void;
-  onSave: () => void;
-  saveLoading: boolean;
   onExport: () => void;
+  onSave: () => void;
+  theme: Theme;
+  dispatch: Dispatch<{ type: string; payload: unknown }>;
 };
 
 const families = [
@@ -26,27 +23,17 @@ const families = [
   { value: `Arial`, label: "Default" },
 ];
 
-const ToolkitBar: React.FC<P> = (props) => {
+const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
   const { t } = useTranslation();
 
-  const {
-    enableAvatar,
-    colors,
-    family,
-    onEnableAvatarChange,
-    onColorsChange,
-    onFamilyChange,
-    onSave,
-    saveLoading,
-    onExport,
-  } = props;
+  const { colors, gutter, family, enableAvatar } = theme;
 
   const generateColorChangeHandler =
     (index: number): OCC =>
     (color) => {
       const newColors = [...colors];
       newColors[index] = color.toHexString();
-      onColorsChange(newColors);
+      dispatch(updateColors(newColors));
     };
 
   return (
@@ -56,7 +43,7 @@ const ToolkitBar: React.FC<P> = (props) => {
           <Switch
             size="small"
             value={enableAvatar}
-            onChange={onEnableAvatarChange}
+            onChange={() => dispatch(toggleAvatar())}
           />
         </Label>
         <Label text={t("rm.theme")}>
@@ -79,21 +66,12 @@ const ToolkitBar: React.FC<P> = (props) => {
             options={families}
             defaultValue="inherit"
             value={family}
-            onChange={onFamilyChange}
+            onChange={(value) => dispatch(updateFamily(value))}
           />
         </Label>
       </Space>
 
       <div className="ms-auto">
-        {/* <Button
-          size="small"
-          className="shadow-lg me-2"
-          style={{ width: "102px" }}
-          type="primary"
-          ghost
-        >
-          {t("rm.help")}
-        </Button> */}
         <Button
           size="small"
           className="shadow-lg me-2"
@@ -102,7 +80,6 @@ const ToolkitBar: React.FC<P> = (props) => {
           type="primary"
           ghost
           onClick={onSave}
-          loading={saveLoading}
         >
           {t("rm.save")}
         </Button>

@@ -1,5 +1,5 @@
 import type { PayloadAction as P } from "@reduxjs/toolkit";
-import type { EditorState } from "@/@type/definition";
+import type { EditorState } from "@/type/definition";
 
 import { createSlice } from "@reduxjs/toolkit";
 

@@ -1,5 +1,5 @@
 import type { InternalAxiosRequestConfig, AxiosResponse } from "axios";
-import type { Result } from "@/@type/definition";
+import type { Result } from "@/type/definition";
 
 import { getItem } from "@/utils/storage";
 
@@ -17,7 +17,7 @@ export function requestBefore(request: InternalAxiosRequestConfig) {
 export function responseSuccess<T>(
   response: AxiosResponse<Result<T>>
 ): T | Code.OtherInvalid {
-  const { code, message, data } = response.data;
+  const { code, data } = response.data;
 
   if (code !== 200) {
     return Code.OtherInvalid;

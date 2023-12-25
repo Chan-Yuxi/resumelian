@@ -1,17 +1,17 @@
-import type { LoginResponse } from "@/@type/definition";
+import type { LoginResponse } from "@/type/definition";
 
 import http from "@/utils/http";
 
 export const getAccess = () => {
   return http.request<string>({
     method: "get",
-    url: "/WeChat/access",
+    url: "/WeChat/wxqrcode",
   });
 };
 
 export const login = (ticket: string, code: string) => {
   return http.request<LoginResponse>({
     url: `/WeChat/login?code=${code}&Ticket=${ticket}`,
-    method: "get",
+    method: "post",
   });
 };

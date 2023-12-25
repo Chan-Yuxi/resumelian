@@ -1,4 +1,4 @@
-import type { Template } from "@/@type/definition";
+import type { Template } from "@/type/definition";
 
 import { useEffect, useState } from "react";
 import { getAllTemplate } from "@/api/template";
