@@ -17,7 +17,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
   const goResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
-    <div className="inline-flex flex-col p-2 bg-white shadow">
+    <div className="flex flex-col p-2 bg-white shadow">
       <figure
         className="w-[188px] aspect-a4 bg-cover shadow-inner"
         style={{

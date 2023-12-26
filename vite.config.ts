@@ -14,7 +14,7 @@ export default defineConfig({
   server: {
     proxy: {
       "/api": {
-        target: "http://g5cj9c.natappfree.cc",
+        target: "http://2sa296.natappfree.cc",
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/api/, ""),
       },

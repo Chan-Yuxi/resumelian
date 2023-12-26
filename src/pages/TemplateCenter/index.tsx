@@ -17,12 +17,10 @@ const TemplateCenter = () => {
   }, []);
 
   return (
-    <main className="bg-indigo-200">
-      <div className="m-8">
-        {templates.map((template) => {
-          return <TemplateCard key={template.id} template={template} />;
-        })}
-      </div>
+    <main className="grow flex flex-wrap items-start gap-4 p-9 bg-zinc-100">
+      {templates.map((template) => {
+        return <TemplateCard key={template.id} template={template} />;
+      })}
     </main>
   );
 };

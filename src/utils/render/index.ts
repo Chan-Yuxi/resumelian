@@ -13,7 +13,7 @@ const END = "<p>:::</p>";
  * @param preview container
  * @param htmlString html string
  */
-export function render(preview: HTMLElement, htmlString: string) {
+export function render(preview: HTMLElement, htmlString = "") {
   if (preview) {
     const resumeAvatar = document.getElementById("resume-avatar");
     preview.innerHTML = "";
