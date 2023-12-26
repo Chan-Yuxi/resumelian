@@ -11,6 +11,30 @@ import Resume from "@/pages/Resume";
 import ResumeModification from "@/pages/ResumeModification";
 import TemplateCenter from "@/pages/TemplateCenter";
 
+import AccountInformation from "@/pages/Resume/pages/AccountInformation";
+import MyResume from "@/pages/Resume/pages/MyResume";
+import MyOrder from "@/pages/Resume/pages/MyOrder";
+import Record from "@/pages/Resume/pages/Record";
+
+const resumeChildren = [
+  {
+    index: true,
+    element: <AccountInformation />,
+  },
+  {
+    path: "mine",
+    element: <MyResume />,
+  },
+  {
+    path: "order",
+    element: <MyOrder />,
+  },
+  {
+    path: "record",
+    element: <Record />,
+  },
+];
+
 const routes = [
   {
     path: "/",
@@ -39,6 +63,7 @@ const routes = [
   {
     path: "/resume",
     element: <Resume />,
+    children: resumeChildren,
   },
   {
     path: "/resume-modification/:templateId?/:resumeId?",
@@ -61,7 +86,6 @@ const routes = [
     element: <Navigate to="/404" replace />,
   },
 ];
-1;
 
 const Router = () => {
   return useRoutes(routes);

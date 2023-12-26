@@ -28,6 +28,7 @@ export interface Template {
 export interface Theme {
   style: string; //
 
+  default: string;
   name: string;
   colors: string[];
   enableAvatar: boolean;

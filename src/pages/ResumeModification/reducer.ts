@@ -62,7 +62,7 @@ function updateAvatarPosition({ x, y }: { x: number; y: number }) {
   };
 }
 
-function reducer(state: Theme, action: { type: string; payload: any }): Theme {
+function reducer(state: Theme, action: { type: string; payload: unknown }): Theme {
   switch (action.type) {
     case SETUP_THEME:
       return action.payload as Theme;

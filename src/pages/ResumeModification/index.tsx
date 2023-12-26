@@ -32,6 +32,7 @@ import StyleInjection from "./StyleInjection";
 import ToolkitBar from "./ToolkitBar";
 import PreviewSkeleton from "./PreviewSkeleton";
 import Avatar from "./Avatar";
+import { getItem, setItem } from "@/utils/storage";
 
 type R = HTMLDivElement;
 type E = Nullable<VditorInstance>;
@@ -82,7 +83,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       const template = await getTemplate(tid);
       if (template) {
         theme = JSON.parse(template.content) as Theme;
-        value = template["default"];
+        value = theme["default"];
 
         if (rid) {
           const resume = await getResume(rid);
@@ -132,7 +133,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       .catch((e: string) => error(e));
   }
 
-  const [name, setName] = useState("");
+  const [name, setName] = useState(dayjs().format());
   const [id, setId] = useState(rid);
 
   function handleSave() {
@@ -156,7 +157,6 @@ const ResumeModification: React.FC<P> = ({ username }) => {
         resume ? success(t("rm.save_success")) : error(t("rm.save_failure"));
       });
     } else {
-      setName("temp_name");
       createResume(resume).then((resume) => {
         if (!resume) error(t("rm.save_failure"));
         else {
@@ -168,10 +168,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }
 
   return (
-    <main
-      className="flex items-stretch"
-      style={{ minHeight: "calc(100vh -64px)" }}
-    >
+    <main className="grow flex items-stretch">
       <aside className="basis-[535px]">
         <div className="rounded-none" ref={context} />
       </aside>
@@ -188,8 +185,8 @@ const ResumeModification: React.FC<P> = ({ username }) => {
 
             <Avatar
               url="/default_avatar.jpg"
-              enable={theme.enableAvatar}
               position={theme.avatarPosition}
+              enable={theme.enableAvatar}
               dispatch={dispatch}
             />
             <PreviewSkeleton loading={previewLoading}>

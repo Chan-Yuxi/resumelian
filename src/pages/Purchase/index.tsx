@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import PayCard from "./PayCard";
 import QuestionAndAnswer from "./QuestionAndAnswer";
 
