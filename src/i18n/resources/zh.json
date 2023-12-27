@@ -52,5 +52,7 @@
   "rm.ask.placeholder": "请输入简历名称",
 
   "404.title": "对不起，您访问的页面不存在，请检查地址栏是否输入正确",
-  "404.back_home": "返回首页"
+  "404.back_home": "返回首页",
+
+  "system:You haven't logged in yet. Please log in first": "你还未登录请先登录"
 }

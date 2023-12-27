@@ -1,5 +1,7 @@
 import { useRoutes, Navigate } from "react-router-dom";
 
+import Guard from "@/components/Guard";
+
 import Upload from "@/pages/_Upload";
 import NotFound from "@/pages/404NotFound";
 import CareerCounselor from "@/pages/CareerCounselor";
@@ -42,36 +44,68 @@ const routes = [
   },
   {
     path: "/career-counselor",
-    element: <CareerCounselor />,
+    element: (
+      <Guard meta={{ title: "职业咨询" }}>
+        <CareerCounselor />
+      </Guard>
+    ),
   },
   {
     path: "/home",
-    element: <Home />,
+    element: (
+      <Guard meta={{ title: "首页" }}>
+        <Home />
+      </Guard>
+    ),
   },
   {
     path: "/interview-coach",
-    element: <InterviewCoach />,
+    element: (
+      <Guard meta={{ title: "面试辅导" }}>
+        <InterviewCoach />
+      </Guard>
+    ),
   },
   {
     path: "/login",
-    element: <Login />,
+    element: (
+      <Guard meta={{ title: "登录" }}>
+        <Login />
+      </Guard>
+    ),
   },
   {
     path: "/purchase",
-    element: <Purchase />,
+    element: (
+      <Guard meta={{ title: "会员购买" }}>
+        <Purchase />
+      </Guard>
+    ),
   },
   {
     path: "/resume",
-    element: <Resume />,
+    element: (
+      <Guard auth meta={{ title: "我的简历" }}>
+        <Resume />
+      </Guard>
+    ),
     children: resumeChildren,
   },
   {
     path: "/resume-modification/:templateId?/:resumeId?",
-    element: <ResumeModification />,
+    element: (
+      <Guard auth meta={{ title: "简历制作" }}>
+        <ResumeModification />
+      </Guard>
+    ),
   },
   {
     path: "/template-center",
-    element: <TemplateCenter />,
+    element: (
+      <Guard meta={{ title: "模板中心" }}>
+        <TemplateCenter />
+      </Guard>
+    ),
   },
   {
     path: "/_upload",

@@ -1,6 +1,3 @@
-import { getResumeAll } from "@/api/resume";
-import { useEffect } from "react";
-
 import { Menu, Button, MenuProps } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
@@ -39,13 +36,13 @@ const Resume = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  useEffect(() => {
-    getResumeAll().then((data) => {
-      if (data) {
-        console.log(data);
-      }
-    });
-  }, []);
+  // useEffect(() => {
+  //   getResumeAll().then((data) => {
+  //     if (data) {
+  //       console.log(data);
+  //     }
+  //   });
+  // }, []);
 
   function getSelectKey() {
     const selectKey = location.pathname.split("/resume")[1];
