@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { Card, Button, Divider, Modal, App, QRCode, Tabs } from "antd";
 
-import { getPayQRCode } from "@/api/pay";
+import { getPayQRCode, getAliPayQRCode } from "@/api/pay";
 
 import Entry from "@/components/Entry";
 
@@ -32,6 +32,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
   const websocket = useRef<WebSocket>();
 
   const [QRCodeUrl, setQRCodeUrl] = useState("");
+  const [AliQRCodeUrl, setAliQRCodeUrl] = useState("");
   const [paid, setPaid] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -47,12 +48,12 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
         <div className="flex flex-col items-center px-8">
           <div className="w-full mb-4">
             <p>
-              <span>{t("purchase:Purchase of goods")}</span>
+              <span>{t("purchase:Purchase of goods:")}</span>
               <span className="text-blue-500">{name}</span>
             </p>
             <p>
-              <span>{t("Order amount:")}</span>
-              <span className="text-yellow-400 font-bold">{price}元</span>
+              <span>{t("purchase:Order amount:")}</span>
+              <span className="text-green-400">{price}元</span>
             </p>
           </div>
           <QRCode value={QRCodeUrl} />
@@ -86,7 +87,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
       key: "ali",
       children: (
         <PayPanel
-          QRCodeUrl={QRCodeUrl}
+          QRCodeUrl={AliQRCodeUrl}
           text={t(
             "purchase:Please use Alipay to scan the QR code above to pay"
           )}
@@ -100,6 +101,8 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
       ),
     },
   ];
+
+  // 总之，这里有两种方式去处理支付请求，无论是使用支付宝还是微信都可以完成支付请求
 
   const showNotification = useCallback(() => {
     success({
@@ -119,7 +122,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
 
   function createWebSocket(callback: () => void) {
     let timer: NodeJS.Timeout;
-    websocket.current = new WebSocket("ws://g5cj9c.natappfree.cc/websocket");
+    websocket.current = new WebSocket("wss://jianlizhizuo.cn/websocket");
     websocket.current.onopen = () => {
       timer = setInterval(() => {
         websocket.current!.send(PollingMessage);
@@ -142,11 +145,12 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
   const [outTradeNo, setOutTradeNo] = useState("");
   function handlePurchase() {
     setQRLoading(true);
-    getPayQRCode(username)
+    Promise.all([getPayQRCode(username), getAliPayQRCode(username)])
       .then((payInfo) => {
-        if (payInfo) {
-          setQRCodeUrl(payInfo.code_url);
-          setOutTradeNo(payInfo.out_trade_no);
+        if (payInfo[0] && payInfo[1]) {
+          setQRCodeUrl(payInfo[0].code_url);
+          setOutTradeNo(payInfo[0].out_trade_no);
+          setAliQRCodeUrl(payInfo[1].code_url);
           setOpen(true);
 
           setPaid(false);
@@ -168,6 +172,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
     // TODO check paying status here.
     console.log(outTradeNo);
     setOpen(false);
+    showNotification();
   }
 
   return (

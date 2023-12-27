@@ -2,7 +2,6 @@ import type { Template } from "@/type/definition";
 
 import http from "@/utils/http";
 import { getItem } from "@/utils/storage";
-import axios from "axios";
 
 /**
  * 获取主题列表

@@ -9,6 +9,7 @@ const UPDATE_AVATAR_POSITION = "UPDATE_AVATAR_POSITION";
 
 const initialTheme: Theme = {
   name: "default",
+  default: "",
   style: "",
   colors: [],
   enableAvatar: false,

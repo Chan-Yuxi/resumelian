@@ -26,7 +26,7 @@ const families = [
 const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
   const { t } = useTranslation();
 
-  const { colors, gutter, family, enableAvatar } = theme;
+  const { colors, family, enableAvatar } = theme;
 
   const generateColorChangeHandler =
     (index: number): OCC =>

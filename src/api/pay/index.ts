@@ -10,3 +10,14 @@ export const getPayQRCode = (username: string, money = 1) => {
     method: "post",
   });
 };
+
+export const getAliPayQRCode = (username: string, money = 1) => {
+  return http.request<{
+    orderNo: string;
+    code_url: string;
+    user_id: string;
+  }>({
+    url: `https://jianlizhizuo.cn/pay/aliPay?userId=${username}&money=${money}`,
+    method: "post",
+  });
+};
