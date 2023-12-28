@@ -125,6 +125,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
     websocket.current = new WebSocket("wss://jianlizhizuo.cn/websocket");
     websocket.current.onopen = () => {
       timer = setInterval(() => {
+        console.log("发送");
         websocket.current!.send(PollingMessage);
       }, PollingInterval);
       console.info("open websocket");
@@ -135,11 +136,22 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
       console.info("disconnecting websocket");
     };
     websocket.current.onmessage = (event: MessageEvent<string>) => {
-      if (event.data && event.data !== PollingMessage) {
-        callback();
+      // if (event.data && event.data !== PollingMessage) {
+      //   callback();
+      // }
+      console.log("onmessage");
+      const { data } = event;
+      if (data) {
+        if (data === PollingMessage) {
+          console.log("收到了");
+        } else {
+          console.log(data);
+          callback();
+        }
       }
     };
   }
+  
 
   const [QRLoading, setQRLoading] = useState(false);
   const [outTradeNo, setOutTradeNo] = useState("");

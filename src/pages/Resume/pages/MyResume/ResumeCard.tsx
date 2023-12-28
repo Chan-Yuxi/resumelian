@@ -1,7 +1,7 @@
 import type { Resume } from "@/type/definition";
 
 import { useState } from "react";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import { App, Button } from "antd";
 
@@ -15,7 +15,7 @@ type P = {
 };
 
 const ResumeCard: React.FC<P> = ({ resume, reload }) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const navigate = useNavigate();
 
   const { message } = App.useApp();

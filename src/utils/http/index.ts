@@ -4,7 +4,7 @@ function createAxios() {
   return new Request({
     // baseURL: "http://48s6hn.natappfree.cc/",
     // baseURL: "http://tyj57p.natappfree.cc",
-    baseURL: "/api",
+    baseURL: "https://jianlizhizuo.cn",
     timeout: 10 * 1000,
     headers: {
       "Content-Type": "application/json; charset=utf-8",

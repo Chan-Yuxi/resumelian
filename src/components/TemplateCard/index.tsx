@@ -1,8 +1,7 @@
 import type { Template } from "@/type/definition";
 
-import React from "react";
-import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 import { Button } from "antd";
 
 type P = {
@@ -14,7 +13,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
   const navigate = useNavigate();
 
   const { id, name, pic: picture } = template;
-  const goResumeModification = () => navigate(`/resume-modification/${id}`);
+  const goToResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
     <div className="flex flex-col p-2 bg-white shadow">
@@ -29,7 +28,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
             className="rounded-none"
             type="primary"
             ghost
-            onClick={goResumeModification}
+            onClick={goToResumeModification}
           >
             {t("tc.use_this_template")}
           </Button>
