@@ -7,6 +7,9 @@ export default {
       aspectRatio: {
         a4: "210 / 297", // almost in proportion to A4 paper
       },
+      height: {
+        "reach-bottom": "calc(100vh - 64px)",
+      },
     },
   },
   plugins: [],

@@ -37,7 +37,7 @@ const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
     };
 
   return (
-    <div className="flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
+    <div className="shrink-0 flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
       <Space size={32}>
         <Label text={t("rm.generate_avatar")}>
           <Switch

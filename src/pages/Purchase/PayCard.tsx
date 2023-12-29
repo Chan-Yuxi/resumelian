@@ -152,7 +152,6 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
     };
   }
   
-
   const [QRLoading, setQRLoading] = useState(false);
   const [outTradeNo, setOutTradeNo] = useState("");
   function handlePurchase() {

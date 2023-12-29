@@ -32,6 +32,7 @@ import StyleInjection from "./StyleInjection";
 import ToolkitBar from "./ToolkitBar";
 import PreviewSkeleton from "./PreviewSkeleton";
 import Avatar from "./Avatar";
+import ChatGPTPanel from "./ChatGPTPanel";
 
 type R = HTMLDivElement;
 type E = Nullable<VditorInstance>;
@@ -167,18 +168,18 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }
 
   return (
-    <main className="grow flex items-stretch">
-      <aside className="basis-[535px]">
+    <main className="flex h-reach-bottom">
+      <aside className="overflow-scroll" style={{ width: "535px" }}>
         <div className="rounded-none" ref={context} />
       </aside>
-      <aside className="grow flex flex-col">
+      <aside className="relative grow flex flex-col">
         <ToolkitBar
           onExport={handleExport}
           onSave={handleSave}
           theme={theme}
           dispatch={dispatch}
         />
-        <div className="grow flex justify-center bg-gray-200">
+        <div className="overflow-scroll flex justify-center bg-gray-200">
           <article className="mt-5 relative w-[825px]">
             <StyleInjection theme={theme} />
 
@@ -193,6 +194,13 @@ const ResumeModification: React.FC<P> = ({ username }) => {
             </PreviewSkeleton>
           </article>
         </div>
+
+        <ChatGPTPanel
+          open={true}
+          setOpen={() => {
+            /* TODO */
+          }}
+        />
       </aside>
     </main>
   );
