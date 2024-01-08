@@ -60,10 +60,10 @@ export interface LoginResponse {
 export interface Resume {
   id: string;
   userId?: string;
-  resumeName: string;
-  resumeText: string;
+  name: string;
+  text: string;
   createTime?: string;
   modifyTime?: string;
-  resumeTheme: string;
+  resumeTheme?: string;
   customTheme: string;
 }

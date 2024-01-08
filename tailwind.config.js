@@ -10,6 +10,20 @@ export default {
       height: {
         "reach-bottom": "calc(100vh - 64px)",
       },
+      animation: {
+        slideIn: "slide 0.5s ease-in-out",
+        fadeIn: "fade 0.2s linear",
+      },
+      keyframes: {
+        slide: {
+          from: { transform: "translateY(100%)" },
+          to: { transform: "translateY(0)" },
+        },
+        fade: {
+          from: { opacity: "0" },
+          to: { opacity: "1" },
+        },
+      },
     },
   },
   plugins: [],

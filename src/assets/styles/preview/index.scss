@@ -40,6 +40,31 @@
     border: none;
   }
 
+  ol,
+  ul {
+    @include space-p($list_padding, "horizontal");
+  }
+
+  table {
+    @include space-m($table_padding, "horizontal");
+  }
+
+  table,
+  th,
+  td {
+    border: 1px solid #eeeeee;
+  }
+
+  th {
+    background-color: #f8f8f8;
+  }
+
+  th,
+  td {
+    @include space-p($table_content_padding);
+    @include space-p($table_content_padding, "horizontal");
+  }
+
   strong {
     font-weight: bold;
   }

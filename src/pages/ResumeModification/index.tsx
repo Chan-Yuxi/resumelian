@@ -40,6 +40,22 @@ type P = {
   username: string;
 };
 
+function createResumeInstance(
+  id: string,
+  name: string,
+  value: string,
+  tid: string | undefined,
+  theme: Theme
+): Resume {
+  return {
+    id,
+    name: name,
+    text: value,
+    resumeTheme: tid,
+    customTheme: JSON.stringify(theme),
+  };
+}
+
 function fileName(username: string) {
   return `${username}-${dayjs().format("DD/MM/YYYY")}.pdf`;
 }
@@ -88,10 +104,10 @@ const ResumeModification: React.FC<P> = ({ username }) => {
         if (rid) {
           const resume = await getResume(rid);
           if (resume) {
-            const { resumeText, customTheme, resumeName } = resume;
-            setName(resumeName);
+            const { text, customTheme, name } = resume;
+            setName(name);
             theme = Object.assign({}, theme, JSON.parse(customTheme) as Theme);
-            value = resumeText;
+            value = text;
           }
         }
       }
@@ -127,43 +143,64 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   }, [editor, requestThemeAndValue]);
 
   // User export and save processing
+  const [exportLoading, setExportLoading] = useState(false);
   function handleExport() {
+    setExportLoading(true);
     exportPage2PDF(fileName(username))
-      .then(() => success(t("rm.export_success")))
-      .catch((e: string) => error(e));
+      .then(() => success(t("resumeModification:Resume exported successfully")))
+      .catch((e: string) => error(e))
+      .finally(() => setExportLoading(false));
   }
 
   const [name, setName] = useState(dayjs().format());
   const [id, setId] = useState(rid);
 
+  const [saveLoading, setSaveLoading] = useState(false);
   function handleSave() {
     const value = editor?.getValue();
 
     if (isEmpty(value)) {
-      warning(t("rm.empty_content"));
+      warning(
+        t("resumeModification:Your resume content is empty and cannot be saved")
+      );
       return;
     }
 
-    const resume: Resume = {
-      id: id || "",
-      resumeName: name,
-      resumeText: value,
-      resumeTheme: tid || "1",
-      customTheme: JSON.stringify(theme),
-    };
+    setSaveLoading(false);
+    const resume = createResumeInstance(
+      id || "",
+      name,
+      value,
+      tid || undefined,
+      theme
+    );
 
     if (id) {
       modifyResume(resume).then((resume) => {
-        resume ? success(t("rm.save_success")) : error(t("rm.save_failure"));
+        resume
+          ? success(
+              t("resumeModification:Your resume has been successfully saved")
+            )
+          : error(t("resumeModification:Save failed"));
       });
     } else {
       createResume(resume).then((resume) => {
-        if (!resume) error(t("rm.save_failure"));
+        if (!resume) error(t("resumeModification:Save failed"));
         else {
           setId(resume.id);
-          success(t("rm.save_success"));
+          success(
+            t("resumeModification:Your resume has been successfully saved")
+          );
         }
       });
+    }
+  }
+
+  // ChatGPT
+  const [open, setOpen] = useState(false);
+  function handleAIResponse(dialogue: string, type: string) {
+    if (editor) {
+      editor.setValue(editor.getValue() + dialogue);
     }
   }
 
@@ -175,7 +212,10 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       <aside className="relative grow flex flex-col">
         <ToolkitBar
           onExport={handleExport}
+          exportLoading={exportLoading}
           onSave={handleSave}
+          saveLoading={saveLoading}
+          onChatGPTButtonClick={() => setOpen(!open)}
           theme={theme}
           dispatch={dispatch}
         />
@@ -196,10 +236,9 @@ const ResumeModification: React.FC<P> = ({ username }) => {
         </div>
 
         <ChatGPTPanel
-          open={true}
-          setOpen={() => {
-            /* TODO */
-          }}
+          open={open}
+          onClose={() => setOpen(false)}
+          onAIResponse={handleAIResponse}
         />
       </aside>
     </main>

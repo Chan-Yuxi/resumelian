@@ -12,7 +12,10 @@ import { toggleAvatar, updateColors, updateFamily } from "./reducer";
 type OCC = ColorPickerProps["onChange"];
 type P = {
   onExport: () => void;
+  exportLoading: boolean;
   onSave: () => void;
+  saveLoading: boolean;
+  onChatGPTButtonClick: () => void;
   theme: Theme;
   dispatch: Dispatch<{ type: string; payload: unknown }>;
 };
@@ -23,7 +26,15 @@ const families = [
   { value: `Arial`, label: "Default" },
 ];
 
-const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
+const ToolkitBar: React.FC<P> = ({
+  onExport,
+  exportLoading,
+  onSave,
+  saveLoading,
+  onChatGPTButtonClick,
+  theme,
+  dispatch,
+}) => {
   const { t } = useTranslation();
 
   const { colors, family, enableAvatar } = theme;
@@ -39,14 +50,14 @@ const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
   return (
     <div className="shrink-0 flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
       <Space size={32}>
-        <Label text={t("rm.generate_avatar")}>
+        <Label text={t("resumeModification:Generate avatar")}>
           <Switch
             size="small"
             value={enableAvatar}
             onChange={() => dispatch(toggleAvatar())}
           />
         </Label>
-        <Label text={t("rm.theme")}>
+        <Label text={t("resumeModification:Theme color")}>
           <Space size={6}>
             {colors.map((color, i) => (
               <ColorPicker
@@ -59,7 +70,7 @@ const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
             ))}
           </Space>
         </Label>
-        <Label text={t("rm.font")}>
+        <Label text={t("resumeModification:label font")}>
           <Select
             size="small"
             style={{ width: "175px" }}
@@ -74,14 +85,24 @@ const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
       <div className="ms-auto">
         <Button
           size="small"
+          className="shadow-lg me-2 border-0 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+          style={{ width: "102px" }}
+          onClick={onChatGPTButtonClick}
+          loading={saveLoading}
+        >
+          {t("resumeModification:Using ChatGPT")}
+        </Button>
+        <Button
+          size="small"
           className="shadow-lg me-2"
           icon={<CheckCircleOutlined />}
           style={{ width: "102px" }}
           type="primary"
           ghost
           onClick={onSave}
+          loading={saveLoading}
         >
-          {t("rm.save")}
+          {t("resumeModification:button preserve")}
         </Button>
         <Button
           size="small"
@@ -90,8 +111,9 @@ const ToolkitBar: React.FC<P> = ({ onExport, onSave, theme, dispatch }) => {
           style={{ width: "102px" }}
           type="primary"
           onClick={onExport}
+          loading={exportLoading}
         >
-          {t("rm.export_PDF")}
+          {t("resumeModification:button export")}
         </Button>
       </div>
     </div>
