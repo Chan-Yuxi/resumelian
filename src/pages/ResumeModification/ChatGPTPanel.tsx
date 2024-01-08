@@ -69,12 +69,9 @@ const ChatGPTPanel: React.FC<P> = ({
 
               {dialogues.map((dialogue, index) => {
                 return (
-                  <div>
+                  <div key={index}>
                     <p className="font-bold text-white mb-1">ChatGPT: </p>
-                    <p
-                      className="bg-green-700 hover:bg-green-600 hover:cursor-pointer transition-all px-4 py-2 rounded text-white max-w-2/3 font-bold animate-fadeIn"
-                      key={index}
-                    >
+                    <p className="bg-green-700 hover:bg-green-600 hover:cursor-pointer transition-all px-4 py-2 rounded text-white max-w-2/3 font-bold animate-fadeIn">
                       {dialogue}
                     </p>
                   </div>

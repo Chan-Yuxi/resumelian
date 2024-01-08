@@ -34,6 +34,7 @@ import PreviewSkeleton from "./PreviewSkeleton";
 import Avatar from "./Avatar";
 import ChatGPTPanel from "./ChatGPTPanel";
 import LanguageToggle from "./LanguageToggle";
+import { translate } from "@/api/chatGPT";
 
 type R = HTMLDivElement;
 type E = Nullable<VditorInstance>;
@@ -202,19 +203,27 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const [open, setOpen] = useState(false);
   function handleAIResponse(dialogue: string, type: string) {
     console.log(type);
-    editor!.setValue(editor!.getValue() + dialogue);
+    if (editor) {
+      editor.setValue(editor.getValue() + dialogue);
+    }
   }
 
   // Toggle Language
   const [currentLng, setCurrentLng] = useState("zh");
   const [lngToggleLoading, setLngToggleLoading] = useState(false);
   function handleLanguageChange(lng: string) {
-    setCurrentLng(lng);
-    setLngToggleLoading(true);
+    if (editor) {
+      setCurrentLng(lng);
+      setLngToggleLoading(true);
 
-    setTimeout(() => {
-      setLngToggleLoading(false);
-    }, 3000);
+      translate(editor.getValue(), lng)
+        .then((response) => {
+          if (response) {
+            editor.setValue(response);
+          }
+        })
+        .finally(() => setLngToggleLoading(false));
+    }
   }
 
   return (
