@@ -19,11 +19,17 @@ const moduleItems = modules.map((module) => ({
 
 type P = {
   open: boolean;
+  currentLng: string;
   onClose: () => void;
   onAIResponse: (dialogue: string, type: string) => void;
 };
 
-const ChatGPTPanel: React.FC<P> = ({ open, onClose, onAIResponse }) => {
+const ChatGPTPanel: React.FC<P> = ({
+  open,
+  currentLng,
+  onClose,
+  onAIResponse,
+}) => {
   const { t } = useTranslation();
   const [dialogues, setDialogues] = useState<string[]>([]);
 
@@ -38,7 +44,7 @@ const ChatGPTPanel: React.FC<P> = ({ open, onClose, onAIResponse }) => {
     }
 
     setLoading(true);
-    chatGPT(content, industry, module)
+    chatGPT(content, industry, module, currentLng)
       .then((response) => {
         if (response) {
           setDialogues([...dialogues, response]);

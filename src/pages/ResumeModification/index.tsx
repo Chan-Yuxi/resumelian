@@ -33,6 +33,7 @@ import ToolkitBar from "./ToolkitBar";
 import PreviewSkeleton from "./PreviewSkeleton";
 import Avatar from "./Avatar";
 import ChatGPTPanel from "./ChatGPTPanel";
+import LanguageToggle from "./LanguageToggle";
 
 type R = HTMLDivElement;
 type E = Nullable<VditorInstance>;
@@ -47,7 +48,7 @@ function createResumeInstance(
   tid: string | undefined,
   theme: Theme
 ): Resume {
-  if (!tid) tid = "0";
+  if (!tid || tid === "undefined") tid = "0";
   return {
     id,
     name: name,
@@ -103,6 +104,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           theme = JSON.parse(template.content) as Theme;
           value = theme["default"];
         } catch (e) {
+          theme = {} as Theme;
           // it's possible that the theme is a default theme, which have no any content
           // trigger parsing error
         }
@@ -200,9 +202,19 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   const [open, setOpen] = useState(false);
   function handleAIResponse(dialogue: string, type: string) {
     console.log(type);
-    if (editor) {
-      editor.setValue(editor.getValue() + dialogue);
-    }
+    editor!.setValue(editor!.getValue() + dialogue);
+  }
+
+  // Toggle Language
+  const [currentLng, setCurrentLng] = useState("zh");
+  const [lngToggleLoading, setLngToggleLoading] = useState(false);
+  function handleLanguageChange(lng: string) {
+    setCurrentLng(lng);
+    setLngToggleLoading(true);
+
+    setTimeout(() => {
+      setLngToggleLoading(false);
+    }, 3000);
   }
 
   return (
@@ -220,7 +232,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           theme={theme}
           dispatch={dispatch}
         />
-        <div className="overflow-scroll flex justify-center bg-gray-200">
+        <div className="grow overflow-scroll flex justify-center bg-gray-200">
           <article className="mt-5 relative w-[825px]">
             <StyleInjection theme={theme} />
 
@@ -236,8 +248,13 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           </article>
         </div>
 
+        <LanguageToggle
+          loading={lngToggleLoading}
+          onChange={handleLanguageChange}
+        />
         <ChatGPTPanel
           open={open}
+          currentLng={currentLng}
           onClose={() => setOpen(false)}
           onAIResponse={handleAIResponse}
         />
