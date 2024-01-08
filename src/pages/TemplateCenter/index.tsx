@@ -28,7 +28,10 @@ const TemplateCenter = () => {
         </div>
       ) : (
         templates.map((template) => {
-          return <TemplateCard key={template.id} template={template} />;
+          // filter the default theme
+          return template.id !== 0 ? (
+            <TemplateCard key={template.id} template={template} />
+          ) : null;
         })
       )}
     </main>

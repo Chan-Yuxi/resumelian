@@ -12,9 +12,9 @@ const industryItems = industries.map((industry) => ({
   label: industry,
   value: industry,
 }));
-const moduleItems = modules.map((industry) => ({
-  label: industry,
-  value: industry,
+const moduleItems = modules.map((module) => ({
+  label: module,
+  value: module,
 }));
 
 type P = {

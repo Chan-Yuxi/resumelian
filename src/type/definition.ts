@@ -8,7 +8,7 @@ export interface EditorState {
 }
 
 export interface Template {
-  id: string;
+  id: number;
   name: string;
   content: string;
   pic: string;
@@ -64,6 +64,6 @@ export interface Resume {
   text: string;
   createTime?: string;
   modifyTime?: string;
-  resumeTheme?: string;
+  theme: string;
   customTheme: string;
 }

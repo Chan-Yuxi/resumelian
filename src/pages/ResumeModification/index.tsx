@@ -47,11 +47,12 @@ function createResumeInstance(
   tid: string | undefined,
   theme: Theme
 ): Resume {
+  if (!tid) tid = "0";
   return {
     id,
     name: name,
     text: value,
-    resumeTheme: tid,
+    theme: tid,
     customTheme: JSON.stringify(theme),
   };
 }
@@ -96,10 +97,15 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     value = "";
 
     if (tid) {
-      const template = await getTemplate(tid);
+      const template = await getTemplate(tid === "undefined" ? "0" : tid);
       if (template) {
-        theme = JSON.parse(template.content) as Theme;
-        value = theme["default"];
+        try {
+          theme = JSON.parse(template.content) as Theme;
+          value = theme["default"];
+        } catch (e) {
+          // it's possible that the theme is a default theme, which have no any content
+          // trigger parsing error
+        }
 
         if (rid) {
           const resume = await getResume(rid);
@@ -167,13 +173,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     }
 
     setSaveLoading(false);
-    const resume = createResumeInstance(
-      id || "",
-      name,
-      value,
-      tid || undefined,
-      theme
-    );
+    const resume = createResumeInstance(id || "", name, value, tid, theme);
 
     if (id) {
       modifyResume(resume).then((resume) => {
@@ -199,6 +199,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   // ChatGPT
   const [open, setOpen] = useState(false);
   function handleAIResponse(dialogue: string, type: string) {
+    console.log(type);
     if (editor) {
       editor.setValue(editor.getValue() + dialogue);
     }
