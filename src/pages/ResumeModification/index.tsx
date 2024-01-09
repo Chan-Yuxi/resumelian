@@ -59,6 +59,18 @@ function createResumeInstance(
   };
 }
 
+function adjustHeader(str1: string, str2: string) {
+  let cursor = 0;
+  for (let i = 0; i < str1.length; i++) {
+    if (str1[i] !== str2[0]) {
+      cursor++;
+    } else {
+      break;
+    }
+  }
+  return str1.substring(cursor - 1, str1.length);
+}
+
 function fileName(username: string) {
   return `${username}-${dayjs().format("DD/MM/YYYY")}.pdf`;
 }
@@ -216,10 +228,12 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       setCurrentLng(lng);
       setLngToggleLoading(true);
 
-      translate(editor.getValue(), lng)
+      const translatedText = editor.getValue();
+
+      translate(translatedText, lng)
         .then((response) => {
           if (response) {
-            editor.setValue(response);
+            editor.setValue(adjustHeader(response, translatedText));
           }
         })
         .finally(() => setLngToggleLoading(false));

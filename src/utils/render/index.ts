@@ -55,9 +55,9 @@ export function render(preview: HTMLElement, htmlString = "") {
         const adjust = page.lastChild!;
         page = newPage();
         page.appendChild(adjust);
-      } else {
-        page.appendChild(node.cloneNode(true));
       }
+      // else 
+      page.appendChild(node.cloneNode(true));
     }
   }
 }
