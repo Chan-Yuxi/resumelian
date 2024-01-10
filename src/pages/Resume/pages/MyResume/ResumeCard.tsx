@@ -21,12 +21,7 @@ const ResumeCard: React.FC<P> = ({ resume, reload }) => {
   const { message } = App.useApp();
   const { success, error } = message;
 
-  const {
-    resumeName,
-    modifyTime,
-    id: resumeId,
-    resumeTheme: templateId,
-  } = resume;
+  const { name, modifyTime, id: resumeId, theme: templateId } = resume;
 
   function handleEditClick() {
     navigate(`/resume-modification/${templateId}/${resumeId}`);
@@ -55,7 +50,7 @@ const ResumeCard: React.FC<P> = ({ resume, reload }) => {
         <img className="w-full h-full object-contain" src="/plan.png" alt="" />
       </div>
       <div className="w-[250px]">
-        <h3 className="text-xl mb-1 w-full truncate ">{resumeName}</h3>
+        <h3 className="text-xl mb-1 w-full truncate ">{name}</h3>
         <h4 className="text-sm text-slate-500">
           更新于：{dayjs(modifyTime).format("YYYY/MM/DD HH:mm")}
         </h4>

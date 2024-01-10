@@ -9,6 +9,10 @@ import {
   CloseCircleOutlined,
 } from "@ant-design/icons";
 
+import { connect } from "react-redux";
+import { setToken, setUsername } from "@/store/features/user";
+import { deleteItem } from "@/utils/storage";
+
 const items = [
   {
     label: "账号信息",
@@ -32,17 +36,12 @@ const items = [
   },
 ];
 
-const Resume = () => {
+const Resume: React.FC<{
+  setUsername: (username: string) => void;
+  setToken: (token: string) => void;
+}> = () => {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // useEffect(() => {
-  //   getResumeAll().then((data) => {
-  //     if (data) {
-  //       console.log(data);
-  //     }
-  //   });
-  // }, []);
 
   function getSelectKey() {
     const selectKey = location.pathname.split("/resume")[1];
@@ -52,6 +51,14 @@ const Resume = () => {
   const handleMenuClick: MenuProps["onClick"] = ({ key }) => {
     navigate(key, { replace: true });
   };
+
+  function loginOut() {
+    setUsername("");
+    setToken("");
+    deleteItem("username");
+    deleteItem("token");
+    navigate("/login");
+  }
 
   return (
     <main className="grow flex gap-8 p-9 bg-slate-50">
@@ -68,7 +75,7 @@ const Resume = () => {
           />
         </div>
         <div className="mt-auto px-8 ">
-          <Button type="link" icon={<CloseCircleOutlined />}>
+          <Button type="link" onClick={loginOut} icon={<CloseCircleOutlined />}>
             退出登录
           </Button>
         </div>
@@ -81,4 +88,9 @@ const Resume = () => {
   );
 };
 
-export default Resume;
+const mapDispatchToProps = {
+  setUsername,
+  setToken,
+};
+
+export default connect(null, mapDispatchToProps)(Resume);
