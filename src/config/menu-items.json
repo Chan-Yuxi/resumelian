@@ -8,6 +8,10 @@
     "key": "/template-center"
   },
   {
+    "label": "面试辅导",
+    "key": "/interview-coach"
+  },
+  {
     "label": "职业咨询",
     "key": "/career-counselor"
   },

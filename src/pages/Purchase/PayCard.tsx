@@ -195,14 +195,16 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
           <span className="text-5xl font-bold drop-shadow text-yellow-300">
             {price}
           </span>
-          {t("purchase:yuan per month")}
+          <span>&nbsp;元</span>
+          {/* {t("purchase:yuan per month")} */}
         </div>
         <Button
           className="h-[40px] px-14 rounded-full border-0 shadow-lg"
           loading={QRLoading}
           onClick={handlePurchase}
         >
-          {t("purchase:Purchase upgrade")}
+          购买次数
+          {/* {t("purchase:Purchase upgrade")} */}
         </Button>
       </section>
 

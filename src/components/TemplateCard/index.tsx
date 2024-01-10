@@ -16,7 +16,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
   const goToResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
-    <div className="flex flex-col p-2 bg-white shadow">
+    <div className="flex flex-col p-2 bg-white shadow [--show-btn:none] hover:[--show-btn:block]">
       <figure
         className="w-[188px] aspect-a4 bg-cover shadow-inner"
         style={{
@@ -25,9 +25,9 @@ const TemplateCard: React.FC<P> = ({ template }) => {
       >
         <figcaption className="h-full flex justify-center items-center">
           <Button
-            className="rounded-none"
+            className="rounded-none shadow"
+            style={{ display: "var(--show-btn)" }}
             type="primary"
-            ghost
             onClick={goToResumeModification}
           >
             {t("tc.use_this_template")}

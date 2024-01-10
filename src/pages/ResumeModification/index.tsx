@@ -27,6 +27,7 @@ import { reducer, initialTheme, setupTheme } from "./reducer";
 
 import { createResume, getResume, modifyResume } from "@/api/resume";
 import { getTemplate } from "@/api/template";
+import { translate } from "@/api/chatGPT";
 
 import StyleInjection from "./StyleInjection";
 import ToolkitBar from "./ToolkitBar";
@@ -34,7 +35,6 @@ import PreviewSkeleton from "./PreviewSkeleton";
 import Avatar from "./Avatar";
 import ChatGPTPanel from "./ChatGPTPanel";
 import LanguageToggle from "./LanguageToggle";
-import { translate } from "@/api/chatGPT";
 
 type R = HTMLDivElement;
 type E = Nullable<VditorInstance>;

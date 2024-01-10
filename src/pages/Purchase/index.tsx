@@ -2,8 +2,8 @@ import PayCard from "./PayCard";
 import QuestionAndAnswer from "./QuestionAndAnswer";
 
 const descriptions = {
-  有效期: "三个月",
-  简历创建数量: "3次",
+  有效期: "截止次数耗尽",
+  简历创建数量: "5次",
   简历下载版本: "多种格式下载",
   在线客服: "优先",
 };
@@ -17,9 +17,9 @@ const Purchase = () => {
       >
         <div className="text-center">
           <section className="inline-flex flex-wrap gap-6 sm:gap-12 justify-center sm:p-12 sm:bg-zinc-50 shadow-lg rounded-lg sm:translate-y-1/4">
-            <PayCard name="三个月会员" price={25} descriptions={descriptions} />
-            <PayCard name="六个月会员" price={55} descriptions={descriptions} />
-            <PayCard name="一年会员" price={125} descriptions={descriptions} />
+            <PayCard name="一次使用ChatGPT" price={1} descriptions={descriptions} />
+            <PayCard name="十次使用ChatGPT" price={9.8} descriptions={descriptions} />
+            <PayCard name="百次使用ChatGPT" price={89.8} descriptions={descriptions} />
           </section>
         </div>
       </div>

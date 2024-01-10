@@ -1546,7 +1546,6 @@ export function createVditor(
     minHeight: 800,
     width: "535px",
     height: "100%",
-    value: "",
     tab: "\t",
     theme: "classic",
     mode: "ir",
