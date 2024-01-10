@@ -255,7 +255,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           theme={theme}
           dispatch={dispatch}
         />
-        <div className="grow overflow-scroll flex justify-center bg-gray-200">
+        <div className="grow overflow-scroll flex justify-center bg-gray-600">
           <article className="mt-5 relative w-[825px]">
             <StyleInjection theme={theme} />
 
