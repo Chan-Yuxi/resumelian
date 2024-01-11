@@ -1,15 +1,7 @@
+import { Button } from "antd";
 import ParticlesBg from "particles-bg";
-import "@/assets/styles/career-counselor.scss";
 
 const CareerCounselor = () => {
-  // const toResumeModification = () => {
-  //   navigate("/resume-modification");
-  // };
-
-  // const toMyResume = () => {
-  //   navigate("/resume");
-  // };
-
   const items = [
     {
       id1: [
@@ -17,7 +9,7 @@ const CareerCounselor = () => {
           id: 1,
           username:
             "Andy，本科毕业于武汉大学金融工程专业，硕士毕业于纽约大学金融工程专业。3年全职工作经验，就职于中信建投证券，担任自营投资分析工作，参与团队管理40亿人民币资产。工作内容包括：股票基本面研究、量化研究、股票中性策略、期货趋势跟踪策略、期权波动率交易策略及大类资产配置等。此外，曾在美国UBS量化策略部及高瓴资本团队实习，熟悉中美两地一、二级市场求职及工作内容。对三中一华等大型证券公司、华夏基金等基金公司内部岗位设置及招聘流程较为熟悉。2020年帮助同学拿到华泰证券、中信证券、中金公司、国泰君安等全职offer。善于从学生优点角度润色简历，改简历的同时会指点学生如何使用，如何表述简历中相关内容。",
-          img: "/xizhuang1.png",
+          img: "/xizhuang5.png",
         },
       ],
     },
@@ -53,29 +45,52 @@ const CareerCounselor = () => {
   }
 
   return (
-    <div className="lll">
-      <div className="box">
-        <div className="box_top1">
-          <div className="box_top">
-            金融行业专业导师亲自为您量身定做简历，让你的简历更显专业！
-          </div>
+    <main className="w-[80vw] mb-64 mx-auto bg-transparent">
+      <section className="p-8 m-8 shadow-lg bg-white">
+        <div
+          className="text-transparent text-center text-3xl font-bold bg-gradient-to-r from-[#f01234] via-[#f58031] via-[#f3c228] to-[#e6ff07]"
+          style={{
+            backgroundClip: "text",
+          }}
+        >
+          金融行业专业导师亲自为您量身定做简历，让你的简历更显专业！
         </div>
+      </section>
 
+      <section>
         {result.map((item) => (
-          <div className="box1" key={item.id}>
-            <div className="jl1">
-              <img src={item.img} alt="" />
+          <figure
+            className="p-8 m-8 border border-1 border-solid border-slate-200 bg-slate-100 shadow-lg"
+            key={item.id}
+          >
+            <div className="flex">
+              <img
+                className="w-[18%] aspect-square me-8 shrink-0 rounded"
+                alt="picture"
+                src={item.img}
+              />
+              <figcaption>
+                <div className="text-xl text-zinc-600 leading-normal">
+                  {item.username}
+                </div>
+              </figcaption>
             </div>
-            <div className="jl">
-              <div className="jl_box1">{item.username}</div>
+
+            <div className="text-right">
+              <Button
+                type="primary"
+                size="large"
+                className="!rounded-none !px-16"
+              >
+                了解详情
+              </Button>
             </div>
-            <div className="jl_box2">了解详情</div>
-          </div>
+          </figure>
         ))}
-      </div>
+      </section>
 
       <ParticlesBg type="polygon" bg={true} />
-    </div>
+    </main>
   );
 };
 
