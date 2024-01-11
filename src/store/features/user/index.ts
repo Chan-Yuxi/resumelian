@@ -6,6 +6,16 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState: UserState = {
   username: "tourist",
   token: "",
+  userId: "",
+  aiNumber: 0,
+  age: 0,
+  sex: "",
+  email: "",
+  phone: 0,
+  university: "",
+  speciality: "",
+  intention: "",
+  openId: "",
 };
 
 const userSlice = createSlice({
@@ -17,6 +27,9 @@ const userSlice = createSlice({
     },
     setToken(state, { payload }: P<string>) {
       state.token = payload;
+    },
+    setUser(state, { payload }: P<UserState>) {
+      Object.assign(state, payload);
     },
   },
 });

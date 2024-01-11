@@ -1,4 +1,18 @@
-export interface UserState {
+export interface User {
+  username: string;
+  userId: string;
+  aiNumber: number;
+  age: number;
+  sex: string;
+  email: string;
+  phone: number;
+  university: string;
+  speciality: string;
+  intention: string;
+  openId: string;
+}
+
+export interface UserState extends User {
   username: string;
   token: string;
 }
@@ -47,15 +61,6 @@ export interface LoginResponse {
   userId: string;
   token: string;
 }
-
-/**
- *
- * 保存的时候需要把主题一起保存了！！！！
- * customTheme
- *
- *
- *
- */
 
 export interface Resume {
   id: string;

@@ -1,24 +1,41 @@
 import type { RootState } from "@/store";
+import type { User } from "@/type/definition";
+
 import { connect } from "react-redux";
 
 import { Avatar, Button, Form, Row, Col, Input } from "antd";
 import { useEffect, useState } from "react";
-import { UserInfo, retrieveUserInfo } from "@/api/user";
+import { retrieveUserInfo, updateUserInfo } from "@/api/user";
+import { useForm } from "antd/es/form/Form";
 
 type P = {
   username: string;
 };
 
 const AccountInformation: React.FC<P> = ({ username }) => {
-  const [userInfo, setUserInfo] = useState<UserInfo>();
+  const [userInfo, setUserInfo] = useState<User>();
+  const [form] = useForm();
 
   useEffect(() => {
     retrieveUserInfo(username).then((info) => {
       if (info) {
         setUserInfo(info);
+        form.setFieldsValue(info);
       }
     });
-  }, [username]);
+  }, [username, form]);
+
+
+  function saveUserProfile() {
+    const beUpdatedUserInfo = form.getFieldsValue() as User;
+
+    beUpdatedUserInfo.age = Number(beUpdatedUserInfo.age);
+    beUpdatedUserInfo.phone = Number(beUpdatedUserInfo.phone);
+
+    updateUserInfo(beUpdatedUserInfo, username).then((res) => {
+      console.log(res);
+    });
+  }
 
   return (
     <div>
@@ -30,14 +47,9 @@ const AccountInformation: React.FC<P> = ({ username }) => {
         <div className="flex flex-col gap-[2px] ms-8  py-2">
           <p className="text-xl font-bold">Aa123456</p>
           <p className="text-slate-500">UserID&nbsp;:&nbsp;{username}</p>
-          {userInfo?.member ? (
-            <p className="mt-auto">
-              <span className="text-yellow-500 font-bold me-4">会员</span>
-              <span>至 {userInfo.expireTime}</span>
-            </p>
-          ) : (
-            <p className="mt-auto">普通用户</p>
-          )}
+          {/*  */}
+          <p>剩余使用次数：{userInfo?.aiNumber}</p>
+          {/*  */}
         </div>
         <div className="flex flex-col gap-[2px]  py-2 ms-auto">
           <p className="text-slate-500">只支持JPG、JPEG或PNG格式的图片文件</p>
@@ -50,38 +62,84 @@ const AccountInformation: React.FC<P> = ({ username }) => {
         </div>
       </div>
       <div>
-        <Form layout="vertical" className="w-2/5">
+        <Form layout="vertical" className="w-2/5" form={form}>
           <Row gutter={24}>
-            <Col span={12}>
-              <Form.Item label="姓名">
+            {/* <Col span={12}>
+              <Form.Item name="name" label="姓名">
                 <Input
                   className="py-2 bg-zinc-50 border-0"
                   placeholder="Resumelian User"
                 />
               </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item label="用户名">
+            </Col> */}
+            {/* <Col span={12}>
+              <Form.Item name="" label="用户名">
                 <Input
                   className="py-2 bg-zinc-50 border-0"
                   placeholder="Aa123456"
                 />
               </Form.Item>
+            </Col> */}
+
+            <Col span={12}>
+              <Form.Item name="age" label="年龄">
+                <Input
+                  className="py-2 bg-zinc-50 border-0"
+                  placeholder="请填写年龄"
+                />
+              </Form.Item>
             </Col>
 
             <Col span={12}>
-              <Form.Item label="Email">
+              <Form.Item name="sex" label="性别">
+                <Input
+                  className="py-2 bg-zinc-50 border-0"
+                  placeholder="请填写性别"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item name="email" label="Email">
                 <Input
                   className="py-2 bg-zinc-50 border-0"
                   placeholder="2438149743@qq.com"
                 />
               </Form.Item>
             </Col>
+
             <Col span={12}>
-              <Form.Item label="手机号">
+              <Form.Item name="phone" label="手机号">
                 <Input
                   className="py-2 bg-zinc-50 border-0"
                   placeholder="183*****128"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item name="university" label="毕业院校">
+                <Input
+                  className="py-2 bg-zinc-50 border-0"
+                  placeholder="请输入毕业院校"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item name="speciality" label="专业">
+                <Input
+                  className="py-2 bg-zinc-50 border-0"
+                  placeholder="请输入专业"
+                />
+              </Form.Item>
+            </Col>
+
+            <Col span={12}>
+              <Form.Item name="intention" label="工作意向">
+                <Input
+                  className="py-2 bg-zinc-50 border-0"
+                  placeholder="请输入工作意向"
                 />
               </Form.Item>
             </Col>
@@ -89,7 +147,9 @@ const AccountInformation: React.FC<P> = ({ username }) => {
         </Form>
       </div>
       <div className="text-end">
-        <Button type="primary">保存更改</Button>
+        <Button type="primary" onClick={saveUserProfile}>
+          保存更改
+        </Button>
       </div>
     </div>
   );

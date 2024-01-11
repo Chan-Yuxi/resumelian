@@ -12,9 +12,16 @@ export const chatGPT = (
     return Promise.resolve(null);
   }
   return http.request<string>({
-    url: `/openai/chat?content=${content}&industry=${industry}&module=${module}&language=${language}&userId=${username}`,
+    // content=${content}&industry=${industry}&module=${module}&language=${language}&
+    url: `/openai/chat?userId=${username}`,
     timeout: 60 * 1000,
     method: "post",
+    data: {
+      content,
+      industry,
+      module,
+      language,
+    },
   });
 };
 
