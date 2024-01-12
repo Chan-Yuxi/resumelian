@@ -4,6 +4,7 @@ import type { PayloadAction as P } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState: UserState = {
+  name: "",
   username: "tourist",
   token: "",
   userId: "",
