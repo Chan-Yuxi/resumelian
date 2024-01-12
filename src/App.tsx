@@ -8,6 +8,10 @@ import { RouterProvider } from "react-router-dom";
 
 const App = () => {
 
+  /**
+   * useBlocker 仅能在 createBrowserRouter 下使用
+   * 因此取消使用 <BrowserRouter />
+   */
   return (
     <RouterProvider router={router} />
     // <AppWrapperComponent>

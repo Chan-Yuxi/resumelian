@@ -240,6 +240,12 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     }
   }
 
+  /**
+   * useBlocker 拦截路由跳转
+   * 在拦截之前问询用户，以确认用户已保存简历编辑内容
+   * 由于 vditor 关闭了缓存
+   * 所以用户二次刷新再返回此页面会出现空白模板
+   */
   const blocker = useBlocker(({ currentLocation, nextLocation }) => {
     return currentLocation.pathname !== nextLocation.pathname;
   });
