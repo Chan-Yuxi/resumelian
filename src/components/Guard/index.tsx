@@ -13,7 +13,7 @@ type P = {
   };
 };
 
-const Guard: React.FC<React.PropsWithChildren<P & UserState>> = ({
+const Guard: React.FC<React.PropsWithChildren<P & Partial<UserState>>> = ({
   children,
   auth,
   meta,

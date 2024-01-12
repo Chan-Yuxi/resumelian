@@ -1,4 +1,9 @@
-import { useRoutes, Navigate } from "react-router-dom";
+import { Navigate, Outlet, createBrowserRouter } from "react-router-dom";
+
+import Header from "@/components/Layout/Header";
+import Footer from "@/components/Layout/Footer";
+
+import { App as AppWrapperComponent, Layout } from "antd";
 
 import Guard from "@/components/Guard";
 
@@ -39,11 +44,11 @@ const resumeChildren = [
 
 const routes = [
   {
-    path: "/",
+    path: "",
     element: <Navigate to="/home" replace />,
   },
   {
-    path: "/career-counselor",
+    path: "career-counselor",
     element: (
       <Guard meta={{ title: "职业咨询" }}>
         <CareerCounselor />
@@ -51,7 +56,7 @@ const routes = [
     ),
   },
   {
-    path: "/home",
+    path: "home",
     element: (
       <Guard meta={{ title: "首页" }}>
         <Home />
@@ -59,7 +64,7 @@ const routes = [
     ),
   },
   {
-    path: "/interview-coach",
+    path: "interview-coach",
     element: (
       <Guard meta={{ title: "面试辅导" }}>
         <InterviewCoach />
@@ -67,7 +72,7 @@ const routes = [
     ),
   },
   {
-    path: "/login",
+    path: "login",
     element: (
       <Guard meta={{ title: "登录" }}>
         <Login />
@@ -75,7 +80,7 @@ const routes = [
     ),
   },
   {
-    path: "/purchase",
+    path: "purchase",
     element: (
       <Guard meta={{ title: "会员购买" }}>
         <Purchase />
@@ -83,7 +88,7 @@ const routes = [
     ),
   },
   {
-    path: "/resume",
+    path: "resume",
     element: (
       <Guard auth meta={{ title: "我的简历" }}>
         <Resume />
@@ -92,7 +97,7 @@ const routes = [
     children: resumeChildren,
   },
   {
-    path: "/resume-modification/:templateId?/:resumeId?",
+    path: "resume-modification/:templateId?/:resumeId?",
     element: (
       <Guard auth meta={{ title: "简历制作" }}>
         <ResumeModification />
@@ -100,7 +105,7 @@ const routes = [
     ),
   },
   {
-    path: "/template-center",
+    path: "template-center",
     element: (
       <Guard meta={{ title: "模板中心" }}>
         <TemplateCenter />
@@ -108,11 +113,11 @@ const routes = [
     ),
   },
   {
-    path: "/_upload",
+    path: "_upload",
     element: <Upload />,
   },
   {
-    path: "/404",
+    path: "404",
     element: <NotFound />,
   },
   {
@@ -121,8 +126,22 @@ const routes = [
   },
 ];
 
-const Router = () => {
-  return useRoutes(routes);
-};
-
-export default Router;
+export default createBrowserRouter([
+  {
+    path: "/",
+    children: routes,
+    element: (
+      <AppWrapperComponent>
+        <Layout>
+          <Header />
+          <Layout.Content>
+            <div className="flex flex-col" style={{ minHeight: "calc(100vh - 64px)" }}>
+              <Outlet />
+            </div>
+          </Layout.Content>
+          <Footer />
+        </Layout>
+      </AppWrapperComponent>
+    ),
+  },
+]);

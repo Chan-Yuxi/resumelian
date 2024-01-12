@@ -14,8 +14,8 @@ import React, {
 
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
-import { App } from "antd";
+import { useBlocker, useParams } from "react-router-dom";
+import { App, Modal } from "antd";
 
 import dayjs from "dayjs";
 
@@ -240,6 +240,10 @@ const ResumeModification: React.FC<P> = ({ username }) => {
     }
   }
 
+  const blocker = useBlocker(({ currentLocation, nextLocation }) => {
+    return currentLocation.pathname !== nextLocation.pathname;
+  });
+
   return (
     <main className="flex h-reach-bottom">
       <aside className="overflow-scroll" style={{ width: "535px" }}>
@@ -282,6 +286,20 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           onAIResponse={handleAIResponse}
         />
       </aside>
+
+      {blocker.state === "blocked" ? (
+        <Modal
+          open
+          title="提示"
+          centered
+          okText="我已保存"
+          cancelText="取消"
+          onOk={() => blocker.proceed()}
+          onCancel={() => blocker.reset()}
+        >
+          <p>请在确认保存之前退出简历编辑</p>
+        </Modal>
+      ) : null}
     </main>
   );
 };
