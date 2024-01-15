@@ -1,4 +1,4 @@
-const Record = () => {
+const MyOrder = () => {
   return (
     <h1 className="text-lg text-slate-700 pb-2 border border-0 border-b border-solid border-zinc-100">
       下载记录
@@ -6,4 +6,4 @@ const Record = () => {
   );
 };
 
-export default Record;
+export default MyOrder;

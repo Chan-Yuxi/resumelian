@@ -1,4 +1,4 @@
-import type { User } from "@/type/definition";
+import type { User, ConsumptionRecord } from "@/type/definition";
 import http from "@/utils/http";
 
 export const retrieveUserInfo = (username: string) => {
@@ -13,5 +13,12 @@ export const updateUserInfo = (user: User, username: string) => {
     url: `/WeChat/updateuser?userId=${username}`,
     method: "post",
     data: user,
+  });
+};
+
+export const getConsumptionRecord = (username: string) => {
+  return http.request<ConsumptionRecord[]>({
+    url: `/pay/wxConsumptionRecords?userId=${username}`,
+    method: "post",
   });
 };

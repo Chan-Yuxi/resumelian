@@ -73,3 +73,19 @@ export interface Resume {
   theme: string;
   customTheme: string;
 }
+
+export interface ConsumptionRecord {
+  id: string;
+  mchid: string;
+  appid: string;
+  out_trade_no: string;
+  transaction_id: string;
+  trade_type: string;
+  trade_state: string;
+  bank_type: string;
+  attach: string;
+  success_time: string;
+  open_id: string;
+  money: number;
+  user_id: string;
+}

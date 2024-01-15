@@ -303,7 +303,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           onOk={() => blocker.proceed()}
           onCancel={() => blocker.reset()}
         >
-          <p>请在确认保存之前退出简历编辑</p>
+          <p>请在确认保存之前退出简历编辑页面</p>
         </Modal>
       ) : null}
     </main>

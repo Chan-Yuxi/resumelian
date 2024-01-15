@@ -45,21 +45,136 @@ export function render(preview: HTMLElement, htmlString = "") {
 
     let page = newPage();
     let node: Element | null;
+    let finalReasonableHeight: number;
 
     // 移动头像到该节点
     resumeAvatar && page.appendChild(resumeAvatar);
 
+    /**
+     * 当一个元素大于
+     */
+
     while ((node = resolver.next()) !== null) {
+      // console.log(node);
+      finalReasonableHeight = page.offsetHeight;
+      // console.log(finalReasonableHeight);
+      page.appendChild(node.cloneNode(true));
       // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
       if (page.offsetHeight > pageH) {
         const adjust = page.lastChild!;
+
+        // 拆分出来
+        // console.log(page.offsetHeight);
+        // console.log(adjust);
+        // 递归子元素，找到
+
+        // findLastAdaptedElement(finalReasonableHeight, adjust, pageH);
+
+        // const [upperPart, lowerPart] = findLastAdaptedElement(finalReasonableHeight, adjust);
+
         page = newPage();
         page.appendChild(adjust);
       }
       // else
-      page.appendChild(node.cloneNode(true));
     }
   }
+}
+
+/**
+ *
+ * <ul>
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ * </ul>
+ *
+ *
+ *
+ *
+ *
+ * // final ==>
+ *
+ * <ul>
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ * </ul>
+ *
+ * <ul>
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ *    <li />
+ * </ul>
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ *
+ */
+
+function findLastAdaptedElement(
+  startingHeight: number,
+  adjusted: ChildNode,
+  pageH: number
+): [ChildNode, ChildNode] {
+  let currentHeight = startingHeight;
+
+  const children = adjusted.childNodes;
+  const upperPart = adjusted.cloneNode() as ChildNode;
+  for (const child of children) {
+    if (child.nodeName !== "#text") {
+      // 如果还有子元素，继续拆分
+      // 如果没有子元素
+
+      const offsetHeight = getOffsetHeight(child);
+      if (currentHeight + offsetHeight <= pageH) {
+        upperPart.appendChild(child);
+        currentHeight += startingHeight;
+      } else {
+        if (child.children.length) {
+          const [upper, lower] = findLastAdaptedElement(
+            currentHeight,
+            child,
+            pageH
+          );
+          upperPart.appendChild(upper);
+        }
+      }
+
+      
+      // console.log(child);
+      // console.log((child as HTMLElement).offsetHeight);
+      // findLastAdaptedElement(startingHeight, child);
+    }
+    console.log('upperPart', upperPart);
+  }
+
+  return [upperPart, adjusted];
+}
+
+function getOffsetHeight(element: unknown) {
+  return (element as HTMLElement).offsetHeight;
 }
 
 function resolveLRContainer(children: HTMLCollection, index: number) {
