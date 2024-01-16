@@ -45,7 +45,7 @@ export function render(preview: HTMLElement, htmlString = "") {
 
     let page = newPage();
     let node: Element | null;
-    let finalReasonableHeight: number;
+    // let finalReasonableHeight: number;
 
     // 移动头像到该节点
     resumeAvatar && page.appendChild(resumeAvatar);
@@ -56,7 +56,7 @@ export function render(preview: HTMLElement, htmlString = "") {
 
     while ((node = resolver.next()) !== null) {
       // console.log(node);
-      finalReasonableHeight = page.offsetHeight;
+      // finalReasonableHeight = page.offsetHeight;
       // console.log(finalReasonableHeight);
       page.appendChild(node.cloneNode(true));
       // 如果该 page 的高度超出了标准 page 高度，新建 page, 并将上一个尾元素移入新 page
@@ -99,7 +99,7 @@ export function render(preview: HTMLElement, htmlString = "") {
  * </ul>
  *
  *
- *
+ * 
  *
  *
  * // final ==>
@@ -152,7 +152,7 @@ function findLastAdaptedElement(
         upperPart.appendChild(child);
         currentHeight += startingHeight;
       } else {
-        if (child.children.length) {
+        if ((child as HTMLElement).children.length) {
           const [upper, lower] = findLastAdaptedElement(
             currentHeight,
             child,
