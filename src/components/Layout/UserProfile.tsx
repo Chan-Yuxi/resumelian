@@ -3,7 +3,7 @@ import type { RootState } from "@/store";
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";
-import { Button } from "antd";
+import { Avatar, Button } from "antd";
 import { useNavigate } from "react-router-dom";
 
 type P = {
@@ -11,14 +11,20 @@ type P = {
   token: string;
 };
 
-const UserProfile: React.FC<P> = ({ token }) => {
+const UserProfile: React.FC<P> = ({ token, username }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <div>
       {token ? (
-        <div className="text-white">Already Login...</div>
+        <>
+          <span className="text-white font-bold me-2">陈先生</span>
+          <Avatar
+            className="w-10 h-10"
+            src={`https://jianlizhizuo.cn/WeChat/getuserpic?userId=${username}`}
+          />
+        </>
       ) : (
         <Button
           className="rounded-none"
