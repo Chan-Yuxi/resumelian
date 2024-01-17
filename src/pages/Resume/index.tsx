@@ -1,4 +1,4 @@
-import { Menu, Button, MenuProps } from "antd";
+import { Menu, Button, MenuProps, Popconfirm } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import {
@@ -12,6 +12,7 @@ import {
 import { connect } from "react-redux";
 import { setToken, setUsername } from "@/store/features/user";
 import { deleteItem } from "@/utils/storage";
+import { useTranslation } from "react-i18next";
 
 const items = [
   {
@@ -40,6 +41,7 @@ const Resume: React.FC<{
   setUsername: (username: string) => void;
   setToken: (token: string) => void;
 }> = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -75,9 +77,18 @@ const Resume: React.FC<{
           />
         </div>
         <div className="mt-auto px-8 ">
-          <Button type="link" onClick={loginOut} icon={<CloseCircleOutlined />}>
-            退出登录
-          </Button>
+          <Popconfirm
+            title="提示"
+            placement="right"
+            description="确定要退出登录吗？"
+            onConfirm={loginOut}
+            okText={t("system:label confirm")}
+            cancelText={t("system:label cancel")}
+          >
+            <Button type="link" icon={<CloseCircleOutlined />} danger>
+              退出登录
+            </Button>
+          </Popconfirm>
         </div>
       </aside>
 

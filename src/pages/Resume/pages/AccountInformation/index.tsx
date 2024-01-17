@@ -25,6 +25,7 @@ import { BASE_URL, SEX_OPTIONS } from "@/constant";
 import { retrieveUserInfo, updateUserInfo } from "@/api/user";
 import { getItem } from "@/utils/storage";
 import { useRequest } from "@/hooks";
+import { useNavigate } from "react-router-dom";
 
 type FileType = {
   type: string;
@@ -57,6 +58,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
   const { message } = App.useApp();
   const { t } = useTranslation();
   const [form] = Form.useForm<User>();
+  const navigate = useNavigate();
 
   const [userInfoLoading, userInfo, setUserInfo] = useRequest<User>(() =>
     retrieveUserInfo(username)
@@ -156,7 +158,11 @@ const AccountInformation: React.FC<P> = ({ username }) => {
                     {t("resume:label Count")}
                   </span>
                   <span className="text-lg">
-                    <Button size="small" type="primary">
+                    <Button
+                      size="small"
+                      type="primary"
+                      onClick={() => navigate("/purchase")}
+                    >
                       {t("resume:Go recharge")}
                     </Button>
                   </span>

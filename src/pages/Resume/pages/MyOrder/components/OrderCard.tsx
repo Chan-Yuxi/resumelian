@@ -7,7 +7,7 @@ type P = {
 
 const OrderCard: React.FC<P> = ({ record }) => {
   return (
-    <div className="p-4 border border-1 border-solid border-green-500 mt-4 bg-zinc-50 rounded ">
+    <div className="p-4 mt-4 rounded border border-1 border-solid border-slate-200 bg-zinc-100/50">
       <p>支付金额：{record.money}.00 元</p>
       <p>订单编号：{record.out_trade_no}</p>
       <p>
