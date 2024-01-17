@@ -156,7 +156,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
   const [outTradeNo, setOutTradeNo] = useState("");
   function handlePurchase() {
     setQRLoading(true);
-    Promise.all([getPayQRCode(username), getAliPayQRCode(username)])
+    Promise.all([getPayQRCode(username, price), getAliPayQRCode(username, price)])
       .then((payInfo) => {
         if (payInfo[0] && payInfo[1]) {
           setQRCodeUrl(payInfo[0].code_url);

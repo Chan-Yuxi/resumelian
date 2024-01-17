@@ -27,7 +27,7 @@ export const useEventListener = (
       };
     }
     // eslint-disable-next-line
-  }, []);
+  }, [dom]);
 };
 
 /**

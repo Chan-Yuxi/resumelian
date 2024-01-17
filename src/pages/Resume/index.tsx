@@ -38,9 +38,9 @@ const items = [
 ];
 
 const Resume: React.FC<{
-  setUsername: (username: string) => void;
-  setToken: (token: string) => void;
-}> = () => {
+  inner_setUsername: (username: string) => void;
+  inner_setToken: (token: string) => void;
+}> = ({ inner_setUsername, inner_setToken }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
@@ -55,8 +55,9 @@ const Resume: React.FC<{
   };
 
   function loginOut() {
-    setUsername("");
-    setToken("");
+    console.log("Log out");
+    inner_setUsername("");
+    inner_setToken("");
     deleteItem("username");
     deleteItem("token");
     navigate("/login");
@@ -100,8 +101,8 @@ const Resume: React.FC<{
 };
 
 const mapDispatchToProps = {
-  setUsername,
-  setToken,
+  inner_setUsername: setUsername,
+  inner_setToken: setToken,
 };
 
 export default connect(null, mapDispatchToProps)(Resume);

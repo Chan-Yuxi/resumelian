@@ -187,27 +187,35 @@ const ResumeModification: React.FC<P> = ({ username }) => {
       return;
     }
 
-    setSaveLoading(false);
+    setSaveLoading(true);
     const resume = createResumeInstance(id || "", name, value, tid, theme);
 
     if (id) {
-      modifyResume(resume).then((resume) => {
-        resume
-          ? success(
-              t("resumeModification:Your resume has been successfully saved")
-            )
-          : error(t("resumeModification:Save failed"));
-      });
+      modifyResume(resume)
+        .then((resume) => {
+          resume
+            ? success(
+                t("resumeModification:Your resume has been successfully saved")
+              )
+            : error(t("resumeModification:Save failed"));
+        })
+        .finally(() => {
+          setSaveLoading(false);
+        });
     } else {
-      createResume(resume).then((resume) => {
-        if (!resume) error(t("resumeModification:Save failed"));
-        else {
-          setId(resume.id);
-          success(
-            t("resumeModification:Your resume has been successfully saved")
-          );
-        }
-      });
+      createResume(resume)
+        .then((resume) => {
+          if (!resume) error(t("resumeModification:Save failed"));
+          else {
+            setId(resume.id);
+            success(
+              t("resumeModification:Your resume has been successfully saved")
+            );
+          }
+        })
+        .finally(() => {
+          setSaveLoading(false);
+        });
     }
   }
 

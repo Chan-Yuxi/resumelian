@@ -27,6 +27,7 @@ const userSlice = createSlice({
       state.username = payload;
     },
     setToken(state, { payload }: P<string>) {
+      console.log("update token: ", payload);
       state.token = payload;
     },
     setUser(state, { payload }: P<UserState>) {

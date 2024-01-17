@@ -88,7 +88,6 @@ const ToolkitBar: React.FC<P> = ({
           className="shadow-lg me-2 border-0 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
           style={{ width: "102px" }}
           onClick={onChatGPTButtonClick}
-          loading={saveLoading}
         >
           {t("resumeModification:Using ChatGPT")}
         </Button>

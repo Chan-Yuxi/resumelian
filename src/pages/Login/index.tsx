@@ -45,20 +45,28 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
     );
   };
 
+  const [loginLoading, setLoginLoading] = useState(false);
   const handleFinish: FormProps["onFinish"] = ({ code }) => {
     if (code && ticket) {
-      login(ticket, code as string).then((data) => {
-        if (data) {
-          const { userId, token } = data;
-          setUsername(userId);
-          setToken(token);
-          setItem("token", token);
-          setItem("username", userId);
+      setLoginLoading(true);
+      login(ticket, code as string)
+        .then((data) => {
+          if (data) {
+            const { userId, token } = data;
+            setUsername(userId);
+            setToken(token);
+            setItem("token", token);
+            setItem("username", userId);
 
-          navigate("/home", { replace: true });
-          message.success(t("lg.login_success"));
-        }
-      });
+            navigate("/home", { replace: true });
+            message.success(t("lg.login_success"));
+          } else {
+            message.warning("出错了");
+          }
+        })
+        .finally(() => {
+          setLoginLoading(false);
+        });
     }
   };
 
@@ -87,7 +95,7 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
               <Input placeholder={t("lg.placeholder")} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit" block>
+              <Button loading={loginLoading} type="primary" htmlType="submit" block>
                 {t("lg.login/register")}
               </Button>
             </Form.Item>
