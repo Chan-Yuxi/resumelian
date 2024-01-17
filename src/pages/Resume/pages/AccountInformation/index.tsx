@@ -4,6 +4,7 @@ import type { UploadProps } from "antd";
 
 import { useEffect, useState } from "react";
 import { connect } from "react-redux";
+import { useTranslation } from "react-i18next";
 
 import {
   Avatar,
@@ -14,17 +15,22 @@ import {
   Input,
   Select,
   App,
-  message,
   Upload,
+  Skeleton,
+  Modal,
+  message,
 } from "antd";
-import { useForm } from "antd/es/form/Form";
+
+import { BASE_URL, SEX_OPTIONS } from "@/constant";
 import { retrieveUserInfo, updateUserInfo } from "@/api/user";
 import { getItem } from "@/utils/storage";
+import { useRequest } from "@/hooks";
 
 type FileType = {
   type: string;
   size: number;
 } & Blob;
+
 type P = {
   username: string;
 };
@@ -48,62 +54,63 @@ const getBase64 = (img: FileType, callback: (url: string) => void) => {
 };
 
 const AccountInformation: React.FC<P> = ({ username }) => {
-  const [userInfo, setUserInfo] = useState<User>();
-  const [form] = useForm();
+  const { message } = App.useApp();
+  const { t } = useTranslation();
+  const [form] = Form.useForm<User>();
 
-  const [loading, setLoading] = useState(false);
-  const [imageUrl, setImageUrl] = useState<string>(
-    `https://jianlizhizuo.cn/WeChat/getuserpic?userId=${username}`
+  const [userInfoLoading, userInfo, setUserInfo] = useRequest<User>(() =>
+    retrieveUserInfo(username)
   );
 
-  const app = App.useApp();
-  const { message } = app;
-
   useEffect(() => {
-    retrieveUserInfo(username).then((info) => {
-      if (info) {
-        setUserInfo(info);
-        form.setFieldsValue(info);
-      }
-    });
-  }, [username, form]);
+    userInfo && form.setFieldsValue(userInfo);
+  }, [form, userInfo]);
 
+  const [uploadLoading, setUploadLoading] = useState(false);
+  const [avatar, setAvatar] = useState<string>(
+    `${BASE_URL}/WeChat/getuserpic?userId=${username}`
+  );
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
-      setLoading(true);
+      setUploadLoading(true);
       return;
     }
     if (info.file.status === "done") {
-      // Get this url from response in real world.
       getBase64(info.file.originFileObj as FileType, (url) => {
-        setLoading(false);
-        setImageUrl(url);
+        setUploadLoading(false);
+        setAvatar(url);
       });
     }
   };
 
-  function saveUserProfile() {
-    const beUpdatedUserInfo = form.getFieldsValue() as User;
+  const [modalOpen, setModalOpen] = useState(false);
+  const [okLoading, setOkLoading] = useState(false);
+  function saveUserInfo() {
+    const beUpdatedUserInfo = form.getFieldsValue();
+    setOkLoading(true);
 
-    beUpdatedUserInfo.age = Number(beUpdatedUserInfo.age);
-    beUpdatedUserInfo.phone = Number(beUpdatedUserInfo.phone);
-
-    updateUserInfo(beUpdatedUserInfo, username).then((res) => {
-      if (res) {
-        message.success("修改成功");
-      }
-    });
+    updateUserInfo(beUpdatedUserInfo, username)
+      .then((newUserInfo) => {
+        if (newUserInfo) {
+          setUserInfo(newUserInfo);
+          message.success(t("system:Modified successfully"));
+          setModalOpen(false);
+        }
+      })
+      .finally(() => {
+        setOkLoading(false);
+      });
   }
 
   return (
-    <div>
+    <main>
       <h1 className="text-lg text-slate-700 pb-2 border border-0 border-b border-solid border-zinc-100">
-        个人信息
+        {t("resume:Personal Information")}
       </h1>
-      <div className="flex my-8">
+      <section className="flex my-8">
         <div>
           <Upload
-            disabled={loading}
+            disabled={uploadLoading}
             name="file"
             showUploadList={false}
             listType="picture-circle"
@@ -115,100 +122,147 @@ const AccountInformation: React.FC<P> = ({ username }) => {
             onChange={handleChange}
           >
             <div className="relative [--show-upload-tip:none] hover:[--show-upload-tip:flex]">
-              <Avatar size={100} src={imageUrl} alt="avatar" />
+              <Avatar size={100} src={avatar} alt="avatar" />
               <div
                 className="justify-center items-center absolute left-0 top-0 w-full h-full text-white rounded-full cursor-pointer bg-gray-800/50"
                 style={{ display: "var(--show-upload-tip)" }}
               >
-                <span>{loading ? "上传中..." : "上传头像"}</span>
+                <span>{uploadLoading ? "上传中..." : "上传头像"}</span>
               </div>
             </div>
           </Upload>
         </div>
 
-        <div className="flex flex-col gap-[2px] ms-8  py-2">
-          <p className="text-xl font-bold">{userInfo?.name}</p>
-          <p className="text-slate-500">UserID&nbsp;:&nbsp;{username}</p>
-          {/*  */}
-          <p className="text-green-600 font-bold">
-            ChatGPT 剩余使用次数：{userInfo?.aiNumber}
-          </p>
-          {/*  */}
+        <div className="ms-8 py-2">
+          <Skeleton
+            loading={userInfoLoading}
+            active
+            title={{ width: 500 }}
+            paragraph={{
+              rows: 9,
+              width: [200, 300, 200, 250, 200, 350, 150, 300, 200],
+            }}
+          >
+            {userInfo ? (
+              <div className="flex flex-col gap-4">
+                <p>
+                  <span className="text-xl me-6 font-bold">
+                    {userInfo.name}
+                  </span>
+                  <span className="text-lg me-6">{userInfo.sex}</span>
+                  <span className="text-lg me-6 text-green-600 underline ">
+                    {t("resume:Remaining usage of ChatGPT")}
+                    {userInfo.aiNumber}
+                    {t("resume:label Count")}
+                  </span>
+                  <span className="text-lg">
+                    <Button size="small" type="primary">
+                      {t("resume:Go recharge")}
+                    </Button>
+                  </span>
+                </p>
+                <p className="text-slate-500">{username}</p>
+                <p>
+                  <span>{t("resume:label Age with colon")}</span>
+                  <span>{userInfo.age}</span>
+                </p>
+                <p>
+                  <span>{t("resume:label Email with colon")}</span>
+                  <span>{userInfo.email}</span>
+                </p>
+                <p>
+                  <span>{t("resume:label Phone with colon")}</span>
+                  <span>{userInfo.phone}</span>
+                </p>
+                <p>{userInfo.university}</p>
+                <p>{userInfo.speciality}</p>
+                <p>{userInfo.intention}</p>
+              </div>
+            ) : (
+              <div className="text-red-500">Error: No user information</div>
+            )}
+          </Skeleton>
         </div>
-        {/* <div className="flex flex-col gap-[2px]  py-2 ms-auto">
-          <p className="text-slate-500">只支持JPG、JPEG或PNG格式的图片文件</p>
-          <div className="mt-auto">
-            <Button type="primary" ghost>
-              更改头像
-            </Button>
-            <Button type="link">删除头像</Button>
-          </div>
-        </div> */}
-      </div>
-      <div>
-        <Form layout="vertical" className="w-2/5" form={form}>
-          <Row gutter={24}>
-            <Col span={12}>
-              <Form.Item name="name" label="姓名">
-                <Input placeholder="请填写姓名" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="age" label="年龄">
-                <Input placeholder="请填写年龄" type="number" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="sex" label="性别">
-                <Select
-                  placeholder="请选择性别"
-                  options={[
-                    {
-                      label: "男",
-                      value: "男",
-                    },
-                    {
-                      label: "女",
-                      value: "女",
-                    },
-                  ]}
-                />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="email" label="电子邮箱">
-                <Input placeholder="请填写您的电子邮箱" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="phone" label="手机号">
-                <Input placeholder="请填写手机号码" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="university" label="毕业院校">
-                <Input placeholder="请输入毕业院校" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="speciality" label="专业">
-                <Input placeholder="请输入专业" />
-              </Form.Item>
-            </Col>
-            <Col span={12}>
-              <Form.Item name="intention" label="工作意向">
-                <Input placeholder="请输入工作意向" />
-              </Form.Item>
-            </Col>
-          </Row>
-        </Form>
-      </div>
-      <div className="text-end">
-        <Button type="primary" onClick={saveUserProfile}>
-          保存更改
-        </Button>
-      </div>
-    </div>
+
+        <div className="grow text-right">
+          <Button type="primary" ghost onClick={() => setModalOpen(true)}>
+            {t("resume:Modify personal information")}
+          </Button>
+        </div>
+      </section>
+
+      <Modal
+        centered
+        open={modalOpen}
+        okText={t("system:label confirm")}
+        cancelText={t("system:label cancel")}
+        confirmLoading={okLoading}
+        onCancel={() => setModalOpen(false)}
+        onOk={saveUserInfo}
+      >
+        <section>
+          <Form form={form} layout="vertical">
+            <Row gutter={24}>
+              <Col span={12}>
+                <Form.Item name="name" label={t("resume:label Name")}>
+                  <Input placeholder={t("resume:Please fill in your name")} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="age" label={t("resume:label Age")}>
+                  <Input
+                    placeholder={t("resume:Please fill in your age")}
+                    type="number"
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="sex" label={t("resume:label Sex")}>
+                  <Select
+                    placeholder={t("resume:Please select gender")}
+                    options={SEX_OPTIONS}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="email" label={t("resume:label Email")}>
+                  <Input
+                    placeholder={t("resume:Please fill in your email address")}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="phone" label={t("resume:label Phone")}>
+                  <Input
+                    placeholder={t("resume:Please fill in your phone number")}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item
+                  name="university"
+                  label={t("resume:label University")}
+                >
+                  <Input
+                    placeholder={t("resume:Please enter your graduation")}
+                  />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="speciality" label={t("resume:label Major")}>
+                  <Input placeholder={t("resume:Please enter the major")} />
+                </Form.Item>
+              </Col>
+              <Col span={12}>
+                <Form.Item name="intention" label={t("resume:label Intention")}>
+                  <Input placeholder={t("resume:Please enter your work")} />
+                </Form.Item>
+              </Col>
+            </Row>
+          </Form>
+        </section>
+      </Modal>
+    </main>
   );
 };
 

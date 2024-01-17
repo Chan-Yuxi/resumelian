@@ -65,3 +65,4 @@ export function createWorker(task: () => void) {
 export function isEmpty(str: string | undefined | null): str is undefined {
   return str === null || str === undefined || str === "" || str === "\n";
 }
+

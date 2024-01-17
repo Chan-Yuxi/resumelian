@@ -36,6 +36,31 @@
 
   "resume:My Resume": "我的简历",
 
+  "resume:Personal Information": "个人信息",
+  "resume:Modify personal information": "个人信息",
+  "resume:Remaining usage of ChatGPT": "ChatGPT 剩余使用次数：",
+  "resume:label Count": "次",
+  "resume:Go recharge": "去充值",
+  "resume:label Age with colon": "年龄：",
+  "resume:label Email with colon": "邮箱：",
+  "resume:label Phone with colon": "手机号：",
+  "resume:label Name": "姓名",
+  "resume:label Age": "年龄",
+  "resume:label Sex": "性别",
+  "resume:label Email": "邮箱",
+  "resume:label Phone": "手机号",
+  "resume:label University": "毕业院校",
+  "resume:label Major": "专业",
+  "resume:label Intention": "工作意向",
+  "resume:Please fill in your name": "请填写姓名",
+  "resume:Please fill in your age": "请填写年龄",
+  "resume:Please select gender": "请选择性别",
+  "resume:Please fill in your email address": "请填写您的电子邮箱",
+  "resume:Please fill in your phone number": "请填写手机号码",
+  "resume:Please enter your graduation": "请输入毕业院校",
+  "resume:Please enter the major": "请输入专业",
+  "resume:Please enter your work": "请输入工作意向",
+
   "resumeModification:Generate avatar": "生成头像",
   "resumeModification:Theme color": "主题色",
   "resumeModification:label font": "字体",
@@ -63,5 +88,8 @@
   "404.title": "对不起，您访问的页面不存在，请检查地址栏是否输入正确",
   "404.back_home": "返回首页",
 
-  "system:You haven't logged in yet. Please log in first": "你还未登录请先登录"
+  "system:You haven't logged in yet. Please log in first": "你还未登录请先登录",
+  "system:Modified successfully": "修改成功",
+  "system:label confirm": "确定",
+  "system:label cancel": "取消"
 }
