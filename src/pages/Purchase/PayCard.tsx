@@ -122,7 +122,7 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
 
   function createWebSocket(callback: () => void) {
     let timer: NodeJS.Timeout;
-    websocket.current = new WebSocket("wss://jianlizhizuo.cn/websocket");
+    websocket.current = new WebSocket("wss://jianlizhizuo.cn/api/websocket");
     websocket.current.onopen = () => {
       timer = setInterval(() => {
         console.log("发送");

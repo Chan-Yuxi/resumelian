@@ -23,7 +23,7 @@ const UserProfile: React.FC<P> = ({ token, username }) => {
         <>
           <Avatar
             className="w-10 h-10"
-            src={`https://jianlizhizuo.cn/WeChat/getuserpic?userId=${username}`}
+            src={`https://jianlizhizuo.cn/api/WeChat/getuserpic?userId=${username}`}
           />
         </>
       ) : (

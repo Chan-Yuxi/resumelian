@@ -116,7 +116,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
             name="file"
             showUploadList={false}
             listType="picture-circle"
-            action={`https://jianlizhizuo.cn/WeChat/updatepic?userId=${username}`}
+            action={`https://jianlizhizuo.cn/api/WeChat/updatepic?userId=${username}`}
             headers={{
               Authorization: getItem("token")!,
             }}

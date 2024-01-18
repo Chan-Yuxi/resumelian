@@ -133,49 +133,49 @@ export function render(preview: HTMLElement, htmlString = "") {
  *
  */
 
-function findLastAdaptedElement(
-  startingHeight: number,
-  adjusted: ChildNode,
-  pageH: number
-): [ChildNode, ChildNode] {
-  let currentHeight = startingHeight;
+// function findLastAdaptedElement(
+//   startingHeight: number,
+//   adjusted: ChildNode,
+//   pageH: number
+// ): [ChildNode, ChildNode] {
+//   let currentHeight = startingHeight;
 
-  const children = adjusted.childNodes;
-  const upperPart = adjusted.cloneNode() as ChildNode;
-  for (const child of children) {
-    if (child.nodeName !== "#text") {
-      // 如果还有子元素，继续拆分
-      // 如果没有子元素
+//   const children = adjusted.childNodes;
+//   const upperPart = adjusted.cloneNode() as ChildNode;
+//   for (const child of children) {
+//     if (child.nodeName !== "#text") {
+//       // 如果还有子元素，继续拆分
+//       // 如果没有子元素
 
-      const offsetHeight = getOffsetHeight(child);
-      if (currentHeight + offsetHeight <= pageH) {
-        upperPart.appendChild(child);
-        currentHeight += startingHeight;
-      } else {
-        if ((child as HTMLElement).children.length) {
-          const [upper, lower] = findLastAdaptedElement(
-            currentHeight,
-            child,
-            pageH
-          );
-          upperPart.appendChild(upper);
-        }
-      }
+//       const offsetHeight = getOffsetHeight(child);
+//       if (currentHeight + offsetHeight <= pageH) {
+//         upperPart.appendChild(child);
+//         currentHeight += startingHeight;
+//       } else {
+//         if ((child as HTMLElement).children.length) {
+//           const [upper, lower] = findLastAdaptedElement(
+//             currentHeight,
+//             child,
+//             pageH
+//           );
+//           upperPart.appendChild(upper);
+//         }
+//       }
 
       
-      // console.log(child);
-      // console.log((child as HTMLElement).offsetHeight);
-      // findLastAdaptedElement(startingHeight, child);
-    }
-    console.log('upperPart', upperPart);
-  }
+//       // console.log(child);
+//       // console.log((child as HTMLElement).offsetHeight);
+//       // findLastAdaptedElement(startingHeight, child);
+//     }
+//     console.log('upperPart', upperPart);
+//   }
 
-  return [upperPart, adjusted];
-}
+//   return [upperPart, adjusted];
+// }
 
-function getOffsetHeight(element: unknown) {
-  return (element as HTMLElement).offsetHeight;
-}
+// function getOffsetHeight(element: unknown) {
+//   return (element as HTMLElement).offsetHeight;
+// }
 
 function resolveLRContainer(children: HTMLCollection, index: number) {
   const domain = {

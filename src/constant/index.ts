@@ -1,4 +1,4 @@
-const BASE_URL = "https://jianlizhizuo.cn";
+const BASE_URL = "https://jianlizhizuo.cn/api";
 const SEX_OPTIONS = [
   {
     label: "男",

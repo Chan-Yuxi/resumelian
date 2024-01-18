@@ -20,7 +20,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
       <figure
         className="w-[188px] aspect-a4 bg-cover shadow-inner"
         style={{
-          backgroundImage: `url(https://jianlizhizuo.cn/home/getrusumethemepic2?id=${picture})`,
+          backgroundImage: `url(https://jianlizhizuo.cn/api/home/getrusumethemepic2?id=${picture})`,
         }}
       >
         <figcaption className="h-full flex justify-center items-center">
