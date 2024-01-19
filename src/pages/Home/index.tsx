@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import { useTranslation } from "react-i18next";
 
-import Search from "./Search";
+// import Search from "./Search";
 import TemplateCard from "./TemplateCard";
 import JobTemplateCard from "./JobTemplateCard";
 import CaseCard from "./CaseCard";
@@ -32,7 +32,7 @@ const Home = () => {
           <h4 className="text-gray-400 text-base md:text-lg mb-4 md:mb-16">
             {t("home.description")}
           </h4>
-          <Search />
+          {/* <Search /> */}
         </div>
         <img
           className="md:absolute md:bottom-0 md:-right-16 w-full md:w-auto md:h-4/5 mt-12 md:mt-0 bg-blue-50 md:bg-transparent"

@@ -22,7 +22,7 @@ const Header = () => {
         <span className="text-white text-xl font-bold">Resumelian</span>
       </div>
 
-      <div className="w-[46px] md:w-[588px]">
+      <div className="w-[46px] md:w-[500px]">
         <Menu
           theme="dark"
           mode="horizontal"

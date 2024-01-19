@@ -76,10 +76,10 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
       style={{ height: "calc(100vh - 64px)" }}
     >
       <div>
-        <div className="font-bold mb-8">
+        {/* <div className="font-bold mb-8">
           <h1 className="text-4xl text-yellow-300">Welcome to</h1>
           <h3 className="text-5xl text-white">Resumelian</h3>
-        </div>
+        </div> */}
 
         <div className="w-full p-6 rounded shadow bg-white">
           <h1 className="mb-4 text-lg font-bold">{t("lg.top_text")}</h1>

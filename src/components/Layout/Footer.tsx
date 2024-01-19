@@ -74,7 +74,15 @@ const Footer = () => {
         <Divider className="bg-slate-200/50" />
         <div className="text-left md:text-center my-8">
           <span className="text-stone-300/40">
-            证经学社网&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;高霖海拓科技有限公司版权所有粤&nbsp;ICP&nbsp;备&nbsp;12505136&nbsp;号-24
+            证经学社网&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;
+            <span>
+              <a
+                className="text-stone-300/40"
+                href="https://beian.miit.gov.cn/"
+              >
+                高霖海拓科技有限公司版权所有粤&nbsp;ICP&nbsp;备&nbsp;12505136&nbsp;号-24
+              </a>
+            </span>
           </span>
         </div>
       </div>
