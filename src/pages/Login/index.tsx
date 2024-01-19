@@ -61,7 +61,7 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
             navigate("/home", { replace: true });
             message.success(t("lg.login_success"));
           } else {
-            message.warning("出错了");
+            message.warning("出错了，请刷新页面重试！");
           }
         })
         .finally(() => {

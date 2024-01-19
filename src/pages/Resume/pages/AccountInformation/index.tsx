@@ -71,7 +71,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const [avatar, setAvatar] = useState<string>(
     `${BASE_URL}/WeChat/getuserpic?userId=${username}`
-  );
+  ); 
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
       setUploadLoading(true);
@@ -119,6 +119,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
             action={`https://jianlizhizuo.cn/api/WeChat/updatepic?userId=${username}`}
             headers={{
               Authorization: getItem("token")!,
+              "Send-By-Front": "true",
             }}
             beforeUpload={beforeUpload}
             onChange={handleChange}
@@ -134,6 +135,8 @@ const AccountInformation: React.FC<P> = ({ username }) => {
             </div>
           </Upload>
         </div>
+
+        <img className="w-[200px] h-[200px]" src={avatar} alt="" />
 
         <div className="ms-8 py-2">
           <Skeleton

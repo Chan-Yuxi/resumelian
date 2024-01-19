@@ -10,6 +10,7 @@ function createAxios() {
     timeout: 10 * 1000,
     headers: {
       "Content-Type": "application/json; charset=utf-8",
+      "Send-By-Front": "true",
     },
   });
 }
@@ -17,8 +18,8 @@ function createAxios() {
 /**
  * group-父级样式引用
  * peer-兄弟样式引用
- * 
- * 
+ *
+ *
  */
 
 const defaultRequest = createAxios();
@@ -29,4 +30,3 @@ export default defaultRequest;
 
 // 接口
 // http://jianlizhizuo.cn/api/WeChat/accessToken
-

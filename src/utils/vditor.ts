@@ -1552,7 +1552,7 @@ export function createVditor(
     placeholder: "在此编辑您的简历...",
 
     // https://unpkg.com/vditor@${VDITOR_VERSION} 无法访问，切换至官网提供的地址
-    cdn: "https://cdn.jsdelivr.net/npm/vditor",
+    // cdn: "https://cdn.jsdelivr.net/npm/vditor",
 
     toolbar: toolbarList,
     hint: {
