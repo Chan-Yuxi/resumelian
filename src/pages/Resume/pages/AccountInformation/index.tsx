@@ -136,8 +136,6 @@ const AccountInformation: React.FC<P> = ({ username }) => {
           </Upload>
         </div>
 
-        <img className="w-[200px] h-[200px]" src={avatar} alt="" />
-
         <div className="ms-8 py-2">
           <Skeleton
             loading={userInfoLoading}
