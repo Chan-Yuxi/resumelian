@@ -23,7 +23,7 @@ type P = {
 const families = [
   { value: `'Times New Roman', Times, serif`, label: "Times New Roman" },
   { value: `Arial, Helvetica, sans-serif`, label: "Arial" },
-  { value: `Arial`, label: "Default" },
+  { value: `Arial`, label: "默认字体" },
 ];
 
 const ToolkitBar: React.FC<P> = ({
@@ -48,16 +48,22 @@ const ToolkitBar: React.FC<P> = ({
     };
 
   return (
-    <div className="shrink-0 flex items-center px-[35px] h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
-      <Space size={32}>
-        <Label text={t("resumeModification:Generate avatar")}>
+    <div className="flex flex-wrap sm:shrink-0  items-center px-6 py-4 sm:py-0 sm:px-[35px] h-auto sm:h-[37px] border-x-0 border-y border-solid border-[#d1d5da] bg-[#f6f8fa] shadow">
+      <Space className="flex-col sm:flex-row items-start sm:items-stretch gap-2 sm:gap-[36px]">
+        <Label
+          className="w-[100px] sm:w-auto"
+          text={t("resumeModification:Generate avatar")}
+        >
           <Switch
             size="small"
             value={enableAvatar}
             onChange={() => dispatch(toggleAvatar())}
           />
         </Label>
-        <Label text={t("resumeModification:Theme color")}>
+        <Label
+          className="w-[100px] sm:w-auto"
+          text={t("resumeModification:Theme color")}
+        >
           <Space size={6}>
             {colors.map((color, i) => (
               <ColorPicker
@@ -70,7 +76,10 @@ const ToolkitBar: React.FC<P> = ({
             ))}
           </Space>
         </Label>
-        <Label text={t("resumeModification:label font")}>
+        <Label
+          className="w-[100px] sm:w-auto"
+          text={t("resumeModification:label font")}
+        >
           <Select
             size="small"
             style={{ width: "175px" }}
@@ -82,7 +91,7 @@ const ToolkitBar: React.FC<P> = ({
         </Label>
       </Space>
 
-      <div className="ms-auto">
+      <div className="ms-auto mt-4 sm:mt-0">
         <Button
           size="small"
           className="shadow-lg me-2 border-0 text-white bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"

@@ -28,6 +28,7 @@ import { reducer, initialTheme, setupTheme } from "./reducer";
 import { createResume, getResume, modifyResume } from "@/api/resume";
 import { getTemplate } from "@/api/template";
 import { translate } from "@/api/chatGPT";
+import { SendOutlined } from "@ant-design/icons";
 
 import StyleInjection from "./StyleInjection";
 import ToolkitBar from "./ToolkitBar";
@@ -259,11 +260,15 @@ const ResumeModification: React.FC<P> = ({ username }) => {
   });
 
   return (
-    <main className="flex h-reach-bottom">
-      <aside className="overflow-scroll" style={{ width: "535px" }}>
+    <main className="flex h-reach-bottom w-full overflow-scroll">
+      <aside className="overflow-scroll relative shrink-0 relative w-full sm:w-[525px]">
         <div className="rounded-none" ref={context} />
+        <div className="absolute inset-x-0 bottom-0 bg-slate-100 text-slate-500 px-6 py-2 sm:hidden">
+          <span>右滑预览简历</span>
+          <SendOutlined className="ms-2" />
+        </div>
       </aside>
-      <aside className="relative grow flex flex-col">
+      <aside className="relative shrink-0 w-screen sm:w-auto grow flex flex-col">
         <ToolkitBar
           onExport={handleExport}
           exportLoading={exportLoading}
@@ -273,8 +278,8 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           theme={theme}
           dispatch={dispatch}
         />
-        <div className="grow overflow-scroll flex justify-center bg-gray-600">
-          <article className="mt-5 relative w-[825px]">
+        <div className="grow px-6 overflow-scroll flex justify-center bg-gray-600">
+          <article className="mt-6 sm:mt-5 relative w-full sm:w-[825px]">
             <StyleInjection theme={theme} />
 
             <Avatar

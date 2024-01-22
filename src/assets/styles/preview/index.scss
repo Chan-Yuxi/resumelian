@@ -2,6 +2,8 @@
 @import "./mixin.scss";
 
 #preview {
+  font-size: 16px;
+
   .page-wrapper {
     background-color: $page_background_color;
     box-shadow: $page_shadow;
@@ -88,5 +90,11 @@
 
   * {
     font-family: inherit;
+  }
+}
+
+@media screen and (max-width: 640px) {
+  #preview {
+    font-size: 6px;
   }
 }

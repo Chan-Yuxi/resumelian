@@ -56,9 +56,9 @@ const ChatGPTPanel: React.FC<P> = ({
 
   return (
     open && (
-      <div className="absolute inset-x-0 bottom-0 h-[400px] bg-slate-500/50 p-4 animate-slideIn">
-        <div className="h-full flex gap-4">
-          <div className="grow bg-slate-600 shadow p-4 overflow-scroll">
+      <div className="absolute inset-x-0 bottom-0 h-[400px] bg-slate-500/50 p-6 animate-slideIn">
+        <div className="h-full overflow-scroll sm:overflow-[unset] flex flex-col sm:flex-row gap-4">
+          <div className="grow bg-slate-600 shadow p-4 overflow-[unset] sm:overflow-scroll order-2 sm:order-1">
             <div className="flex flex-col gap-4">
               <div className="flex justify-between">
                 <h1 className="text-white text-xl font-bold">
@@ -67,20 +67,26 @@ const ChatGPTPanel: React.FC<P> = ({
                 <Button ghost onClick={onClose} icon={<CloseOutlined />} />
               </div>
 
-              {dialogues.map((dialogue, index) => {
-                return (
-                  <div key={index}>
-                    <p className="font-bold text-white mb-1">ChatGPT: </p>
-                    <p className="bg-green-700 hover:bg-green-600 hover:cursor-pointer transition-all px-4 py-2 rounded text-white max-w-2/3 font-bold animate-fadeIn">
-                      {dialogue}
-                    </p>
-                  </div>
-                );
-              })}
+              {dialogues.length > 0 ? (
+                dialogues.map((dialogue, index) => {
+                  return (
+                    <div key={index}>
+                      <p className="font-bold text-white mb-1">ChatGPT: </p>
+                      <p className="bg-green-700 hover:bg-green-600 hover:cursor-pointer transition-all px-4 py-2 rounded text-white max-w-2/3 font-bold animate-fadeIn">
+                        {dialogue}
+                      </p>
+                    </div>
+                  );
+                })
+              ) : (
+                <div className="text-center my-28 text-slate-500">
+                  暂无回答记录
+                </div>
+              )}
             </div>
           </div>
 
-          <div className="basis-[300px] shrink-0 p-4 flex flex-col gap-4 item-stretch shadow bg-slate-600">
+          <div className="basis-[300px] shrink-0 p-4 flex flex-col gap-4 item-stretch shadow bg-slate-600 order-1 sm:order-2">
             <h1 className="text-white text-xl font-bold">
               {t("resumeModification:Generate resume using ChatGPT")}
             </h1>

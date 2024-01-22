@@ -206,7 +206,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
           </Skeleton>
         </div>
 
-        <div className="grow text-right mt-8">
+        <div className="grow text-right mt-8 sm:mt-0">
           <Button
             type="primary"
             icon={<EditOutlined />}

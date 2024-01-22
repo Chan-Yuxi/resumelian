@@ -22,22 +22,26 @@ const LanguageToggle: React.FC<P> = ({ loading, onChange }) => {
   }
 
   return (
-    <div className="absolute inset-x-0 top-[37px]">
-      <div className="px-[35px] py-4">
+    <div className="absolute inset-x-0 top-[5px] sm:top-10 sm:top-[37px]">
+      <div className="flex justify-end sm:justify-start px-6 sm:px-[35px] py-4">
         <div className="cursor-pointer">
           <span
             onClick={() => toggleLng("zh")}
             className={(lng === "zh" ? active : inactive) + " px-2 py-1 shadow"}
           >
-            {lng === "zh" && loading ? <LoadingOutlined /> : null}
-            <span className="ms-2">中文</span>
+            {lng === "zh" && loading ? (
+              <LoadingOutlined className="me-2" />
+            ) : null}
+            <span>中文</span>
           </span>
           <span
             onClick={() => toggleLng("en")}
             className={(lng === "en" ? active : inactive) + " px-2 py-1 shadow"}
           >
-            {lng === "en" && loading ? <LoadingOutlined /> : null}
-            <span className="ms-2">English</span>
+            {lng === "en" && loading ? (
+              <LoadingOutlined className="me-2" />
+            ) : null}
+            <span>English</span>
           </span>
         </div>
       </div>
