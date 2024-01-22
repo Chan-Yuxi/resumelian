@@ -35,7 +35,7 @@ const MyResume = () => {
         {t("resume:My Resume")}
       </h1>
       {loading ? (
-        <div className="w-full h-full flex justify-center items-center">
+        <div className="w-full h-80 flex justify-center items-center">
           <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
         </div>
       ) : resumes.length > 0 ? (

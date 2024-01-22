@@ -3,7 +3,9 @@ import type { Resume } from "@/type/definition";
 import { useState } from "react";
 // import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import { App, Button } from "antd";
+import { App, Button, Modal } from "antd";
+
+import { HighlightOutlined, DeleteOutlined } from "@ant-design/icons";
 
 import dayjs from "dayjs";
 
@@ -30,6 +32,7 @@ const ResumeCard: React.FC<P> = ({ resume, reload }) => {
   const [deleteLoading, setDeleteLoading] = useState(false);
   function handleDeleteClick() {
     setDeleteLoading(true);
+    setOpen(false);
     deleteResume(resumeId)
       .then((res) => {
         if (res) {
@@ -44,30 +47,50 @@ const ResumeCard: React.FC<P> = ({ resume, reload }) => {
       });
   }
 
+  const [open, setOpen] = useState(false);
+
   return (
-    <div className="flex gap-4 border border-solid  border-zinc-100 p-2 hover:shadow transition-all">
-      <div className="bg-gradient-to-tl from-blue-300 shrink-0 to-blue-100 w-[150px] round aspect-a4">
+    <div className="flex gap-4 border border-solid w-full sm:w-[400px] border-zinc-100 p-2 hover:shadow transition-all">
+      <div className="bg-gradient-to-tl from-blue-300 shrink-0 to-blue-100 w-1/3 round aspect-a4">
         <img className="w-full h-full object-contain" src="/plan.png" alt="" />
       </div>
-      <div className="w-[250px]">
-        <h3 className="text-xl mb-1 w-full truncate ">{name}</h3>
+      <div className="shrink-1">
+        <h3 className="text-sm sm:text-lg mb-1">
+          {dayjs(name).format("YYYY/MM/DD HH:mm")}
+        </h3>
         <h4 className="text-sm text-slate-500">
           更新于：{dayjs(modifyTime).format("YYYY/MM/DD HH:mm")}
         </h4>
         <div className="flex flex-col my-4">
-          <Button className="text-left" type="link" onClick={handleEditClick}>
+          <Button
+            icon={<HighlightOutlined />}
+            className="px-0 text-left"
+            type="link"
+            onClick={handleEditClick}
+          >
             编辑
           </Button>
           <Button
-            className="text-left text-red-500"
+            icon={<DeleteOutlined />}
+            className="px-0 text-left text-red-500"
             type="link"
             loading={deleteLoading}
-            onClick={handleDeleteClick}
+            onClick={() => setOpen(true)}
           >
             删除
           </Button>
         </div>
       </div>
+      <Modal
+        centered
+        open={open}
+        onCancel={() => setOpen(false)}
+        cancelText="取消"
+        okText="确认"
+        onOk={handleDeleteClick}
+      >
+        <div className="my-6">确定删除这条简历吗？</div>
+      </Modal>
     </div>
   );
 };
