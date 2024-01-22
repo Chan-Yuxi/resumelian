@@ -27,7 +27,11 @@ const Record: React.FC<P> = ({ username }) => {
       <section className="mt-4">
         <Skeleton active loading={ordersLoading}>
           {orders ? (
-            orders.map((order) => <OrderCard key={order.id} record={order} />)
+            orders.length > 0 ? (
+              orders.map((order) => <OrderCard key={order.id} record={order} />)
+            ) : (
+              <div className="flex h-80 justify-center items-center text-slate-500">暂无订单记录</div>
+            )
           ) : (
             <div>Error:No Orders</div>
           )}

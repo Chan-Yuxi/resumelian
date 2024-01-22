@@ -5,7 +5,9 @@ const MyOrder = () => {
         下载记录
       </h1>
       <section>
-        <p className="my-4 text-slate-500">No Function</p>
+        <p className="flex h-80 justify-center items-center text-slate-500">
+          功能开发中，敬请期待...
+        </p>
       </section>
     </main>
   );

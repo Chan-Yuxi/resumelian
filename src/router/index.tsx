@@ -135,7 +135,10 @@ export default createBrowserRouter([
         <Layout>
           <Header />
           <Layout.Content>
-            <div className="flex flex-col" style={{ minHeight: "calc(100vh - 64px)" }}>
+            <div
+              className="flex flex-col"
+              style={{ minHeight: "calc(100vh - 64px)" }}
+            >
               <Outlet />
             </div>
           </Layout.Content>

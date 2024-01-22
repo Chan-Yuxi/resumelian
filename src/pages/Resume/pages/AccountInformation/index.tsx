@@ -14,12 +14,19 @@ import {
   Col,
   Input,
   Select,
+  Divider,
   App,
   Upload,
   Skeleton,
   Modal,
   message,
 } from "antd";
+import {
+  LinkOutlined,
+  ThunderboltOutlined,
+  EditOutlined,
+  CompassOutlined,
+} from "@ant-design/icons";
 
 import { BASE_URL, SEX_OPTIONS } from "@/constant";
 import { retrieveUserInfo, updateUserInfo } from "@/api/user";
@@ -71,7 +78,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const [avatar, setAvatar] = useState<string>(
     `${BASE_URL}/WeChat/getuserpic?userId=${username}`
-  ); 
+  );
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
       setUploadLoading(true);
@@ -82,6 +89,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
         setUploadLoading(false);
         setAvatar(url);
       });
+      window.location.reload();
     }
   };
 
@@ -106,11 +114,12 @@ const AccountInformation: React.FC<P> = ({ username }) => {
 
   return (
     <main>
-      <h1 className="text-lg text-slate-700 pb-2 border border-0 border-b border-solid border-zinc-100">
-        {t("resume:Personal Information")}
+      <h1 className="text-md sm:text-xl text-slate-700 font-bold pb-2 border border-0 border-b border-solid border-zinc-100">
+        <LinkOutlined />
+        <span className="ms-2">{t("resume:Personal Information")}</span>
       </h1>
-      <section className="flex my-8">
-        <div>
+      <section className="flex flex-col sm:flex-row my-8">
+        <div className="text-center">
           <Upload
             disabled={uploadLoading}
             name="file"
@@ -136,14 +145,14 @@ const AccountInformation: React.FC<P> = ({ username }) => {
           </Upload>
         </div>
 
-        <div className="ms-8 py-2">
+        <div className="mt-8 sm:ms-8 sm:mt-0">
           <Skeleton
             loading={userInfoLoading}
             active
-            title={{ width: 500 }}
+            title={{ width: 300 }}
             paragraph={{
               rows: 9,
-              width: [200, 300, 200, 250, 200, 350, 150, 300, 200],
+              width: [200, 300, 200, 250, 200, 300, 150, 300, 200],
             }}
           >
             {userInfo ? (
@@ -153,14 +162,20 @@ const AccountInformation: React.FC<P> = ({ username }) => {
                     {userInfo.name}
                   </span>
                   <span className="text-lg me-6">{userInfo.sex}</span>
-                  <span className="text-lg me-6 text-green-600 underline ">
-                    {t("resume:Remaining usage of ChatGPT")}
-                    {userInfo.aiNumber}
-                    {t("resume:label Count")}
+                  <Divider className="sm:hidden my-4" />
+                  <span className="text-md font-bold me-6 text-green-600 ">
+                    <ThunderboltOutlined />
+                    <span>
+                      {"  "}
+                      {t("resume:Remaining usage of ChatGPT")}
+                      {userInfo.aiNumber} {t("resume:label Count")}
+                    </span>
                   </span>
-                  <span className="text-lg">
+                  <span>
                     <Button
+                      className="px-4 bg-orange-500"
                       size="small"
+                      icon={<CompassOutlined />}
                       type="primary"
                       onClick={() => navigate("/purchase")}
                     >
@@ -168,7 +183,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
                     </Button>
                   </span>
                 </p>
-                <p className="text-slate-500">{username}</p>
+                <p className="text-slate-500 text-sm">{username}</p>
                 <p>
                   <span>{t("resume:label Age with colon")}</span>
                   <span>{userInfo.age}</span>
@@ -191,8 +206,13 @@ const AccountInformation: React.FC<P> = ({ username }) => {
           </Skeleton>
         </div>
 
-        <div className="grow text-right">
-          <Button type="primary" ghost onClick={() => setModalOpen(true)}>
+        <div className="grow text-right mt-8">
+          <Button
+            type="primary"
+            icon={<EditOutlined />}
+            ghost
+            onClick={() => setModalOpen(true)}
+          >
             {t("resume:Modify personal information")}
           </Button>
         </div>

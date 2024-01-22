@@ -1,4 +1,4 @@
-import { Menu, Button, MenuProps, Popconfirm } from "antd";
+import { Menu, Button, MenuProps, Modal } from "antd";
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
 
 import {
@@ -7,12 +7,14 @@ import {
   DollarOutlined,
   CarryOutOutlined,
   CloseCircleOutlined,
+  HomeOutlined,
 } from "@ant-design/icons";
 
 import { connect } from "react-redux";
 import { setToken, setUsername } from "@/store/features/user";
 import { deleteItem } from "@/utils/storage";
-import { useTranslation } from "react-i18next";
+// import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const items = [
   {
@@ -41,7 +43,7 @@ const Resume: React.FC<{
   inner_setUsername: (username: string) => void;
   inner_setToken: (token: string) => void;
 }> = ({ inner_setUsername, inner_setToken }) => {
-  const { t } = useTranslation();
+  // const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -54,8 +56,10 @@ const Resume: React.FC<{
     navigate(key, { replace: true });
   };
 
-  function loginOut() {
-    console.log("Log out");
+  const [open, setOpen] = useState(false);
+
+  function handleLogOut() {
+    setOpen(false);
     inner_setUsername("");
     inner_setToken("");
     deleteItem("username");
@@ -64,37 +68,55 @@ const Resume: React.FC<{
   }
 
   return (
-    <main className="grow flex gap-8 p-9 bg-slate-50">
-      <aside className="flex flex-col w-[250px] shrink-0 py-8 rounded-lg shadow-sm bg-white">
-        <h2 className="text-xl px-8 font-bold">
-          <span>个人中心</span>
-        </h2>
-        <div className="my-4 px-4">
+    <main className="grow flex flex-col sm:flex-row gap-4 sm:gap-8 px-6 py-4 sm:p-9 bg-slate-100">
+      <aside className="flex flex-raw flex-wrap sm:flex-col items-center sm:items-stretch w-full sm:w-72 py-4 sm:py-8 rounded-lg shadow-sm bg-white">
+        <h3 className="text-md sm:text-xl px-8 font-bold order-1">
+          <HomeOutlined />
+          <span className="ms-2">个人中心</span>
+        </h3>
+        <div className="mt-4 sm:my-8 px-4 w-full order-3 sm:order-2">
           <Menu
+            className="block sm:hidden"
+            mode="horizontal"
+            selectedKeys={[getSelectKey()]}
+            items={items}
+            onClick={handleMenuClick}
+          />
+          <Menu
+            className="hidden sm:block"
             style={{ borderInlineEndWidth: "0" }}
             selectedKeys={[getSelectKey()]}
             items={items}
             onClick={handleMenuClick}
           />
         </div>
-        <div className="mt-auto px-8 ">
-          <Popconfirm
-            title="提示"
-            placement="right"
-            description="确定要退出登录吗？"
-            onConfirm={loginOut}
-            okText={t("system:label confirm")}
-            cancelText={t("system:label cancel")}
+        <div className="ms-auto sm:ms-0 mt-auto px-8 order-2 sm:order-3">
+          <Button
+            className="rounded-none p-0"
+            type="link"
+            icon={<CloseCircleOutlined />}
+            onClick={() => setOpen(true)}
           >
-            <Button type="link" icon={<CloseCircleOutlined />} danger>
-              退出登录
-            </Button>
-          </Popconfirm>
+            退出登录
+          </Button>
         </div>
       </aside>
-
-      <aside className="grow p-8 rounded-lg shadow-sm bg-white">
+      <aside className="grow px-8 py-4 sm:p-8 rounded-lg shadow-sm bg-white">
         <Outlet />
+      </aside>
+      <aside>
+        <Modal
+          centered
+          cancelText="取消"
+          okText="确定"
+          open={open}
+          onCancel={() => setOpen(false)}
+          onOk={handleLogOut}
+        >
+          <div className="my-8">
+            <span>确定退出登录吗？</span>
+          </div>
+        </Modal>
       </aside>
     </main>
   );

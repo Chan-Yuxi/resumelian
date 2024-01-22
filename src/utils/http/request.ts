@@ -39,12 +39,13 @@ export default class Request {
 
           reject("missing response processor");
         })
-        .catch((e) => {
+        .catch((e: string) => {
           if (responseFailure) {
-            reject(responseFailure(e));
+            responseFailure(e);
+            resolve(null);
             return;
           }
-          reject(e);
+          reject("missing error response processor");
         })
         .finally(() => {
           nprogress.done();
