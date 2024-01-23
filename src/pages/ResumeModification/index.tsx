@@ -279,7 +279,7 @@ const ResumeModification: React.FC<P> = ({ username }) => {
           dispatch={dispatch}
         />
         <div className="grow px-6 overflow-scroll flex justify-center bg-gray-600">
-          <article className="mt-6 sm:mt-5 relative w-full sm:w-[825px]">
+          <article className="mt-6 sm:mt-5 relative grow-1 w-[825px]">
             <StyleInjection theme={theme} />
 
             <Avatar

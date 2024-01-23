@@ -1,6 +1,12 @@
+import { useEffect, useState } from "react";
 import { Layout, Divider } from "antd";
 
 const Footer = () => {
+  const [QRcodeIndex, setQRcodeIndex] = useState<number>();
+  useEffect(() => {
+    setQRcodeIndex(Math.ceil(Math.random() * 16));
+  }, []);
+
   return (
     <Layout.Footer className="bg-slate-800 px-8 py-16 md:px-60 md:py-28 text-white">
       <div>
@@ -53,7 +59,12 @@ const Footer = () => {
             </div>
           </div>
 
-          <div className="w-[150px] h-[150px] rounded bg-gradient-to-bl from-cyan-500 to-blue-500 mb-8" />
+          <img
+            className="w-[150px] h-[150px] rounded mb-8"
+            src={`/customer_service_QR_code/${
+              QRcodeIndex as unknown as string
+            }.jpg`}
+          />
           <img
             className="w-[150px] h-[150px] rounded mb-8"
             src="/official_account.jpg"

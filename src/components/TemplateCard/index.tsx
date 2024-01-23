@@ -16,9 +16,9 @@ const TemplateCard: React.FC<P> = ({ template }) => {
   const goToResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
-    <div className="flex flex-col p-2 bg-white shadow [--show-btn:none] hover:[--show-btn:block]">
+    <div className="flex flex-col p-2 w-[calc(50%_-_.5rem)] sm:w-[188px] bg-white shadow [--show-btn:none] hover:[--show-btn:block]">
       <figure
-        className="w-[188px] aspect-a4 bg-cover shadow-inner"
+        className=" aspect-a4 bg-cover shadow-inner"
         style={{
           backgroundImage: `url(https://jianlizhizuo.cn/api/home/getrusumethemepic2?id=${picture})`,
         }}
@@ -35,9 +35,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
         </figcaption>
       </figure>
 
-      <div className="mt-2">
-        <h5>{name}</h5>
-      </div>
+      <div className="mt-2 truncate">{name}</div>
     </div>
   );
 };

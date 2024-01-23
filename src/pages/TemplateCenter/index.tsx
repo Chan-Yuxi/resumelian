@@ -21,7 +21,7 @@ const TemplateCenter = () => {
   }, []);
 
   return (
-    <main className="grow flex flex-wrap items-start gap-4 p-9 bg-zinc-100">
+    <main className="grow flex flex-wrap items-start gap-4 p-6 sm:p-9 bg-gradient-to-br from-sky-500 via-blue-400 to-blue-500">
       {loading ? (
         <div className="grow self-stretch flex justify-center items-center">
           <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
