@@ -8,7 +8,7 @@ const NotFound = () => {
   const navigate = useNavigate();
 
   return (
-    <div className="h-full flex justify-center items-center">
+    <div className="h-reach-bottom flex justify-center items-center">
       <Result
         status="404"
         title="404"

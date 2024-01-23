@@ -16,6 +16,15 @@ const Header = () => {
     });
   };
 
+  function getSelectedKeys() {
+    for (const item of items) {
+      if (location.pathname.startsWith(item.key)) {
+        return [item.key];
+      }
+    }
+    return [];
+  }
+
   return (
     <Layout.Header className="flex items-center px-6 md:px-9">
       <div className="flex items-center me-auto">
@@ -27,7 +36,7 @@ const Header = () => {
           theme="dark"
           mode="horizontal"
           items={items}
-          selectedKeys={[location.pathname]}
+          selectedKeys={getSelectedKeys()}
           onClick={doNavigate}
         />
       </div>

@@ -54,7 +54,10 @@ const Footer = () => {
           </div>
 
           <div className="w-[150px] h-[150px] rounded bg-gradient-to-bl from-cyan-500 to-blue-500 mb-8" />
-          <div className="w-[150px] h-[150px] rounded bg-gradient-to-bl from-cyan-500 to-blue-500 mb-8" />
+          <img
+            className="w-[150px] h-[150px] rounded mb-8"
+            src="/official_account.jpg"
+          />
 
           <div className="flex flex-col gap-2">
             <div>
@@ -74,7 +77,7 @@ const Footer = () => {
         <Divider className="bg-slate-200/50" />
         <div className="text-left md:text-center my-8">
           <span className="text-stone-300/40">
-            证经学社网&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;
+            Resumelian&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;
             <span>
               <a
                 className="text-stone-300/40"

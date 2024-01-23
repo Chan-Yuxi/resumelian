@@ -8,6 +8,7 @@ import { useRequest } from "@/hooks";
 import { getConsumptionRecord } from "@/api/user";
 
 import OrderCard from "./components/OrderCard";
+import { LinkOutlined } from "@ant-design/icons";
 
 type P = {
   username: string;
@@ -21,8 +22,9 @@ const Record: React.FC<P> = ({ username }) => {
 
   return (
     <main>
-      <h1 className="text-lg text-slate-700 pb-2 border border-0 border-b border-solid border-zinc-100">
-        {t("resume:My Order")}
+      <h1 className="text-md sm:text-xl text-slate-700 font-bold pb-2 border border-0 border-b border-solid border-zinc-100">
+        <LinkOutlined />
+        <span className="ms-2">{t("resume:My Order")}</span>
       </h1>
       <section className="mt-4">
         <Skeleton active loading={ordersLoading}>
@@ -30,7 +32,9 @@ const Record: React.FC<P> = ({ username }) => {
             orders.length > 0 ? (
               orders.map((order) => <OrderCard key={order.id} record={order} />)
             ) : (
-              <div className="flex h-80 justify-center items-center text-slate-500">暂无订单记录</div>
+              <div className="flex h-80 justify-center items-center text-slate-500">
+                暂无订单记录
+              </div>
             )
           ) : (
             <div>Error:No Orders</div>

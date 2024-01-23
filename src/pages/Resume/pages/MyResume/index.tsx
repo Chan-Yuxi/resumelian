@@ -3,7 +3,7 @@ import type { Resume } from "@/type/definition";
 import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { Spin, Button } from "antd";
-import { LoadingOutlined, CopyOutlined } from "@ant-design/icons";
+import { LinkOutlined, LoadingOutlined, CopyOutlined } from "@ant-design/icons";
 
 import { getResumeAll } from "@/api/resume";
 import ResumeCard from "./ResumeCard";
@@ -31,8 +31,9 @@ const MyResume = () => {
 
   return (
     <>
-      <h1 className="text-lg text-slate-700 pb-2 border border-0 border-b border-solid border-zinc-100">
-        {t("resume:My Resume")}
+      <h1 className="text-md sm:text-xl text-slate-700 font-bold pb-2 border border-0 border-b border-solid border-zinc-100">
+        <LinkOutlined />
+        <span className="ms-2">{t("resume:My Resume")}</span>
       </h1>
       {loading ? (
         <div className="w-full h-80 flex justify-center items-center">

@@ -13,6 +13,8 @@ import Entry from "@/components/Entry";
 import WxPayIcon from "@/assets/image/wxpay.png";
 import AliPayIcon from "@/assets/image/alipay.png";
 
+import UnLoginInterceptor from "@/components/UnLoginInterceptor";
+
 type P = {
   username: string;
   name: string;
@@ -151,12 +153,15 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
       }
     };
   }
-  
+
   const [QRLoading, setQRLoading] = useState(false);
   const [outTradeNo, setOutTradeNo] = useState("");
   function handlePurchase() {
     setQRLoading(true);
-    Promise.all([getPayQRCode(username, price), getAliPayQRCode(username, price)])
+    Promise.all([
+      getPayQRCode(username, price),
+      getAliPayQRCode(username, price),
+    ])
       .then((payInfo) => {
         if (payInfo[0] && payInfo[1]) {
           setQRCodeUrl(payInfo[0].code_url);
@@ -198,14 +203,16 @@ const PayCard: React.FC<P> = ({ username, name, price, descriptions }) => {
           <span>&nbsp;元</span>
           {/* {t("purchase:yuan per month")} */}
         </div>
-        <Button
-          className="h-[40px] px-14 rounded-full border-0 shadow-lg"
-          loading={QRLoading}
-          onClick={handlePurchase}
-        >
-          购买次数
-          {/* {t("purchase:Purchase upgrade")} */}
-        </Button>
+        <UnLoginInterceptor>
+          <Button
+            className="h-[40px] px-14 rounded-full border-0 shadow-lg"
+            loading={QRLoading}
+            onClick={handlePurchase}
+          >
+            购买次数
+            {/* {t("purchase:Purchase upgrade")} */}
+          </Button>
+        </UnLoginInterceptor>
       </section>
 
       <Divider className="bg-zinc-50/90 my-4" />

@@ -10,6 +10,9 @@ export default {
       height: {
         "reach-bottom": "calc(100vh - 64px)",
       },
+      minHeight: {
+        "reach-bottom": "calc(100vh - 64px)",
+      },
       animation: {
         slideIn: "slide 0.5s ease-in-out",
         fadeIn: "fade 0.2s linear",

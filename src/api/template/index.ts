@@ -1,7 +1,6 @@
 import type { Template } from "@/type/definition";
 
 import http from "@/utils/http";
-import { getItem } from "@/utils/storage";
 
 /**
  * 获取主题列表
@@ -9,13 +8,8 @@ import { getItem } from "@/utils/storage";
  * @returns
  */
 export const getAllTemplate = () => {
-  const username = getItem("username");
-  if (!username) {
-    return Promise.resolve(null);
-  }
-
   return http.request<Template[]>({
-    url: `home/getrusumetheme?userId=${username}`,
+    url: `home/getrusumetheme`,
     method: "get",
   });
 };
