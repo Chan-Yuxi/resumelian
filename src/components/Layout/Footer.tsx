@@ -4,7 +4,7 @@ import { Layout, Divider } from "antd";
 const Footer = () => {
   const [QRcodeIndex, setQRcodeIndex] = useState<number>();
   useEffect(() => {
-    setQRcodeIndex(Math.ceil(Math.random() * 16));
+    setQRcodeIndex(Math.ceil(Math.random() * 18));
   }, []);
 
   return (
@@ -59,16 +59,20 @@ const Footer = () => {
             </div>
           </div>
 
-          <img
-            className="w-[150px] h-[150px] rounded mb-8"
-            src={`/customer_service_QR_code/${
-              QRcodeIndex as unknown as string
-            }.jpg`}
-          />
-          <img
-            className="w-[150px] h-[150px] rounded mb-8"
-            src="/official_account.jpg"
-          />
+          <div>
+            <img
+              className="w-[150px] h-[150px] rounded mb-8"
+              src={`/customer_service_QR_code/${
+                QRcodeIndex as unknown as string
+              }.jpg`}
+            />
+          </div>
+          <div>
+            <img
+              className="w-[150px] h-[150px] rounded mb-8"
+              src="/official_account.jpg"
+            />
+          </div>
 
           <div className="flex flex-col gap-2">
             <div>
