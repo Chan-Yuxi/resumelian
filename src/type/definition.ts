@@ -41,7 +41,7 @@ export interface Template {
  *
  */
 export interface Theme {
-  style: string; //
+  style: string;
 
   default: string;
   name: string;
@@ -76,6 +76,7 @@ export interface Resume {
 
 export interface ConsumptionRecord {
   id: string;
+  title: string;
   mchid: string;
   appid: string;
   out_trade_no: string;
@@ -84,8 +85,21 @@ export interface ConsumptionRecord {
   trade_state: string;
   bank_type: string;
   attach: string;
+  subject: string;
   success_time: string;
   open_id: string;
   money: number;
+  totalAmount: number;
   user_id: string;
+  traceNo: string;
+  aliPayment: string;
+}
+
+export interface Trade {
+  id: string;
+  tradeName: string;
+  tradeDetails: string;
+  price: number;
+  monthlySales: number;
+  pic: string;
 }

@@ -77,11 +77,11 @@ const Footer = () => {
           <div className="flex flex-col gap-2">
             <div>
               <span className="text-zinc-300">电子联系邮箱：</span>
-              <span>123456@qq.com</span>
+              <span>gaolinjiaoyu@163.com</span>
             </div>
             <div>
               <span className="text-zinc-300">商务广告合作：</span>
-              <span>123456@qq.com</span>
+              <span>gaolinjiaoyu@163.com</span>
             </div>
             <div>
               <span className="text-zinc-300">客服在线时间：</span>

@@ -14,6 +14,7 @@ import Home from "@/pages/Home";
 import InterviewCoach from "@/pages/InterviewCoach";
 import Login from "@/pages/Login";
 import Purchase from "@/pages/Purchase";
+import ResourceMall from "@/pages/ResourceMall";
 import Resume from "@/pages/Resume";
 import ResumeModification from "@/pages/ResumeModification";
 import TemplateCenter from "@/pages/TemplateCenter";
@@ -84,6 +85,14 @@ const routes = [
     element: (
       <Guard meta={{ title: "会员购买" }}>
         <Purchase />
+      </Guard>
+    ),
+  },
+  {
+    path: "resource-mall",
+    element: (
+      <Guard meta={{ title: "笔试资料" }}>
+        <ResourceMall />
       </Guard>
     ),
   },

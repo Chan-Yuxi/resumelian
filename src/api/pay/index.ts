@@ -17,7 +17,7 @@ export const getAliPayQRCode = (username: string, money: number) => {
     code_url: string;
     user_id: string;
   }>({
-    url: `/pay/aliPay?userId=${username}&money=${money}`,
+    url: `/pay/aliPay?userId=${username}&money=${money * 100}`,
     method: "post",
   });
 };

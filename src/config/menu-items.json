@@ -16,6 +16,10 @@
     "key": "/purchase"
   },
   {
+    "label": "笔试资料",
+    "key": "/resource-mall"
+  },
+  {
     "label": "简历制作",
     "key": "/resume-modification"
   },
