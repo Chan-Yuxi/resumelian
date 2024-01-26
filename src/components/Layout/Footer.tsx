@@ -63,7 +63,7 @@ const Footer = () => {
             <img
               className="w-[150px] h-[150px] rounded mb-8"
               src={`/customer_service_QR_code/${
-                QRcodeIndex as unknown as string
+                QRcodeIndex ? (QRcodeIndex as unknown as string) : ""
               }.jpg`}
             />
           </div>

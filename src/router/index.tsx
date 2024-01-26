@@ -15,6 +15,7 @@ import InterviewCoach from "@/pages/InterviewCoach";
 import Login from "@/pages/Login";
 import Purchase from "@/pages/Purchase";
 import ResourceMall from "@/pages/ResourceMall";
+import ResourceDetials from "@/pages/ResourceDetials";
 import Resume from "@/pages/Resume";
 import ResumeModification from "@/pages/ResumeModification";
 import TemplateCenter from "@/pages/TemplateCenter";
@@ -96,6 +97,15 @@ const routes = [
       </Guard>
     ),
   },
+  {
+    path: "resource-detials",
+    element: (
+      <Guard meta={{ title: "笔试资料详情" }}>
+        <ResourceDetials />
+      </Guard>
+    ),
+  },
+
   {
     path: "resume",
     element: (

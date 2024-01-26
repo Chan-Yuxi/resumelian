@@ -102,4 +102,6 @@ export interface Trade {
   price: number;
   monthlySales: number;
   pic: string;
+  alreadyBuy: boolean;
+  netdisk: string;
 }

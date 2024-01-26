@@ -1,16 +1,50 @@
-type P = {
-  //
-};
+import type { Trade } from "@/type/definition";
+
+import { useState, useEffect } from "react";
+import { getAlreadyBuyList, getInformationList } from "@/api/trade";
 
 import TradeCard from "./components/TradeCard";
+import { RootState } from "@/store";
+import { connect } from "react-redux";
 
-const ResourceMall: React.FC<P> = () => {
+type P = {
+  username: string;
+};
+
+const ResourceMall: React.FC<P> = ({ username }) => {
+  const [tradeList, setTradeList] = useState<Trade[]>([]);
+
+  useEffect(() => {
+    Promise.all([getInformationList(), getAlreadyBuyList(username)]).then(
+      (data) => {
+        if (data[0] && data[1]) {
+          data[1][0] &&
+            data[1][0].Information.forEach((info) => {
+              data[0]!.forEach((trade) => {
+                if (trade.id == info) {
+                  trade.alreadyBuy = true;
+                }
+              });
+            });
+          console.log(data[0]);
+          setTradeList(data[0]);
+        }
+      }
+    );
+
+    // getInformationList().then((data) => {
+    // if (data) {
+    // setTradeList(data);
+    // }
+    // });
+  }, [username]);
+
   return (
-    <main className="min-h-reach-bottom">
+    <main className="min-h-reach-bottom bg-gradient-to-br from-blue-200 to-blue-400">
       <section className="p-6 sm:px-64 sm:py-8">
-        <div className="flex flex-wrap gap-2">
-          {new Array(10).fill(0).map((_, i) => {
-            return <TradeCard key={i} />;
+        <div className="flex flex-wrap gap-2 sm:gap-4">
+          {tradeList.map((trade) => {
+            return <TradeCard key={trade.id} trade={trade} />;
           })}
         </div>
       </section>
@@ -18,4 +52,10 @@ const ResourceMall: React.FC<P> = () => {
   );
 };
 
-export default ResourceMall;
+const mapStateToProps = (state: RootState) => {
+  return {
+    username: state.user.username,
+  };
+};
+
+export default connect(mapStateToProps)(ResourceMall);
