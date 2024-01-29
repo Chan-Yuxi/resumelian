@@ -8,10 +8,17 @@ import { useTranslation } from "react-i18next";
 import { RootState } from "@/store";
 import { connect } from "react-redux";
 
-import { getTradeWxPay, getTradeAliPay, getWanPanByTrade } from "@/api/trade";
+import {
+  getTradeWxPay,
+  getTradeAliPay,
+  getWanPanByTrade,
+  getHotInformation,
+} from "@/api/trade";
+import UnLoginInterceptor from "@/components/UnLoginInterceptor";
 
 import WxPayIcon from "@/assets/image/wxpay.png";
 import AliPayIcon from "@/assets/image/alipay.png";
+import TradeCard from "../ResourceMall/components/TradeCard";
 
 const PollingMessage = "hello";
 const PollingInterval = 60 * 1000;
@@ -21,7 +28,6 @@ type P = {
 };
 
 const ResourceDetails: React.FC<P> = ({ username }) => {
-  console.log(username, 119237827381);
   const { t } = useTranslation();
   const location = useLocation();
   const trade = location.state as Trade;
@@ -195,17 +201,26 @@ const ResourceDetails: React.FC<P> = ({ username }) => {
     }
   }, [username, trade.id, trade.alreadyBuy]);
 
+  const [hotInformationList, setHotInformationList] = useState<Trade[]>([]);
+  useEffect(() => {
+    getHotInformation().then((data) => {
+      if (data) {
+        setHotInformationList(data);
+      }
+    });
+  }, []);
+
   return (
     <main className="min-h-reach-bottom p-6 sm:px-64 sm:py-8">
       <section>
-        <div className="flex gap-32">
+        <div className="flex flex-col sm:flex-row gap-6 sm:gap-32">
           <img
             className="w-[350px] aspect-square"
             src={`https://jianlizhizuo.cn/static/${trade.pic}`}
             alt=""
           />
           <div className="flex grow flex-col gap-4">
-            <p className="text-4xl font-bold">
+            <p className="text-3xl font-bold">
               <span className="text-orange-500">{trade.tradeName}</span>
             </p>
             <p className="text-2xl text-slate-500 font-bold">
@@ -232,16 +247,18 @@ const ResourceDetails: React.FC<P> = ({ username }) => {
               </span>
             </p>
             <div className="mt-auto text-right">
-              <Button
-                icon={<TransactionOutlined />}
-                onClick={handlePurchase}
-                loading={QRLoading}
-                size="large"
-                type="primary"
-                disabled={trade.alreadyBuy}
-              >
-                {trade.alreadyBuy ? "您已购买该产品" : "立即购买"}
-              </Button>
+              <UnLoginInterceptor>
+                <Button
+                  icon={<TransactionOutlined />}
+                  onClick={handlePurchase}
+                  loading={QRLoading}
+                  size="large"
+                  type="primary"
+                  disabled={trade.alreadyBuy}
+                >
+                  {trade.alreadyBuy ? "您已购买该产品" : "立即购买"}
+                </Button>
+              </UnLoginInterceptor>
             </div>
           </div>
         </div>
@@ -249,7 +266,12 @@ const ResourceDetails: React.FC<P> = ({ username }) => {
       <Divider></Divider>
       <section>
         <div>
-          <p>购买须知。。。</p>
+          <p className="text-2xl mb-6">热销商品</p>
+          <div className="flex flex-col sm:flex-row gap-6">
+            {hotInformationList.map((trade) => (
+              <TradeCard key={trade.id} trade={trade} />
+            ))}
+          </div>
         </div>
       </section>
       <Modal

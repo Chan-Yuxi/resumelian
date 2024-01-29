@@ -39,7 +39,7 @@ const TradeCard: React.FC<P> = ({ trade }) => {
             size="small"
             type="primary"
             ghost={!trade.alreadyBuy}
-            className={trade.alreadyBuy ? "bg-slate-300 hover:!bg-green-500" : ""}
+            className={trade.alreadyBuy ? "bg-slate-300 hover:!`bg-green-500" : ""}
           >
             {trade.alreadyBuy ? "您已购买" : "查看详情"}
           </Button>

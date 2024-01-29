@@ -15,7 +15,6 @@ const UserProfile: React.FC<P> = ({ token, username }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  console.log(token);
 
   return (
     <div>

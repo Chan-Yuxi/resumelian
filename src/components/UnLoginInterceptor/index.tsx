@@ -16,7 +16,7 @@ const UnLoginInterceptor: React.FC<React.PropsWithChildren<P>> = ({
   const { message } = App.useApp();
 
   const interceptor = () => {
-    if (username === undefined) {
+    if (!username) {
       message.warning("请先登录~");
       navigate("/login");
     }

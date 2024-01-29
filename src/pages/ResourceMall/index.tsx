@@ -15,9 +15,12 @@ const ResourceMall: React.FC<P> = ({ username }) => {
   const [tradeList, setTradeList] = useState<Trade[]>([]);
 
   useEffect(() => {
-    Promise.all([getInformationList(), getAlreadyBuyList(username)]).then(
-      (data) => {
-        if (data[0] && data[1]) {
+    Promise.all([
+      getInformationList(),
+      username ? getAlreadyBuyList(username) : Promise.resolve(null),
+    ]).then((data) => {
+      if (data[0]) {
+        if (data[1]) {
           data[1][0] &&
             data[1][0].Information.forEach((info) => {
               data[0]!.forEach((trade) => {
@@ -26,11 +29,10 @@ const ResourceMall: React.FC<P> = ({ username }) => {
                 }
               });
             });
-          console.log(data[0]);
-          setTradeList(data[0]);
         }
+        setTradeList(data[0]);
       }
-    );
+    });
 
     // getInformationList().then((data) => {
     // if (data) {
