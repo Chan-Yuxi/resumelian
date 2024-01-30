@@ -241,9 +241,15 @@ const ResourceDetails: React.FC<P> = ({ username }) => {
             <p className="text-lg font-bold">
               <span>资源地址：</span>
               <span>
-                <a href={trade.alreadyBuy ? wanPanAddress : "#"} target="blank">
-                  {trade.alreadyBuy ? wanPanAddress : "购买后可查看"}
-                </a>
+                {trade.alreadyBuy ? (
+                  <a href={wanPanAddress} target="blank">
+                    {wanPanAddress}
+                  </a>
+                ) : (
+                  <span className="text-blue-500 cursor-pointer">
+                    购买后可查看
+                  </span>
+                )}
               </span>
             </p>
             <div className="mt-auto text-right">
@@ -263,11 +269,13 @@ const ResourceDetails: React.FC<P> = ({ username }) => {
           </div>
         </div>
       </section>
-      <Divider></Divider>
-      <section>
+      <Divider />
+      <section className="mb-32">
         <div>
-          <p className="text-2xl mb-6">热销商品</p>
-          <div className="flex flex-col sm:flex-row gap-6">
+          <p className="text-2xl sm:text-center sm:mt-36 mb-6 sm:mb-12">
+            热销商品
+          </p>
+          <div className="flex flex-col justify-center sm:flex-row gap-6 sm:gap-16">
             {hotInformationList.map((trade) => (
               <TradeCard key={trade.id} trade={trade} />
             ))}

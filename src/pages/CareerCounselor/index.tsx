@@ -106,8 +106,9 @@ const CareerCounselor: React.FC = () => {
             报名方式
           </p>
           <div className="text-slate-900 mt-6">
-            <p>添加课程助教备注行研</p>
-            <p>拼团/购买后联系助教进课程群领取课件</p>
+            {/* <p>添加课程助教备注行研</p> */}
+            {/* <p>拼团/购买后联系助教进课程群领取课件</p> */}
+            <p>扫描下方二维码，添加微信号备注简历修改</p>
           </div>
           <img
             className="mt-6 w-48"

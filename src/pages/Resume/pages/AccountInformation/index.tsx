@@ -28,7 +28,7 @@ import {
   CompassOutlined,
 } from "@ant-design/icons";
 
-import { BASE_URL, SEX_OPTIONS } from "@/constant";
+import { SEX_OPTIONS } from "@/constant";
 import { retrieveUserInfo, updateUserInfo } from "@/api/user";
 import { getItem } from "@/utils/storage";
 import { useRequest } from "@/hooks";
@@ -55,11 +55,11 @@ const beforeUpload = (file: FileType) => {
   return isJpgOrPng && isLt2M;
 };
 
-const getBase64 = (img: FileType, callback: (url: string) => void) => {
-  const reader = new FileReader();
-  reader.addEventListener("load", () => callback(reader.result as string));
-  reader.readAsDataURL(img);
-};
+// const getBase64 = (img: FileType, callback: (url: string) => void) => {
+//   const reader = new FileReader();
+//   reader.addEventListener("load", () => callback(reader.result as string));
+//   reader.readAsDataURL(img);
+// };
 
 const AccountInformation: React.FC<P> = ({ username }) => {
   const { message } = App.useApp();
@@ -76,19 +76,20 @@ const AccountInformation: React.FC<P> = ({ username }) => {
   }, [form, userInfo]);
 
   const [uploadLoading, setUploadLoading] = useState(false);
-  const [avatar, setAvatar] = useState<string>(
-    `${BASE_URL}/WeChat/getuserpic?userId=${username}`
-  );
+  // const [avatar, setAvatar] = useState<string>(
+  //   `https://jianlizhizuo.cn/static/${username}.jpg`
+  // );
   const handleChange: UploadProps["onChange"] = (info) => {
     if (info.file.status === "uploading") {
       setUploadLoading(true);
       return;
     }
     if (info.file.status === "done") {
-      getBase64(info.file.originFileObj as FileType, (url) => {
-        setUploadLoading(false);
-        setAvatar(url);
-      });
+      // getBase64(info.file.originFileObj as FileType, (url) => {
+      //   // console.log(url);
+      //   // setAvatar(url);
+      // });
+      setUploadLoading(false);
       window.location.reload();
     }
   };
@@ -134,7 +135,11 @@ const AccountInformation: React.FC<P> = ({ username }) => {
             onChange={handleChange}
           >
             <div className="relative [--show-upload-tip:none] hover:[--show-upload-tip:flex]">
-              <Avatar size={100} src={avatar} alt="avatar" />
+              <Avatar
+                size={100}
+                src={`https://jianlizhizuo.cn/static/${username}.jpg`}
+                alt="avatar"
+              />
               <div
                 className="justify-center items-center absolute left-0 top-0 w-full h-full text-white rounded-full cursor-pointer bg-gray-800/50"
                 style={{ display: "var(--show-upload-tip)" }}

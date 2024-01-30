@@ -65,7 +65,7 @@ const ToolkitBar: React.FC<P> = ({
           text={t("resumeModification:Theme color")}
         >
           <Space size={6}>
-            {colors.map((color, i) => (
+            {colors && colors.map((color, i) => (
               <ColorPicker
                 size="small"
                 key={i}

@@ -15,14 +15,13 @@ const UserProfile: React.FC<P> = ({ token, username }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-
   return (
     <div>
       {token ? (
         <>
           <Avatar
             className="w-10 h-10 border border-1 border-solid border-white"
-            src={`https://jianlizhizuo.cn/api/WeChat/getuserpic?userId=${username}`}
+            src={`https://jianlizhizuo.cn/static/${username}.jpg`}
           />
         </>
       ) : (

@@ -11,7 +11,7 @@ type P = {
   dispatch: Dispatch<{ type: string; payload: unknown }>;
 };
 
-const Avatar: React.FC<P> = ({ url, enable, position, dispatch }) => {
+const Avatar: React.FC<P> = ({ url, enable, position = { x: 0, y: 0 }, dispatch }) => {
   const avatar = useRef<HTMLImageElement>(null);
 
   let startMoving = false;
