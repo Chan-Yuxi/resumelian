@@ -8,6 +8,10 @@
     "key": "/template-center"
   },
   {
+    "label": "课程中心",
+    "key": "/curriculum-resource"
+  },
+  {
     "label": "职业咨询",
     "key": "/career-counselor"
   },

@@ -66,3 +66,12 @@ export function isEmpty(str: string | undefined | null): str is undefined {
   return str === null || str === undefined || str === "" || str === "\n";
 }
 
+export function combineClassNames(...classNames: (string | undefined)[]) {
+  return classNames.reduce((prev, className, index) => {
+    if (className) {
+      return index === 0 ? className : prev! + " " + className;
+    } else {
+      return prev;
+    }
+  }, "");
+}

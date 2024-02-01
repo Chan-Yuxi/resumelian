@@ -19,6 +19,7 @@ import ResourceDetials from "@/pages/ResourceDetials";
 import Resume from "@/pages/Resume";
 import ResumeModification from "@/pages/ResumeModification";
 import TemplateCenter from "@/pages/TemplateCenter";
+import CurriculumResource from "@/pages/CurriculumResource";
 
 import AccountInformation from "@/pages/Resume/pages/AccountInformation";
 import MyResume from "@/pages/Resume/pages/MyResume";
@@ -105,7 +106,14 @@ const routes = [
       </Guard>
     ),
   },
-
+  {
+    path: "curriculum-resource",
+    element: (
+      <Guard meta={{ title: "课程中心" }}>
+        <CurriculumResource />
+      </Guard>
+    ),
+  },
   {
     path: "resume",
     element: (
