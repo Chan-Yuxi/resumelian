@@ -14,3 +14,25 @@ export const getCourseChapters = (id: number) => {
     method: "post",
   });
 };
+
+export const getWxQRCodeUrl = (
+  username: string,
+  money: number,
+  subject: number
+) => {
+  return http.request<{ code_url: string }>({
+    url: `/pay/coursewxPay?userId=${username}&money=${money}&subject=${subject}`,
+    method: "post",
+  });
+};
+
+export const getAliQRCodeUrl = (
+  username: string,
+  money: number,
+  subject: number
+) => {
+  return http.request<{ code_url: string }>({
+    url: `/pay/coursealiPay?userId=${username}&money=${money}&subject=${subject}`,
+    method: "post",
+  });
+};
