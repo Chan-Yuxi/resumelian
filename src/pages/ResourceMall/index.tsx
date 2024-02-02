@@ -42,8 +42,8 @@ const ResourceMall: React.FC<P> = ({ username }) => {
   }, [username]);
 
   return (
-    <main className="min-h-reach-bottom bg-gradient-to-br from-blue-200 to-blue-400">
-      <section className="p-6 sm:px-64 sm:py-8">
+    <main className="min-h-reach-bottom bg-gradient-to-br from-slate-100 to-slate-200">
+      <section className="p-6">
         <div className="flex flex-wrap gap-2 sm:gap-4">
           {tradeList.map((trade) => {
             return <TradeCard key={trade.id} trade={trade} />;

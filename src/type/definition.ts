@@ -105,3 +105,27 @@ export interface Trade {
   alreadyBuy: boolean;
   netdisk: string;
 }
+
+export interface Course {
+  courseId: number;
+  courseName: string;
+  courseIntroduction: string;
+  originalPrice: number;
+  discountedPrice: number;
+  createTime: string;
+  modifyTime: string;
+  subscribe: number;
+  sort: string;
+  pic: string;
+}
+
+export interface CourseChapter {
+  courseId: number;
+  chapterId: number;
+  chapterOrder: number;
+  chapterName: string;
+  createTime: string;
+  study: number;
+  sorts: string;
+  route: string;
+}

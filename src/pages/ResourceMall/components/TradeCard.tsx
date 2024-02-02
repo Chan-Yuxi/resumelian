@@ -18,7 +18,6 @@ const TradeCard: React.FC<P> = ({ trade }) => {
       />
       <div className="flex  flex-col grow p-4">
         <p>
-          <span className="text-slate-500">商品：</span>
           <span className="font-bold">{trade.tradeName}</span>
         </p>
         <p>

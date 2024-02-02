@@ -25,6 +25,7 @@ import AccountInformation from "@/pages/Resume/pages/AccountInformation";
 import MyResume from "@/pages/Resume/pages/MyResume";
 import MyOrder from "@/pages/Resume/pages/MyOrder";
 import Record from "@/pages/Resume/pages/Record";
+import CourseDetail from "@/pages/CourseDetails";
 
 const resumeChildren = [
   {
@@ -111,6 +112,14 @@ const routes = [
     element: (
       <Guard meta={{ title: "课程中心" }}>
         <CurriculumResource />
+      </Guard>
+    ),
+  },
+  {
+    path: "course-detail",
+    element: (
+      <Guard meta={{ title: "课程中心" }}>
+        <CourseDetail />
       </Guard>
     ),
   },
