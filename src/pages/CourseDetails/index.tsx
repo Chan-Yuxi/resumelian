@@ -7,10 +7,11 @@ import { useRequest } from "@/hooks";
 import { useLocation } from "react-router-dom";
 import { Skeleton, Button } from "antd";
 import { Course } from "@/type/definition";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import PayCard from "@/components/PayCard";
 import { RootState } from "@/store";
 import { connect } from "react-redux";
+import { LockOutlined } from "@ant-design/icons";
 
 function CourseDetail({ username }: { username: string }) {
   const location = useLocation();
@@ -45,12 +46,29 @@ function CourseDetail({ username }: { username: string }) {
 
   function selectChapter(chapterId: number) {
     setActiveChapter(chapterId);
+    title.current?.scrollIntoView();
   }
 
+  // hasPaid 标注用户是否已经付款
+
+  // 一开始的时候
+  // 视频资源还没开始请求，使用 state
+  // 如果视频已经购买或者 hasPaid 为 true
+  // 发起目录请求
+  // 然后列出目录
+  // 根据目录选择地址
+
+  function getCourseDetails() {
+    // TODO
+  }
+
+  // 如果用户已经付款，应该发起请求
   const [hasPaid, setHasPaid] = useState(false);
   function handlePaid() {
     setHasPaid(true);
   }
+
+  const title = useRef<HTMLDivElement>(null);
 
   return (
     <main className="min-h-reach-bottom p-6 sm:px-64 sm:py-12">
@@ -64,7 +82,7 @@ function CourseDetail({ username }: { username: string }) {
         </div>
       ) : courseChapters ? (
         <div>
-          <div className="mb-4">
+          <div ref={title} className="mb-4">
             <h1 className="text-3xl">{course.courseName}</h1>
             <h2 className="text-slate-500">{course.courseIntroduction}</h2>
           </div>
@@ -102,26 +120,45 @@ function CourseDetail({ username }: { username: string }) {
               <span className="font-bold">599</span>
             </div>
             <div className="ms-auto">
-              <Button type="primary" loading={loading} onClick={openPayCard}>
+              <Button
+                type="primary"
+                ghost
+                loading={loading}
+                onClick={openPayCard}
+              >
                 立即支付
               </Button>
             </div>
           </div>
 
-          <h2 className="my-2 font-bold">目录</h2>
-          <ul>
-            {courseChapters.map((chapter) => {
-              return (
-                <li
-                  onClick={() => selectChapter(chapter.chapterId)}
-                  className="text-blue-500 underline"
-                  key={chapter.chapterId}
-                >
-                  {chapter.chapterName}
-                </li>
-              );
-            })}
-          </ul>
+          <div className="text-slate-500 text-lg">
+            <p>发布日期：2023/03/21 | 516次学习</p>
+          </div>
+
+          <div className="text-slate-400 my-48 text-center">
+            <LockOutlined style={{ fontSize: "4rem" }} />
+            <p>购买后查看完整内容</p>
+          </div>
+
+          <div>
+            <ul className="border border-1 border-solid border-slate-300">
+              <li className="p-4 text-lg font-bold bg-gray-200">
+                目录（共{courseChapters.length}章）
+              </li>
+              {courseChapters.map((chapter) => {
+                return (
+                  <li
+                    onClick={() => selectChapter(chapter.chapterId)}
+                    className="text-blue-500 p-4 bg-gray-50 even:bg-gray-100 hover:bg-blue-100 transition-all cursor-pointer"
+                    key={chapter.chapterId}
+                  >
+                    {chapter.chapterName}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
           <PayCard
             websocketUrl="wss://jianlizhizuo.cn/api/websocket"
             wxQRCodeUrl={wxQRCodeUrl}

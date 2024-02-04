@@ -21,7 +21,9 @@ export const getWxQRCodeUrl = (
   subject: number
 ) => {
   return http.request<{ code_url: string }>({
-    url: `/pay/coursewxPay?userId=${username}&money=${money}&subject=${subject}`,
+    url: `/pay/coursewxPay?userId=${username}&money=${
+      money * 100
+    }&subject=${subject}`,
     method: "post",
   });
 };
@@ -32,7 +34,16 @@ export const getAliQRCodeUrl = (
   subject: number
 ) => {
   return http.request<{ code_url: string }>({
-    url: `/pay/coursealiPay?userId=${username}&money=${money}&subject=${subject}`,
+    url: `/pay/coursealiPay?userId=${username}&money=${
+      money * 100
+    }&subject=${subject}`,
     method: "post",
+  });
+};
+
+export const alreadyBuy = (username: string) => {
+  return http.request<any>({
+    url: `/video/getUserCourseList?iuserId=${username}`,
+    method: `post`,
   });
 };

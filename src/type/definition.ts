@@ -74,6 +74,9 @@ export interface Resume {
   customTheme: string;
 }
 
+/**
+ * 订单记录结构
+ */
 export interface ConsumptionRecord {
   id: string;
   title: string;
@@ -95,6 +98,9 @@ export interface ConsumptionRecord {
   aliPayment: string;
 }
 
+/**
+ * 笔试资源结构
+ */
 export interface Trade {
   id: string;
   tradeName: string;
@@ -106,6 +112,9 @@ export interface Trade {
   netdisk: string;
 }
 
+/**
+ * 课程结构
+ */
 export interface Course {
   courseId: number;
   courseName: string;
@@ -119,6 +128,9 @@ export interface Course {
   pic: string;
 }
 
+/**
+ * 一个课程有多个章节，章节结构
+ */
 export interface CourseChapter {
   courseId: number;
   chapterId: number;
