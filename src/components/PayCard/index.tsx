@@ -162,6 +162,7 @@ const PayCard = ({
   }
 
   function handleOk() {
+    setOpen(false);
     onOk && onOk();
   }
 
