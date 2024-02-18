@@ -1,4 +1,4 @@
-import type { LoginResponse } from "@/type/definition";
+import type { LoginResponse } from "@/types/definition";
 
 import http from "@/utils/http";
 

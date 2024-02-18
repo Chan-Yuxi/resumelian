@@ -3,8 +3,8 @@ import type {
   AxiosInstance,
   AxiosRequestConfig,
 } from "axios";
-import type { Result } from "@/type/definition";
-import type { Nullable } from "@/type/toolkit";
+import type { Result } from "@/types/definition";
+import type { Nullable } from "@/types/toolkit";
 
 import axios from "axios";
 import nprogress from "nprogress";

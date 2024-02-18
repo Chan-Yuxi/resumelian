@@ -1,4 +1,4 @@
-import { Trade } from "@/type/definition";
+import { Trade } from "@/types/definition";
 import { Button } from "antd";
 import React from "react";
 import { useNavigate } from "react-router-dom";

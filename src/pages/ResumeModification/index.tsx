@@ -1,7 +1,7 @@
 import type { RootState } from "@/store";
 import type { VditorInstance } from "@/utils/vditor";
-import type { Resume, Theme } from "@/type/definition";
-import type { Nullable } from "@/type/toolkit";
+import type { Resume, Theme } from "@/types/definition";
+import type { Nullable } from "@/types/toolkit";
 
 import React, {
   useState,

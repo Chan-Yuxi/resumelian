@@ -1,40 +1,39 @@
-import type { Template } from "@/type/definition";
-
-import { useEffect, useState } from "react";
 import { Spin } from "antd";
 import { LoadingOutlined } from "@ant-design/icons";
+import { usePagination } from "@/hooks";
+import { getTemplatesOfPage } from "@/api/template";
 
-import { getAllTemplate } from "@/api/template";
+import Pagination from "@/components/Pagination";
 import TemplateCard from "@/components/TemplateCard";
 
 const TemplateCenter = () => {
-  const [templates, setTemplates] = useState<Template[]>([]);
-  const [loading, setLoading] = useState(false);
-
-  useEffect(() => {
-    setLoading(true);
-    getAllTemplate()
-      .then((data) => data && setTemplates(data))
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+  const [loading, data, paginationProps] = usePagination((pageNum, pageSize) =>
+    getTemplatesOfPage(pageNum, pageSize)
+  );
 
   return (
-    <main className="grow flex flex-wrap items-start gap-4 p-6 sm:p-9 bg-gradient-to-br from-sky-500 via-blue-400 to-blue-500">
-      {loading ? (
-        <div className="grow self-stretch flex justify-center items-center">
-          <Spin indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />} />
-        </div>
-      ) : (
-        templates.map((template) => {
-          // filter the default theme
-          return template.id !== 0 ? (
-            <TemplateCard key={template.id} template={template} />
-          ) : null;
-        })
-      )}
-    </main>
+    <div className="generic-container p-6 sm:p-9 flex flex-col">
+      <main className="grow flex flex-wrap items-start gap-4">
+        {loading ? (
+          <div className="grow self-stretch flex justify-center items-center">
+            <Spin
+              indicator={<LoadingOutlined style={{ fontSize: 48 }} spin />}
+            />
+          </div>
+        ) : (
+          data &&
+          data.map((template) => {
+            // filter the default theme
+            return template.id !== 0 ? (
+              <TemplateCard key={template.id} template={template} />
+            ) : null;
+          })
+        )}
+      </main>
+      <div className="my-4 text-center">
+        <Pagination {...paginationProps} />
+      </div>
+    </div>
   );
 };
 

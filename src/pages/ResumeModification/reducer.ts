@@ -1,4 +1,4 @@
-import type { Theme } from "@/type/definition";
+import type { Theme } from "@/types/definition";
 
 const SETUP_THEME = "SETUP_THEME";
 const UPDATE_COLORS = "UPDATE_COLORS";

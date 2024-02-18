@@ -1,5 +1,5 @@
 import type { RootState } from "@/store";
-import type { UserState } from "@/type/definition";
+import type { UserState } from "@/types/definition";
 
 import { useTranslation } from "react-i18next";
 import { connect } from "react-redux";

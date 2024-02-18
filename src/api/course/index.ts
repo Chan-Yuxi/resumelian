@@ -1,9 +1,9 @@
-import { Course, CourseChapter } from "@/type/definition";
+import { Course, CourseChapter, PageInfo } from "@/types/definition";
 import http from "@/utils/http";
 
-export const getCourseList = () => {
-  return http.request<Course[]>({
-    url: `/video/getCourseList`,
+export const getCourseListOfPage = (pageNum: number, pageSize: number) => {
+  return http.request<PageInfo<Course>>({
+    url: `/video/getCourseList?pageNum=${pageNum}&pageSize=${pageSize}`,
     method: "post",
   });
 };
@@ -35,7 +35,9 @@ export const getWxQRCodeUrl = (
   subject: number
 ) => {
   return http.request<{ code_url: string }>({
-    url: `/pay/coursewxPay?userId=${username}&money=${1}&subject=${subject}`,
+    url: `/pay/coursewxPay?userId=${username}&money=${
+      money * 100
+    }&subject=${subject}`,
     method: "post",
   });
 };

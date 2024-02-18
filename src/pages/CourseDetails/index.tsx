@@ -9,7 +9,7 @@ import {
 import { useRequest } from "@/hooks";
 import { useLocation } from "react-router-dom";
 import { Skeleton, Button, Spin } from "antd";
-import { Course } from "@/type/definition";
+import { Course } from "@/types/definition";
 import { useEffect, useRef, useState } from "react";
 import PayCard from "@/components/PayCard";
 import { RootState } from "@/store";
@@ -168,12 +168,6 @@ function CourseDetail({ username }: { username: string }) {
               </>
             )}
           </div>
-
-          {/* 
-          <div className="text-slate-500 text-lg">
-            <p>发布日期：2023/03/21 | 516次学习</p>
-          </div>
-          */}
 
           <section>
             {!hasPaid ? (

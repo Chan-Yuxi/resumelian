@@ -1,9 +1,9 @@
 import http from "@/utils/http";
-import { Trade } from "@/type/definition";
+import { PageInfo, Trade } from "@/types/definition";
 
-export const getInformationList = () => {
-  return http.request<Trade[]>({
-    url: `/information/getInformationList`,
+export const getInformationList = (pageNum: number, pageSize: number) => {
+  return http.request<PageInfo<Trade>>({
+    url: `/information/getInformationList?pageNum=${pageNum}&pageSize=${pageSize}`,
     method: "post",
   });
 };

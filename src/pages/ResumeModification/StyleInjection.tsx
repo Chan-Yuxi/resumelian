@@ -1,4 +1,4 @@
-import type { Theme } from "@/type/definition";
+import type { Theme } from "@/types/definition";
 import React from "react";
 
 function generateStyleContent(theme: Theme) {

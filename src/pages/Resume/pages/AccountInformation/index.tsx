@@ -1,5 +1,5 @@
 import type { RootState } from "@/store";
-import type { User } from "@/type/definition";
+import type { User } from "@/types/definition";
 import type { UploadProps } from "antd";
 
 import { useEffect, useState } from "react";

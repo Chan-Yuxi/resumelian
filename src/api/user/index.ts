@@ -1,4 +1,4 @@
-import type { User, ConsumptionRecord } from "@/type/definition";
+import type { User, ConsumptionRecord } from "@/types/definition";
 import http from "@/utils/http";
 
 export const retrieveUserInfo = (username: string) => {

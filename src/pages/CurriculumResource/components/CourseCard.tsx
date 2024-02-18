@@ -1,4 +1,4 @@
-import { Course } from "@/type/definition";
+import { Course } from "@/types/definition";
 import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 

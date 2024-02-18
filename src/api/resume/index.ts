@@ -1,4 +1,4 @@
-import type { Resume } from "@/type/definition";
+import type { Resume } from "@/types/definition";
 
 import http from "@/utils/http";
 import { getItem } from "@/utils/storage";

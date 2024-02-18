@@ -1,4 +1,4 @@
-import { ConsumptionRecord } from "@/type/definition";
+import { ConsumptionRecord } from "@/types/definition";
 import dayjs from "dayjs";
 
 type P = {

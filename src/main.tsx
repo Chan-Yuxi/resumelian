@@ -5,9 +5,8 @@ import "reset-css/reset.css";
 import "@/index.css";
 import "@/assets/styles/index.scss";
 
-// import { BrowserRouter } from "react-router-dom";
-
 import theme from "@/config/antd-theme.json";
+import zhCN from "antd/locale/zh_CN";
 import { ConfigProvider } from "antd";
 
 import store, { persistor } from "@/store";
@@ -17,7 +16,7 @@ import { PersistGate } from "redux-persist/integration/react";
 import "@/i18n";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <ConfigProvider theme={theme}>
+  <ConfigProvider theme={theme} locale={zhCN}>
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <App />

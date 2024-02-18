@@ -1,4 +1,4 @@
-import type { Template } from "@/type/definition";
+import type { Template, PageInfo } from "@/types/definition";
 
 import http from "@/utils/http";
 
@@ -7,9 +7,9 @@ import http from "@/utils/http";
  *
  * @returns
  */
-export const getAllTemplate = () => {
-  return http.request<Template[]>({
-    url: `home/getrusumetheme`,
+export const getTemplatesOfPage = (pageNum: number, pageSize: number) => {
+  return http.request<PageInfo<Template>>({
+    url: `/home/getrusumetheme?pageNum=${pageNum}&pageSize=${pageSize}`,
     method: "get",
   });
 };

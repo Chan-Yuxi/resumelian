@@ -1,4 +1,4 @@
-import type { Template } from "@/type/definition";
+import type { Template } from "@/types/definition";
 
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
@@ -12,7 +12,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
   const { t } = useTranslation();
   const navigate = useNavigate();
 
-  const { id, name, pic: picture } = template;
+  const { id, name } = template;
   const goToResumeModification = () => navigate(`/resume-modification/${id}`);
 
   return (
@@ -20,7 +20,7 @@ const TemplateCard: React.FC<P> = ({ template }) => {
       <figure
         className="aspect-a4 bg-slate-100 bg-cover shadow-inner"
         style={{
-          backgroundImage: `url(https://jianlizhizuo.cn/api/home/getrusumethemepic2/${picture})`,
+          backgroundImage: `url(https://jianlizhizuo.cn/static/rusumethemepic_${id}.jpg`,
         }}
       >
         <figcaption className="h-full flex justify-center items-center">

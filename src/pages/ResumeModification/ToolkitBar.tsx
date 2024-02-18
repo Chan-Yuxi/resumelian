@@ -6,7 +6,7 @@ import { Space, Switch, Button, Select, ColorPicker } from "antd";
 import { CheckCircleOutlined, FilePptOutlined } from "@ant-design/icons";
 
 import Label from "@/components/Label";
-import { Theme } from "@/type/definition";
+import { Theme } from "@/types/definition";
 import { toggleAvatar, updateColors, updateFamily } from "./reducer";
 
 type OCC = ColorPickerProps["onChange"];

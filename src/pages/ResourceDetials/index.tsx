@@ -1,4 +1,4 @@
-import { Trade } from "@/type/definition";
+import { Trade } from "@/types/definition";
 import { useLocation } from "react-router-dom";
 
 import { Button, Divider } from "antd";

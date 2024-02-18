@@ -1,4 +1,4 @@
-import type { Resume } from "@/type/definition";
+import type { Resume } from "@/types/definition";
 
 import { useState } from "react";
 // import { useTranslation } from "react-i18next";
