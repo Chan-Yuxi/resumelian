@@ -21,6 +21,21 @@ type JobType = {
 const Home = () => {
   const { t } = useTranslation();
 
+  const staticTemplates = [
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_5.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_3.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_2.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_4.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_5.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_6.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_4.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_6.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_2.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_3.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_4.jpg`,
+    `https://www.jianlizhizuo.cn/static/rusumethemepic_5.jpg`,
+  ];
+
   return (
     <main>
       {/* SECTION 1 */}
@@ -62,18 +77,9 @@ const Home = () => {
           <h4 className="text-slate-500">{t("home.sub_description")}</h4>
         </div>
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 md:mt-16">
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
-          <TemplateCard />
+          {staticTemplates.map((template, i) => (
+            <TemplateCard key={i} src={template} />
+          ))}
         </div>
         <div className="text-center mt-8 md:mt-16">
           <Button

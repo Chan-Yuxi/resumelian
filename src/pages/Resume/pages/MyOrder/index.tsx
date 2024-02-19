@@ -4,11 +4,13 @@ import { connect } from "react-redux";
 import { useTranslation } from "react-i18next";
 import { Skeleton } from "antd";
 
-import { useRequest } from "@/hooks";
+import { usePagination } from "@/hooks";
 import { getConsumptionRecord } from "@/api/user";
 
 import OrderCard from "./components/OrderCard";
 import { LinkOutlined } from "@ant-design/icons";
+
+import Pagination from "@/components/Pagination";
 
 type P = {
   username: string;
@@ -16,8 +18,9 @@ type P = {
 
 const Record: React.FC<P> = ({ username }) => {
   const { t } = useTranslation();
-  const [ordersLoading, orders] = useRequest(() =>
-    getConsumptionRecord(username)
+
+  const [ordersLoading, orders, paginationProps] = usePagination(
+    (pageNum, pageSize) => getConsumptionRecord(username, pageNum, pageSize)
   );
 
   return (
@@ -40,6 +43,9 @@ const Record: React.FC<P> = ({ username }) => {
             <div>Error:No Orders</div>
           )}
         </Skeleton>
+      </section>
+      <section className="mt-8">
+        <Pagination {...paginationProps} />
       </section>
     </main>
   );
