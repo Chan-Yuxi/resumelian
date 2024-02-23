@@ -4,6 +4,9 @@
 
 @layer utilities {
   .generic-container {
-    @apply grow bg-gradient-to-br from-blue-600 via-sky-500 to-blue-500;
+    @apply grow bg-gradient-to-br from-blue-600 to-blue-500;
+  }
+  .border-base {
+    @apply border border-solid border-slate-500;
   }
 }

@@ -24,6 +24,10 @@
     "key": "/resource-mall"
   },
   {
+    "label": "笔试题库",
+    "key": "/question-bank"
+  },
+  {
     "label": "简历制作",
     "key": "/resume-modification"
   },

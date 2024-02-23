@@ -26,6 +26,8 @@ import MyResume from "@/pages/Resume/pages/MyResume";
 import MyOrder from "@/pages/Resume/pages/MyOrder";
 import Record from "@/pages/Resume/pages/Record";
 import CourseDetail from "@/pages/CourseDetails";
+import QuestionBankHome from "@/pages/QuestionBank/pages/Home";
+import QuestionBankDetails from "@/pages/QuestionBank/pages/Details";
 
 const resumeChildren = [
   {
@@ -118,10 +120,28 @@ const routes = [
   {
     path: "course-detail",
     element: (
-      <Guard meta={{ title: "课程中心" }}>
+      <Guard meta={{ title: "课程详情" }}>
         <CourseDetail />
       </Guard>
     ),
+  },
+  {
+    path: "question-bank",
+    element: (
+      <Guard meta={{ title: "课程详情" }}>
+        <Outlet />
+      </Guard>
+    ),
+    children: [
+      {
+        index: true,
+        element: <QuestionBankHome />,
+      },
+      {
+        path: "details",
+        element: <QuestionBankDetails />,
+      },
+    ],
   },
   {
     path: "resume",

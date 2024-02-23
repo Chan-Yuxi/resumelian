@@ -162,3 +162,31 @@ export interface PageInfo<T> {
   navigateFirstPage: number;
   navigateLastPage: number;
 }
+
+export interface QuestionSet {
+  id: number;
+  name: string;
+  number: number;
+  createTime: string;
+  modifyTime: string;
+  browse: number;
+  pic: string;
+}
+
+export interface Question {
+  id: number;
+  question: string;
+  subordinate: string;
+  type: string;
+  industry: string;
+  result: string;
+  a: string;
+  b: string;
+  d: string;
+  c: string;
+  answer: string;
+}
+
+export enum QuestionType {
+  SingleChoice = "\u5355\u9009\u9898", // 单选题
+}

@@ -19,6 +19,7 @@
     "html2canvas": "^1.4.1",
     "i18next": "^23.7.8",
     "jspdf": "^2.5.1",
+    "lucide-react": "^0.331.0",
     "nprogress": "^0.2.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",

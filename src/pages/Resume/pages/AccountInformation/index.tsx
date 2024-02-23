@@ -154,7 +154,7 @@ const AccountInformation: React.FC<P> = ({ username }) => {
           <Skeleton
             loading={userInfoLoading}
             active
-            title={{ width: 300 }}
+            title={{ width: 500 }}
             paragraph={{
               rows: 9,
               width: [200, 300, 200, 250, 200, 300, 150, 300, 200],
