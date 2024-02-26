@@ -177,38 +177,15 @@ const Home = () => {
           <h4 className="text-slate-500">{t("home.sub_description")}</h4>
         </div>
         <div className="flex flex-wrap justify-center gap-4 md:gap-8 mt-8 md:mt-16">
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
-          <CaseCard
-            title="事业单位简历案例"
-            text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
-          />
+          {/* 暂时替代，后续需配置内容请创建正确的数组 */}
+          {new Array(8).fill(0).map((_, index) => (
+            <CaseCard
+              key={index}
+              src={`/home_picture/case-template-${(index % 3) + 1}.jpg`}
+              title="事业单位简历案例"
+              text="事业单或国企简历范文突出，教师岗位，具有丰富教师经验..."
+            />
+          ))}
         </div>
       </section>
     </main>

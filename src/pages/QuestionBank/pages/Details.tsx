@@ -9,15 +9,28 @@ import {
   Rocket,
 } from "lucide-react";
 import { useRequest } from "@/hooks";
-import { getAllQuestionsBySetId } from "@/api/question";
+import {
+  collectQuestion,
+  getAllQuestionsBySetId,
+  isQuestionCollected,
+} from "@/api/question";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
-import AnswerSheet from "../components/AnswerSheet";
-import Choice from "../components/questionTypes/choice";
 import { Question, QuestionSet } from "@/types/definition";
+
+import Choice from "../components/questionTypes/choice";
+import AnswerSheet from "../components/AnswerSheet";
+import { getItem } from "@/utils/storage";
+import { combineClassNames } from "@/utils";
 
 function startWithZero(num: number) {
   return num < 10 ? "0" + String(num) : num;
+}
+
+export enum Mode {
+  Practice,
+  Examination,
+  Quick,
 }
 
 export default function Details() {
@@ -44,40 +57,49 @@ export default function Details() {
     }
   }
 
+  const [isCurrentQuestionCollected, setIsCurrentQuestionCollected] =
+    useState(false);
+
+  const currentQuestion = activeQuestions[currentIndex];
+  const username = getItem("username");
+
+  useEffect(() => {
+    if (username && currentQuestion) {
+      isQuestionCollected(
+        username,
+        questionSet.id,
+        currentQuestion.type,
+        currentQuestion.id
+      ).then((data) => {
+        if (data !== null) {
+          setIsCurrentQuestionCollected(data);
+        }
+      });
+    }
+    // eslint-disable-next-line
+  }, [currentIndex]);
+
   // 获取视频集合题库
   // eslint-disable-next-line
   const [_, questions] = useRequest(() =>
     getAllQuestionsBySetId(questionSet.id)
   );
 
-  // 过滤指定题目
+  // 根据题目计算分数
+  const [score, setScore] = useState(0);
   useEffect(() => {
-    if (questions) {
-      setActiveQuestions(questions);
-    }
-  }, [questions]);
+    const score = activeQuestions.reduce((score, q) => {
+      return score + (q.answer === q.result ? 5 : 0);
+    }, 0);
+    setScore(score);
+  }, [activeQuestions]);
 
-  console.log(activeQuestions);
-
-  // id               题目ID
-  // type             题目类型
-  // question         题目
-  // annex            附加
-  // answerContent    内容
-  // answer           答案
-  // result           回答
-  // score            分数
-  //
-
-  // QuestionComponent -> onAnswerChange -> updateResult ->
-
-  // 响应回答事件
-
-  const currentQuestion = activeQuestions[currentIndex];
+  // 题目组件，根据类型自动切换
   const QuestionComponent = (
     <Choice question={currentQuestion} onResultChange={onResultChange} />
   );
 
+  // 响应回答事件
   function onResultChange(answer: string) {
     const newQuestion = Object.assign({}, currentQuestion, {
       result: answer,
@@ -87,12 +109,48 @@ export default function Details() {
     setActiveQuestions(newActiveQuestions);
   }
 
+  const [mode, setMode] = useState<Mode>(Mode.Practice);
+  const [showAnswer, setShowAnswer] = useState(mode === Mode.Practice);
+
+  // 过滤指定题目
+  useEffect(() => {
+    if (questions) {
+      setActiveQuestions(questions);
+    }
+  }, [questions]);
+
+  useEffect(() => {
+    if (mode === Mode.Practice) {
+      setShowAnswer(true);
+    } else {
+      setShowAnswer(false);
+    }
+  }, [mode]);
+
+  // 收藏题目
+  function doCollect() {
+    if (username && collectQuestion) {
+      collectQuestion(
+        username,
+        questionSet.id,
+        currentQuestion.type,
+        currentQuestion.id
+      ).then((data) => {
+        if (data) {
+          setIsCurrentQuestionCollected(!isCurrentQuestionCollected);
+        }
+      });
+    }
+  }
+
+  // function sendQuestion2Server() {}
+
   return (
     <main>
       <div className="p-16 px-64 bg-gray-800 flex justify-between">
         <div className="p-8 bg-white rounded w-2/5">
           <div className="flex text-slate-500">
-            <span>本周做题</span>
+            <span>本章做题</span>
             <span className="ms-auto">数据中心</span>
           </div>
           <div className="flex py-4">
@@ -136,6 +194,7 @@ export default function Details() {
             type="primary"
             block
             icon={<ThunderboltOutlined />}
+            onClick={() => setMode(Mode.Practice)}
           >
             立即刷题
           </Button>
@@ -151,6 +210,7 @@ export default function Details() {
             type="primary"
             block
             icon={<ThunderboltOutlined />}
+            onClick={() => setMode(Mode.Examination)}
           >
             立即刷题
           </Button>
@@ -165,9 +225,10 @@ export default function Details() {
             className="mt-auto"
             type="primary"
             block
+            disabled
             icon={<ThunderboltOutlined />}
           >
-            立即刷题
+            暂不支持
           </Button>
         </div>
       </div>
@@ -186,7 +247,12 @@ export default function Details() {
           <Divider />
           <div className="flex items-center my-4">
             <div>
-              <Button type="primary" onClick={pervQuestion} ghost>
+              <Button
+                type="primary"
+                onClick={pervQuestion}
+                ghost
+                disabled={currentIndex === 0}
+              >
                 上一题
               </Button>
               <Button
@@ -194,20 +260,45 @@ export default function Details() {
                 onClick={nextQuestion}
                 ghost
                 className="ms-4"
+                disabled={currentIndex === activeQuestions.length - 1}
               >
                 下一题
               </Button>
             </div>
-            <div className="ms-auto inline-block">
+            <div
+              className="ms-auto me-4"
+              style={{ transform: "translateY(13px)" }}
+            >
+              <Star
+                className={combineClassNames(
+                  "cursor-pointer stroke-transparent fill-slate-300 hover:fill-yellow-500",
+                  isCurrentQuestionCollected ? "fill-yellow-500" : ""
+                )}
+                onClick={doCollect}
+              />
+            </div>
+            <div className="inline-block">
               <span className="text-2xl">
                 {startWithZero(currentIndex + 1)}&nbsp;/&nbsp;
               </span>
-              <span className="text-5xl ">{questions?.length}</span>
+              <span className="text-5xl ">
+                {startWithZero(activeQuestions.length)}
+              </span>
             </div>
           </div>
-          <section className="h-[500px]">{QuestionComponent}</section>
+          <section className="h-min-[300px]">{QuestionComponent}</section>
+          {showAnswer && currentQuestion && currentQuestion.result != null && (
+            <section className="mb-32">
+              <h1 className="text-blue-500">
+                答案解析：{currentQuestion.answer}
+              </h1>
+            </section>
+          )}
         </div>
         <AnswerSheet
+          mode={mode}
+          score={score}
+          currentIndex={currentIndex}
           onSwitch={(i) => setCurrentIndex(i)}
           onFinish={() => undefined}
           questions={activeQuestions}

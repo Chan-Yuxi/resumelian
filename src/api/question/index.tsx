@@ -14,3 +14,40 @@ export const getAllQuestionsBySetId = (id: number) => {
     method: "post",
   });
 };
+
+export const isQuestionCollected = (
+  userId: string,
+  setId: number,
+  type: string,
+  id: number
+) => {
+  // TODO
+  return http.request<boolean>({
+    url: `/question/getiscollect?userId=${userId}`,
+    method: "post",
+    data: {
+      userId: userId,
+      questionId: setId,
+      topicType: type,
+      topicId: id,
+    },
+  });
+};
+
+export const collectQuestion = (
+  userId: string,
+  setId: number,
+  type: string,
+  id: number
+) => {
+  return http.request({
+    url: `/question/updateiscollect?userId=${userId}`,
+    method: "post",
+    data: {
+      userId: userId,
+      questionId: setId,
+      topicType: type,
+      topicId: id,
+    },
+  });
+};

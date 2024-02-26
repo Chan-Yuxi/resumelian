@@ -3,6 +3,7 @@ import { combineClassNames } from "@/utils";
 import { Button, Divider, Progress } from "antd";
 import dayjs from "dayjs";
 import { useEffect, useState } from "react";
+import { Mode } from "../pages/Details";
 
 function seq(start: number, end: number) {
   const seq = [];
@@ -13,10 +14,16 @@ function seq(start: number, end: number) {
 }
 
 export default function AnswerSheet({
+  score,
+  currentIndex,
   questions,
   onFinish,
   onSwitch,
+  mode,
 }: {
+  mode: Mode;
+  score: number;
+  currentIndex: number;
   questions: Question[];
   onFinish: (seconds: number) => void;
   onSwitch: (index: number) => void;
@@ -28,6 +35,10 @@ export default function AnswerSheet({
       100
     ).toFixed(0)
   );
+
+  useEffect(() => {
+    setSeconds(0);
+  }, [questions]);
 
   const [seconds, setSeconds] = useState(0);
   useEffect(() => {
@@ -46,6 +57,10 @@ export default function AnswerSheet({
             <span className="text-slate-500">用时-</span>
             <span> {dayjs(seconds * 1000).format("mm:ss")}</span>
           </h4>
+          <h4 className="text-base">
+            <span className="text-slate-500">得分-</span>
+            <span> {score}</span>
+          </h4>
         </div>
         <div>
           <Progress size={80} type="circle" percent={progress} />
@@ -53,14 +68,16 @@ export default function AnswerSheet({
       </div>
       <Divider className="my-3" />
       <ul className="flex mb-32 justify-start gap-2 flex-wrap">
-        {list.map((i) => (
+        {list.map((i, index) => (
           <li
             key={i}
-            onClick={() => onSwitch(i - 1)}
+            onClick={() => onSwitch(index)}
             className={combineClassNames(
               "inline-block w-8 h-8 leading-8 text-center rounded-full border-base cursor-pointer hover:bg-blue-200 hover:text-blue-500",
-              questions[i - 1].result
+              questions[index].result
                 ? "!border-blue-500 bg-blue-200 text-blue-500"
+                : currentIndex === index
+                ? "!border-blue-500 text-blue-500"
                 : "!border-slate-300"
             )}
           >
@@ -68,9 +85,12 @@ export default function AnswerSheet({
           </li>
         ))}
       </ul>
-      <Button block onClick={() => onFinish(seconds)}>
-        交卷
-      </Button>
+      {/* number -> valueOf -> toString    string -> toString -> valueOf */}
+      {mode !== Mode.Practice && (
+        <Button block onClick={() => onFinish(seconds)}>
+          交卷
+        </Button>
+      )}
     </div>
   );
 }
