@@ -12,7 +12,10 @@ import { useRequest } from "@/hooks";
 import {
   collectQuestion,
   getAllQuestionsBySetId,
+  getErrorQuestions,
+  getUserStatic,
   isQuestionCollected,
+  updateQuestionInfo,
 } from "@/api/question";
 import { useLocation } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -31,6 +34,8 @@ export enum Mode {
   Practice,
   Examination,
   Quick,
+  Error,
+  Collection,
 }
 
 export default function Details() {
@@ -57,6 +62,10 @@ export default function Details() {
     }
   }
 
+  // 获取用户信息
+  const [loading, userStatic] = useRequest(() => getUserStatic(questionSet.id));
+  console.log(loading);
+
   const [isCurrentQuestionCollected, setIsCurrentQuestionCollected] =
     useState(false);
 
@@ -65,11 +74,12 @@ export default function Details() {
 
   useEffect(() => {
     if (username && currentQuestion) {
+      // console.log("checking is collect", username, currentQuestion);
       isQuestionCollected(
         username,
         questionSet.id,
-        currentQuestion.type,
-        currentQuestion.id
+        currentQuestion.type || currentQuestion.questionType,
+        currentQuestion.id || currentQuestion.questionId
       ).then((data) => {
         if (data !== null) {
           setIsCurrentQuestionCollected(data);
@@ -107,6 +117,7 @@ export default function Details() {
     const newActiveQuestions = [...activeQuestions];
     newActiveQuestions[currentIndex] = newQuestion;
     setActiveQuestions(newActiveQuestions);
+    sendQuestion2Server(newQuestion);
   }
 
   const [mode, setMode] = useState<Mode>(Mode.Practice);
@@ -120,11 +131,24 @@ export default function Details() {
   }, [questions]);
 
   useEffect(() => {
+    setCurrentIndex(0);
     if (mode === Mode.Practice) {
       setShowAnswer(true);
+      if (questions) {
+        setActiveQuestions(questions);
+      }
+    } else if (mode === Mode.Error) {
+      getErrorQuestions(questionSet.id).then((data) => {
+        if (data) {
+          setActiveQuestions(data);
+        }
+      });
+    } else if (mode === Mode.Collection) {
+      //
     } else {
       setShowAnswer(false);
     }
+    // eslint-disable-next-line
   }, [mode]);
 
   // 收藏题目
@@ -133,8 +157,8 @@ export default function Details() {
       collectQuestion(
         username,
         questionSet.id,
-        currentQuestion.type,
-        currentQuestion.id
+        currentQuestion.type || currentQuestion.questionType,
+        currentQuestion.id || currentQuestion.questionId
       ).then((data) => {
         if (data) {
           setIsCurrentQuestionCollected(!isCurrentQuestionCollected);
@@ -143,7 +167,15 @@ export default function Details() {
     }
   }
 
-  // function sendQuestion2Server() {}
+  function sendQuestion2Server(question: Question) {
+    if (mode === Mode.Practice) {
+      updateQuestionInfo(question, question.result, "10", questionSet.id).then(
+        (data) => {
+          console.log(data);
+        }
+      );
+    }
+  }
 
   return (
     <main>
@@ -155,21 +187,24 @@ export default function Details() {
           </div>
           <div className="flex py-4">
             <div className="grow text-center">
-              <p className="text-4xl font-bold">1143</p>
+              <p className="text-4xl font-bold">{userStatic?.doQuestions}</p>
               <p className="mt-2 text-slate-500">做题数</p>
             </div>
             <div className="grow text-center">
-              <p className="text-4xl font-bold">78%</p>
+              <p className="text-4xl font-bold">{userStatic?.accuracy}%</p>
               <p className="mt-2 text-slate-500">正确率</p>
             </div>
             <div className="grow text-center">
-              <p className="text-4xl font-bold">3.5h</p>
+              <p className="text-4xl font-bold">{userStatic?.studyDuration}</p>
               <p className="mt-2 text-slate-500">学习时长</p>
             </div>
           </div>
           <Divider className="my-2" />
           <div className="flex py-4 ext-slate-500">
-            <div className="grow text-center group cursor-pointer">
+            <div
+              className="grow text-center group cursor-pointer"
+              onClick={() => setMode(Mode.Error)}
+            >
               <BookmarkX size={44} className="group-hover:fill-red-500" />
               <p className="mt-2 group-hover:font-bold">错题集</p>
             </div>
@@ -211,6 +246,7 @@ export default function Details() {
             block
             icon={<ThunderboltOutlined />}
             onClick={() => setMode(Mode.Examination)}
+            disabled={mode !== Mode.Practice}
           >
             立即刷题
           </Button>

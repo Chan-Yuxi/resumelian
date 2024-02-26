@@ -42,9 +42,12 @@ export default function AnswerSheet({
 
   const [seconds, setSeconds] = useState(0);
   useEffect(() => {
-    setTimeout(() => {
+    const timer = setTimeout(() => {
       setSeconds(seconds + 1);
     }, 1000);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [seconds]);
 
   return (
@@ -52,17 +55,19 @@ export default function AnswerSheet({
       <h3 className="text-lg text-slate-500">我的答题信息</h3>
       <Divider className="my-3" />
       <div className="flex justify-between">
-        <div>
-          <h4 className="text-base">
-            <span className="text-slate-500">用时-</span>
-            <span> {dayjs(seconds * 1000).format("mm:ss")}</span>
-          </h4>
-          <h4 className="text-base">
-            <span className="text-slate-500">得分-</span>
-            <span> {score}</span>
-          </h4>
-        </div>
-        <div>
+        {mode === Mode.Examination && (
+          <div>
+            <h4 className="text-base">
+              <span className="text-slate-500">用时-</span>
+              <span> {dayjs(seconds * 1000).format("mm:ss")}</span>
+            </h4>
+            <h4 className="text-base">
+              <span className="text-slate-500">得分-</span>
+              <span> {score}</span>
+            </h4>
+          </div>
+        )}
+        <div className="ms-auto">
           <Progress size={80} type="circle" percent={progress} />
         </div>
       </div>
@@ -86,7 +91,7 @@ export default function AnswerSheet({
         ))}
       </ul>
       {/* number -> valueOf -> toString    string -> toString -> valueOf */}
-      {mode !== Mode.Practice && (
+      {mode === Mode.Examination && (
         <Button block onClick={() => onFinish(seconds)}>
           交卷
         </Button>

@@ -174,10 +174,12 @@ export interface QuestionSet {
 }
 
 export interface Question {
+  questionId: number;
   id: number;
   question: string;
   subordinate: string;
   type: string;
+  questionType: string;
   industry: string;
   result: string;
   a: string;
