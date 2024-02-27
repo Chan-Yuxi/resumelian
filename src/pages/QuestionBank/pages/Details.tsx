@@ -17,7 +17,7 @@ import {
   isQuestionCollected,
   updateQuestionInfo,
 } from "@/api/question";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Question, QuestionSet } from "@/types/definition";
 
@@ -60,6 +60,11 @@ export default function Details() {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
     }
+  }
+
+  const navigate = useNavigate();
+  function backToQuestionSet() {
+    navigate("/question-bank", { replace: true });
   }
 
   // 获取用户信息
@@ -272,7 +277,9 @@ export default function Details() {
       <div className="flex items-start gap-28 py-16 px-64">
         <div className="w-2/3 shrink-0">
           <div>
-            <Button type="primary">返回题库</Button>
+            <Button type="primary" onClick={backToQuestionSet}>
+              返回题库
+            </Button>
           </div>
           <h2 className="text-2xl font-bold my-4">
             央国企严选高频笔试模拟题-论证推理

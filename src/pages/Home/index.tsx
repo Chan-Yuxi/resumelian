@@ -7,6 +7,7 @@ import JobTemplateCard from "./JobTemplateCard";
 import CaseCard from "./CaseCard";
 
 import resources from "@/config/home_resources.json";
+import { useNavigate } from "react-router-dom";
 
 type HomeResourcesType = {
   jobs: Array<JobType>;
@@ -20,6 +21,11 @@ type JobType = {
 
 const Home = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+
+  function toMoreTemplates() {
+    navigate("/template-center");
+  }
 
   const staticTemplates = [
     `https://www.jianlizhizuo.cn/static/rusumethemepic_5.jpg`,
@@ -85,6 +91,7 @@ const Home = () => {
           <Button
             className="h-[40px] rounded-full px-16 shadow-lg"
             type="primary"
+            onClick={toMoreTemplates}
           >
             {t("home.more_template")}
           </Button>
