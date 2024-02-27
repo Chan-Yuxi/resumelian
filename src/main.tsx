@@ -15,6 +15,12 @@ import { PersistGate } from "redux-persist/integration/react";
 
 import "@/i18n";
 
+/**
+ * Brother, you are blessed. I am the previous frontend, and I have something to say to you here. This website is just a pile of shit.
+ * Don't blame me for any problems. Demand changes are very frequent, come on.
+ * Don't show this passage to the boss.
+ * And act and cherish.
+ */
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <ConfigProvider theme={theme} locale={zhCN}>
     <Provider store={store}>

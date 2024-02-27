@@ -31,11 +31,12 @@ const Header = () => {
   return (
     <Layout.Header className="flex items-center px-6 md:px-9">
       <div className="flex items-center me-auto">
-        <span className="text-white text-xl font-bold">Resumelian</span>
+        <span className="text-white text-xl font-bold">ChatCV</span>
       </div>
 
       <div className="w-[46px] md:w-[764px]">
         <Menu
+          id="header-menu"
           theme="dark"
           mode="horizontal"
           items={items}

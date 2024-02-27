@@ -76,7 +76,7 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
       <div>
         {/* <div className="font-bold mb-8">
           <h1 className="text-4xl text-yellow-300">Welcome to</h1>
-          <h3 className="text-5xl text-white">Resumelian</h3>
+          <h3 className="text-5xl text-white">ChatCV</h3>
         </div> */}
 
         <div className="w-full p-6 rounded shadow bg-white">
@@ -93,7 +93,12 @@ const Login: React.FC<P> = ({ setUsername, setToken }) => {
               <Input placeholder={t("lg.placeholder")} />
             </Form.Item>
             <Form.Item>
-              <Button loading={loginLoading} type="primary" htmlType="submit" block>
+              <Button
+                loading={loginLoading}
+                type="primary"
+                htmlType="submit"
+                block
+              >
                 {t("lg.login/register")}
               </Button>
             </Form.Item>

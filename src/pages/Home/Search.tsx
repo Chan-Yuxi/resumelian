@@ -6,6 +6,7 @@ const Search = () => {
   const { t } = useTranslation();
 
   function handleSearchClick() {
+
     // TODO search something here...
   }
 

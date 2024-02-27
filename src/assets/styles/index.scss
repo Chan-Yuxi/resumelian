@@ -1,2 +1,12 @@
 @import "./preview/index.scss";
 @import "./antd-custom.scss";
+
+body {
+  margin: 0;
+}
+
+#header-menu > li:nth-child(5) > span,
+#header-menu > li:nth-child(8) > span {
+  font-weight: bold;
+  color: white;
+}

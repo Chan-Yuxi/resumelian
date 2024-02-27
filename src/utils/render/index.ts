@@ -19,7 +19,7 @@ export function render(preview: HTMLElement, htmlString = "") {
     preview.innerHTML = "";
     // 新建解析器
     const resolver = new Resolver(deriveChildren(htmlString));
-    // 注册 LRC 解析方法
+    // 注册 LeftRightContent 解析方法
     resolver.register(LRCParser);
     // ...
     // ...

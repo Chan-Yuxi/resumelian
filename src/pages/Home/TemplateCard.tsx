@@ -3,7 +3,7 @@ const TemplateCard = ({ src }: { src: string }) => {
     // bg-gradient-to-tl from-slate-100 to-slate-300
     <img
       src={src}
-      className="w-1/2 sm:w-[180px] aspect-[3/4] hover:shadow-xl hover:cursor-pointer transition-all duration-300"
+      className="w-[45%] sm:w-[180px] aspect-[3/4] hover:shadow-xl hover:cursor-pointer transition-all duration-300"
     />
   );
 };

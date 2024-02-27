@@ -18,9 +18,7 @@ const Footer = () => {
               src="/logo.png"
               alt="logo"
             />
-            <span className="text-white text-2xl font-bold me-8">
-              Resumelian
-            </span>
+            <span className="text-white text-2xl font-bold me-8">ChatCV</span>
           </div>
 
           <div>
@@ -87,12 +85,16 @@ const Footer = () => {
               <span className="text-zinc-300">客服在线时间：</span>
               <span>08:30-12:00 13:30-17:30</span>
             </div>
+            <div>
+              <span className="text-zinc-300">客服电话：</span>
+              <span>13641333644</span>
+            </div>
           </div>
         </div>
         <Divider className="bg-slate-200/50" />
         <div className="text-left md:text-center my-8">
           <span className="text-stone-300/40">
-            Resumelian&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;
+            ChatCV&nbsp;Copyright&nbsp;©&nbsp;2023&nbsp;
             <span>
               <a
                 className="text-stone-300/40"

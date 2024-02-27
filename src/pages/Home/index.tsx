@@ -50,6 +50,7 @@ const Home = () => {
           <h1 className="text-5xl md:text-6xl leading-tight md:leading-none font-bold mb-4">
             {t("home.title")}
           </h1>
+          <h4 className="text-gray-400 text-base md:text-lg">Slogan&nbsp;人工智能辅助生成个性化简历</h4>
           <h4 className="text-gray-400 text-base md:text-lg mb-4 md:mb-16">
             {t("home.description")}
           </h4>
